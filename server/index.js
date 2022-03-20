@@ -1,7 +1,14 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-// cors
+var bodyParser = require("body-parser");
+app.use(bodyParser.json());
+const cors = require("cors");
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://sw.garrettroell.com"],
+  })
+);
 
 const cron = require("node-cron");
 
@@ -16,16 +23,85 @@ app.get("/", (req, res) => {
   res.send("Hello world from southwest check in backend");
 });
 
-app.get("/set-up", (req, res) => {
+app.post("/set-up", (req, res) => {
   // get user's first name, last name, confirmation number, and email from req body
+  let { firstName, lastName, confirmationNumber } = req.body;
+
+  console.log(firstName, lastName, confirmationNumber);
 
   // go to southwest website to get the flight time(s)
   getCheckInTimes({
-    firstName: "Garrett",
-    lastName: "Roell",
-    confirmationNumber: "25XRZV",
+    firstName,
+    lastName,
+    confirmationNumber,
   });
+
+  res.send({ msg: "all good" });
 });
+
+async function getCheckInTimes({ confirmationNumber, firstName, lastName }) {
+  const url = `https://www.southwest.com/air/manage-reservation/index.html?confirmationNumber=${confirmationNumber}&passengerFirstName=${firstName}&passengerLastName=${lastName}`;
+  console.log(url);
+
+  puppeteer
+    .launch({ headless: true })
+    .then(async (browser) => {
+      // go to the given url
+      const page = await browser.newPage();
+      await page.goto(url, { timeout: 0 });
+      await page.waitForSelector("#form-mixin--submit-button", { timeout: 0 });
+      console.log("made it to first page");
+
+      // click the first check in button
+      await page.click("#form-mixin--submit-button");
+      console.log("clicked first check in button");
+
+      // after loading next page, click the second check in button
+      await page.waitForSelector(
+        "#air-reservation > div.reservation--summary",
+        { timeout: 0 }
+      );
+
+      const flightElements = await page.evaluate(() =>
+        Array.from(
+          document.querySelectorAll(".checkout-flight-detail"),
+          (element) => element.outerHTML
+        )
+      );
+
+      const flightDetails = flightElements.map((element) => {
+        // get date of flight
+        const dateString = element
+          .split('"flight-detail--heading-date">')[1]
+          .split(" ")[0];
+
+        // get date of flight (Add AM/PM, and timezone info if possible)
+        const departureTimeString = element
+          .split("Departs </span>")[1]
+          .split('<span class="time--period"')[0];
+
+        // add arrival and departure cities and other details
+
+        // console.log(element);
+        // console.log();
+
+        // make flight details object
+        return {
+          date: dateString,
+          departureTime: departureTimeString,
+        };
+      });
+
+      console.log(flightDetails);
+
+      await browser.close();
+
+      return flightDetails;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+}
 
 app.get("/check-in", async (req, res) => {
   res.send("check in function");
@@ -33,11 +109,11 @@ app.get("/check-in", async (req, res) => {
   // get user's first name, last name, confirmation number, and email from req body
 
   // go to southwest website to get the flight time(s)
-  getCheckInTimes({
-    firstName: "Garrett",
-    lastName: "Roell",
-    confirmationNumber: "25XRZV",
-  });
+  // getCheckInTimes({
+  //   firstName: "Garrett",
+  //   lastName: "Roell",
+  //   confirmationNumber: "25XRZV",
+  // });
 
   // set up a function to run at a certain time to check the person in (this works)
   // checkIn({
@@ -56,11 +132,6 @@ cron.schedule("* * * * *", function () {
 app.listen(process.env.PORT, () => {
   console.log(`Listening on port ${process.env.PORT}.`);
 });
-
-async function getCheckInTimes({ confirmationNumber, firstName, lastName }) {
-  const url = `https://www.southwest.com/air/manage-reservation/index.html?confirmationNumber=${confirmationNumber}&passengerFirstName=${firstName}&passengerLastName=${lastName}`;
-  console.log(url);
-}
 
 // a function to run when a person should check in
 async function checkIn({ confirmationNumber, firstName, lastName }) {

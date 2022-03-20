@@ -10,6 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "@alpacahq/alpaca-trade-api": "^2.12.1",
+    "body-parser": "^1.19.2",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "node-cron": "^3.0.0",

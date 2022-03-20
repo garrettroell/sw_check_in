@@ -27,7 +27,7 @@ const HomePage = () => {
       <NavBar />
       <SetupForm />
     </Box>
-    <Footer />
+    {/* <Footer /> */}
     
   </>
    );
