@@ -2,10 +2,9 @@ import { Box, Button, FormControl, FormLabel, Heading, HStack, Input, Spacer } f
 import { Field, Form, Formik } from 'formik';
 import getBackendUrl from "../Helpers/getBackendUrl";
 
-const SetupForm = () => {
+const SetupForm = ({setFlightInfo}) => {
 
   function validateField(value) {
-    console.log('running validation')
     let error
     if (!value) {
       error = `This field is required`
@@ -25,12 +24,20 @@ const SetupForm = () => {
       <Box maxW="350px" m="auto" mt="20px" p="20px" borderWidth="1px" borderRadius="15px">
         <Formik
         // may need to separate shipping and billing addresses
+        // initialValues={{ 
+        //   // email: '', 
+        //   firstName: '',
+        //   lastName: '',
+        //   confirmationNumber: '',
+        // }}
         initialValues={{ 
           // email: '', 
-          firstName: '',
-          lastName: '',
-          confirmationNumber: '',
+          firstName: 'Garrett',
+          lastName: 'Roell',
+          confirmationNumber: '25XRZV',
         }}
+
+
         onSubmit={(values, actions) => {
   
           // send data to server
@@ -41,8 +48,9 @@ const SetupForm = () => {
             },
             body: JSON.stringify({ ...values }),
           }).then(r => {
-            r.json().then(data => {
-              console.log(data)
+            r.json().then(flightInfo => {
+              console.log(flightInfo)
+              setFlightInfo({...values, flightInfo: flightInfo})
               actions.setSubmitting(false)
             })
           }).catch(e =>  {
