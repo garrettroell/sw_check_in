@@ -24,20 +24,18 @@ const SetupForm = ({setFlightInfo}) => {
       <Box maxW="350px" m="auto" mt="20px" p="20px" borderWidth="1px" borderRadius="15px">
         <Formik
         // may need to separate shipping and billing addresses
-        // initialValues={{ 
-        //   // email: '', 
-        //   firstName: '',
-        //   lastName: '',
-        //   confirmationNumber: '',
-        // }}
         initialValues={{ 
           // email: '', 
-          firstName: 'Garrett',
-          lastName: 'Roell',
-          confirmationNumber: '25XRZV',
+          firstName: '',
+          lastName: '',
+          confirmationNumber: '',
         }}
-
-
+        // initialValues={{ 
+        //   // email: '', 
+        //   firstName: 'Garrett',
+        //   lastName: 'Roell',
+        //   confirmationNumber: '25XRZV',
+        // }}
         onSubmit={(values, actions) => {
   
           // send data to server
