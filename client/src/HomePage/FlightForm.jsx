@@ -1,8 +1,11 @@
-import { Box, Button, FormControl, FormLabel, Heading, HStack, Input, Spacer } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, Heading, HStack, Input, Spacer, useColorModeValue, useToast } from "@chakra-ui/react";
 import { Field, Form, Formik } from 'formik';
+import { useRef } from "react";
 import getBackendUrl from "../Helpers/getBackendUrl";
 
-const SetupForm = ({setFlightInfo}) => {
+const FlightForm = ({setFlightInfo, setDisplayMode}) => {
+  const toast = useToast()
+  const toastIdRef = useRef()
 
   function validateField(value) {
     let error
@@ -21,7 +24,7 @@ const SetupForm = ({setFlightInfo}) => {
       </HStack>
 
       {/* form container */}
-      <Box maxW="350px" m="auto" mt="20px" p="20px" borderWidth="1px" borderRadius="15px">
+      <Box maxW="350px" m="auto" mt="20px"  p="20px" mb="50px" borderWidth="1px" borderRadius="15px">
         <Formik
         // may need to separate shipping and billing addresses
         initialValues={{ 
@@ -30,13 +33,12 @@ const SetupForm = ({setFlightInfo}) => {
           lastName: '',
           confirmationNumber: '',
         }}
-        // initialValues={{ 
-        //   // email: '', 
-        //   firstName: 'Garrett',
-        //   lastName: 'Roell',
-        //   confirmationNumber: '25XRZV',
-        // }}
         onSubmit={(values, actions) => {
+          toastIdRef.current = toast({
+            title: 'Getting data from Southwest',
+            status: 'info',
+            isClosable: true,
+          })
   
           // send data to server
           fetch(`${getBackendUrl()}/set-up`, {
@@ -50,10 +52,22 @@ const SetupForm = ({setFlightInfo}) => {
               console.log(flightInfo)
               setFlightInfo({...values, flightInfo: flightInfo})
               actions.setSubmitting(false)
+              setDisplayMode('info')
+              if (toastIdRef.current) {
+                toast.close(toastIdRef.current)
+              }
             })
           }).catch(e =>  {
             console.log(e)
             actions.setSubmitting(false)
+            if (toastIdRef.current) {
+              toast.close(toastIdRef.current)
+            }
+            toastIdRef.current = toast({
+              title: e,
+              status: 'info',
+              isClosable: true,
+            })
           })
             
         }}
@@ -65,7 +79,19 @@ const SetupForm = ({setFlightInfo}) => {
               {({ field, form }) => (
                 <FormControl isInvalid={form.errors.firstName && form.touched.firstName}>
                   <FormLabel htmlFor='firstName' fontSize="sm" mb="0px">First Name</FormLabel>
-                  <Input {...field} id='firstName' placeholder='' px="10px" h="35px" minW="100%" fontSize="14px" />
+                  <Input {...field} 
+                    id='firstName' 
+                    placeholder='' 
+                    px="10px" 
+                    h="35px" 
+                    minW="100%" 
+                    fontSize="14px"
+                    _autofill= {{
+                      textFillColor: useColorModeValue('rgb(26, 32, 44)', 'white'),
+                      boxShadow: "0 0 0px 1000px #00000000 inset",
+                      transition: "background-color 5000s ease-in-out 0s",
+                    }} 
+                  />
                 </FormControl>
               )}
             </Field>
@@ -74,7 +100,19 @@ const SetupForm = ({setFlightInfo}) => {
               {({ field, form }) => (
                 <FormControl isInvalid={form.errors.lastName && form.touched.lastName}>
                   <FormLabel htmlFor='lastName' fontSize="sm" mb="0px">Last Name</FormLabel>
-                  <Input {...field} id='lastName' placeholder='' px="10px" h="35px" minW="100%" fontSize="14px" />
+                  <Input {...field} 
+                    id='lastName' 
+                    placeholder='' 
+                    px="10px" 
+                    h="35px" 
+                    minW="100%" 
+                    fontSize="14px" 
+                    _autofill= {{
+                      textFillColor: useColorModeValue('rgb(26, 32, 44)', 'white'),
+                      boxShadow: "0 0 0px 1000px #00000000 inset",
+                      transition: "background-color 5000s ease-in-out 0s",
+                    }}
+                  />
                 </FormControl>
               )}
             </Field>
@@ -83,7 +121,19 @@ const SetupForm = ({setFlightInfo}) => {
               {({ field, form }) => (
                 <FormControl isInvalid={form.errors.confirmationNumber && form.touched.confirmationNumber}>
                   <FormLabel htmlFor='confirmationNumber' fontSize="sm" mb="0px">Confirmation Number</FormLabel>
-                  <Input {...field} id='confirmationNumber' placeholder='' px="10px" h="35px" minW="100%" fontSize="14px" />
+                  <Input {...field}  
+                    id='confirmationNumber'  
+                    placeholder='' 
+                    px="10px" 
+                    h="35px"  
+                    minW="100%"  
+                    fontSize="14px"
+                    _autofill= {{
+                      textFillColor: useColorModeValue('rgb(26, 32, 44)', 'white'),
+                      boxShadow: "0 0 0px 1000px #00000000 inset",
+                      transition: "background-color 5000s ease-in-out 0s",
+                    }}
+                  />
                 </FormControl>
               )}
             </Field>
@@ -103,8 +153,9 @@ const SetupForm = ({setFlightInfo}) => {
         )}
         </Formik>
       </Box>
+      <Box h="25px"></Box>
     </>
    );
 }
  
-export default SetupForm;
+export default FlightForm;

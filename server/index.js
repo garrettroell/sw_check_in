@@ -40,6 +40,7 @@ app.post("/set-up", async (req, res) => {
 
 async function getCheckInTimes({ confirmationNumber, firstName, lastName }) {
   const url = `https://www.southwest.com/air/manage-reservation/index.html?confirmationNumber=${confirmationNumber}&passengerFirstName=${firstName}&passengerLastName=${lastName}`;
+  console.log(url);
 
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
