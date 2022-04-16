@@ -48,9 +48,9 @@ const FlightForm = ({setFlightInfo, setDisplayMode}) => {
             },
             body: JSON.stringify({ ...values }),
           }).then(r => {
-            r.json().then(flightInfo => {
-              console.log(flightInfo)
-              setFlightInfo({...values, flightInfo: flightInfo})
+            r.json().then(flights => {
+              // console.log(flightInfo)
+              setFlightInfo({...values, flights: flights})
               actions.setSubmitting(false)
               setDisplayMode('info')
               if (toastIdRef.current) {

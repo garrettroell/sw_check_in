@@ -2,13 +2,13 @@ import { Box, Heading, HStack, Stack, useMediaQuery, VStack } from "@chakra-ui/r
 import PlaneIcon from "../Assets/PlaneIcon";
 import { formatDate } from "../Helpers/formatDate";
 
-const FlightDetails = (flightInfo) => {
+const FlightDetails = ({flightInfo}) => {
   console.log(flightInfo)
   const [isLargerThan600] = useMediaQuery('(min-width: 600px)')
   return ( 
     <VStack gap={isLargerThan600 ? "8px" : "20px"}>
       {
-        flightInfo.flightInfo.flightInfo.map((flight, index) => {
+        flightInfo.flights.map((flight, index) => {
           return(
             <Stack 
               direction={isLargerThan600 ? "row" : "column"}
@@ -20,11 +20,11 @@ const FlightDetails = (flightInfo) => {
                 spacing="30px" 
                 justify="center"
               >
-                <Heading fontSize="16px">From City</Heading>
+                <Heading fontSize="16px">{flight.fromCode}</Heading>
                 <Box w="30px" h="30px">
                   <PlaneIcon />
                 </Box>
-                <Heading fontSize="16px">To City</Heading>
+                <Heading fontSize="16px">{flight.toCode}</Heading>
               </HStack>
               <HStack justify="center">
                 <Heading fontSize="16px">{flight.departureTime}</Heading>
