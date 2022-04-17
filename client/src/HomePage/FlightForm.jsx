@@ -18,7 +18,7 @@ const FlightForm = ({setFlightInfo, setDisplayMode}) => {
 
   return ( 
     <>
-      <Heading mt="75px" textAlign="center" fontSize="24px">Southwest Auto Check-in</Heading>
+      <Heading mt="75px" textAlign="center" fontSize="16px">Add your Southwest trip details, and we'll automatically check you to your flights</Heading>
        {/* color bar */}
       <HStack maxW="350px" m="auto" h="15px" bg="#C3322C" transform="translateY(35px)" borderTopRadius="15px">
         <Box h="100%" w="50%" bg="#F5C14D" borderTopLeftRadius="15px"></Box>

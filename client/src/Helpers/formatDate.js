@@ -15,9 +15,7 @@ function formatDate(dateString) {
     "November",
     "December",
   ];
-  return `${months[date.getMonth()]} ${
-    date.getDate() + 1
-  }, ${date.getFullYear()}`;
+  return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 }
 
 export { formatDate };

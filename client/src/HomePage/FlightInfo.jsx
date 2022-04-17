@@ -2,21 +2,17 @@ import { Box, Heading, HStack, VStack } from "@chakra-ui/react";
 import FlightDetails from "./FlightDetails";
 
 const FlightInfo = ({ flightInfo, setDisplayMode }) => {
-  console.log(flightInfo)
   return ( 
-    <>
-      
+    <> 
       <VStack maxW="800px" m="auto" spacing="16px" align="left">
         
-
         {/* header text */}
-        {/* <VStack spacing="6px" align="flex-start"> */}
         <Heading mt="80px" textAlign="center">Success!</Heading>
 
         <Box h="30px" w="100px" />
 
         {/* Trip Details */}
-        <Heading mt="75px" textAlign="center" fontSize="24px">Trip Details</Heading>
+        {/* <Heading mt="75px" textAlign="center" fontSize="24px">Trip Details</Heading> */}
         <VStack spacing="0px">
           {/* color bar */}
           <HStack w="100%" h="15px" bg="#C3322C" transform="translateY(10px)" borderTopRadius="15px">
@@ -24,13 +20,13 @@ const FlightInfo = ({ flightInfo, setDisplayMode }) => {
           </HStack>
 
           {/* data container */}
-          <Box w="100%" p="20px" borderWidth="1px" borderRadius="15px">
-            <Heading fontSize="16px" mt="10px" mb="30px">{flightInfo.firstName} {flightInfo.lastName} ({flightInfo.confirmationNumber})</Heading>
+          <Box w="100%" py="20px" borderWidth="1px" borderRadius="15px">
+            <Heading fontSize="16px" mt="10px" mb="20px" textAlign="center">{flightInfo.firstName} {flightInfo.lastName} ({flightInfo.confirmationNumber})</Heading>
             <FlightDetails flightInfo={flightInfo} />
           </Box>
         </VStack>
         <Heading mt="30px" fontSize="16px">You'll be checked in at {flightInfo.flights[0].checkInTime}</Heading>
-        <Box h="100px"></Box>
+        
         {/* back arrow */}
         <Box w="170px" maxW="800px" m="auto">
           <HStack 
@@ -48,6 +44,9 @@ const FlightInfo = ({ flightInfo, setDisplayMode }) => {
             <Heading fontSize="16px">set up another trip</Heading>
           </HStack>
         </Box>
+
+        {/* keep this on the bottom so elements are blocked by footer */}
+        <Box h="100px"></Box>
       </VStack>
     </>
    );

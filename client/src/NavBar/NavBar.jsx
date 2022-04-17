@@ -1,6 +1,7 @@
-import { Box, Heading, HStack, Image } from "@chakra-ui/react";
+import { Box, Heading, HStack, Image, useColorModeValue } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import shoutwestLogo from'../Assets/shoutwest.png';
+import shoutwestBlue from'../Assets/shoutwest.png';
+import shoutwestWhite from'../Assets/shoutwest_white.png';
 
 const NavBar = () => {
   return ( 
@@ -8,10 +9,10 @@ const NavBar = () => {
       <HStack h="100px" justify="space-between" align="center">
         <Link to="/">
           <Box boxSize='md' w="225px" h="41px">
-            <Image src={shoutwestLogo} alt='Dan Abramov' />
+            <Image src={useColorModeValue(shoutwestBlue, shoutwestWhite)} alt='Dan Abramov' />
           </Box>
         </Link>
-        <Link to="/about"><Heading fontSize="18px" color="#304BB3">About</Heading></Link>
+        <Link to="/about"><Heading fontSize="18px" color={useColorModeValue("#304BB3", "white")}>About</Heading></Link>
       </HStack>
     </Box>
    );

@@ -12,7 +12,8 @@ app.use(
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-const cron = require("node-cron");
+// const cron = require("node-cron");
+const Cron = require("croner");
 
 // add use puppeteer with stealth plugin and use defaults (all evasion techniques)
 const puppeteer = require("puppeteer-extra");
@@ -30,7 +31,7 @@ const {
   getTimezone,
   getTimezoneOffset,
   checkInTime,
-  checkInEpoch,
+  checkInCronString,
 } = require("./helpers/timeHandlers");
 puppeteer.use(StealthPlugin());
 
@@ -79,7 +80,7 @@ app.post("/set-up", async (req, res) => {
       departureTimezone: getTimezone(flightFromCode(flight)),
       departureTimezoneOffset: getTimezoneOffset(flightFromCode(flight)),
       checkInTime: checkInTime(flight),
-      checkInEpoch: checkInEpoch(flight),
+      checkInCronString: checkInCronString(flight),
       number: flightNumber(flight),
       fromCity: flightFromCity(flight),
       fromCode: flightFromCode(flight),
@@ -101,12 +102,49 @@ app.post("/set-up", async (req, res) => {
     }
   });
 
+  console.log("4. write data to supabase");
+  uniqueFlights.forEach((flight) => {
+    // add flight to supabase
+  });
+
+  // schedule check in to occur at specified time (will need to do this for each flight)
+  console.log("5. scheduling cron jobs");
+  uniqueFlights.forEach((flight) => {
+    console.log("cron string", flight.checkInCronString);
+    console.log("cron timezone", flight.departureTimezone);
+    // const cronString =;
+    // let job = Cron(
+    //   // "2022-04-17T11:52:00"
+    //   "2022-04-17T12:00:00",
+    //   {
+    //     timezone: "America/Chicago",
+    //   },
+    //   () => {
+    //     console.log("sending test email");
+    //     checkIn();
+    //   }
+    // );
+  });
+
+  // send flight details to the front end
+  console.log("6. Sent data to user");
+  res.json(uniqueFlights);
+});
+
+function checkIn() {
+  // get user info from supabase
+
+  // temp variables
+  const firstName = "test first name";
+  const lastName = "test last name";
+  const confirmationNumber = "test confirmation number";
+
   // send email (abstract some of this)
   const msg = {
     to: "garrettroell@gmail.com", // Change to your recipient
     from: "garrettroell@gmail.com", // Change to your verified sender
-    subject: "Southwest auto check in confirmed",
-    text: "Congrats",
+    subject: "Southwest auto check in happened",
+    text: firstName + " " + lastName + " " + confirmationNumber,
     html: "<strong>We'll email you when you are officially checked in</strong>",
   };
   sgMail
@@ -117,18 +155,7 @@ app.post("/set-up", async (req, res) => {
     .catch((error) => {
       console.error(error);
     });
-
-  console.log("4. Sent data to user");
-
-  // send flight details to the front end
-  res.json(uniqueFlights);
-});
-
-app.get("/check-in", async (req, res) => {
-  res.send("check in function");
-
-  // send email to tell person that they're checked in
-});
+}
 
 app.listen(process.env.PORT, () => {
   console.log(`Listening on port ${process.env.PORT}.`);
@@ -142,3 +169,22 @@ function delay(time) {
     setTimeout(resolve, time);
   });
 }
+
+// test area
+// cron.schedule("* * * * *", () => {
+//   console.log("running a task every minute");
+// });
+
+// time zone example
+// cron.schedule('0 1 * * *', () => {
+//   console.log('Running a job at 01:00 at America/Sao_Paulo timezone');
+// }, {
+//   scheduled: true,
+//   timezone: "America/Sao_Paulo"
+// });
+
+// function sendEmail() {
+//   console.log("This will run every second.");
+// }
+
+// Cron("* * * * * *", sendEmail);

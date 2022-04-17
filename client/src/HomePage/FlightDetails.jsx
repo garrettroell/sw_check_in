@@ -13,20 +13,22 @@ const FlightDetails = ({flightInfo}) => {
             <Stack 
               direction={isLargerThan600 ? "row" : "column"}
               justify="space-between" 
-              w="80%" 
+              w="100%" 
               key={index}
+              spacing={isLargerThan600 ? "0px" : "12px"}
             >
               <HStack 
                 spacing="30px" 
                 justify="center"
+                w="100%"
               >
-                <Heading fontSize="16px">{flight.fromCode}</Heading>
+                <Heading fontSize="20px">{flight.fromCode}</Heading>
                 <Box w="30px" h="30px">
                   <PlaneIcon />
                 </Box>
-                <Heading fontSize="16px">{flight.toCode}</Heading>
+                <Heading fontSize="20px">{flight.toCode}</Heading>
               </HStack>
-              <HStack justify="center">
+              <HStack justify="center" w="100%">
                 <Heading fontSize="16px">{flight.departureTime}</Heading>
                 <Heading fontSize="16px">{formatDate(flight.date)}</Heading>
               </HStack>
