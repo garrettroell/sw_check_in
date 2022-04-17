@@ -1,11 +1,12 @@
-import { Box, Button, FormControl, FormLabel, Heading, HStack, Input, Spacer, useColorModeValue, useToast } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, Heading, HStack, Input, Spacer, Text, useColorModeValue, useToast } from "@chakra-ui/react";
 import { Field, Form, Formik } from 'formik';
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import getBackendUrl from "../Helpers/getBackendUrl";
 
 const FlightForm = ({setFlightInfo, setDisplayMode}) => {
   const toast = useToast()
   const toastIdRef = useRef()
+  const [showEmail, setShowEmail] = useState(false)
 
   function validateField(value) {
     let error
@@ -137,6 +138,23 @@ const FlightForm = ({setFlightInfo, setDisplayMode}) => {
                 </FormControl>
               )}
             </Field>
+            {/* <Spacer h="30px" /> */}
+            {/* {
+              showEmail
+              ?  <Text>yooo</Text>
+              : <Button
+              onClick={setShowEmail(true)}
+              bg="transparent" 
+              borderWidth="1px"
+              color="#ffffffbb" 
+              isLoading={props.isSubmitting}
+              m="auto"
+              w="100%"
+            >
+              Opt-in for email updates?
+            </Button>
+            } */}
+            
             <Spacer h="30px" />
             
             <Button 

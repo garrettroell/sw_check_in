@@ -9,6 +9,8 @@ app.use(
     origin: ["http://localhost:3000", "https://sw.garrettroell.com"],
   })
 );
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const cron = require("node-cron");
 
@@ -23,7 +25,13 @@ const {
   flightFromCode,
   flightToCity,
   flightToCode,
-} = require("./HTMLprocessing");
+} = require("./helpers/HTMLparsers");
+const {
+  getTimezone,
+  getTimezoneOffset,
+  checkInTime,
+  checkInEpoch,
+} = require("./helpers/timeHandlers");
 puppeteer.use(StealthPlugin());
 
 // app.use("/static", express.static("public"));
@@ -38,22 +46,22 @@ app.post("/set-up", async (req, res) => {
 
   // use user details to get flight information
   const url = `https://www.southwest.com/air/manage-reservation/index.html?confirmationNumber=${confirmationNumber}&passengerFirstName=${firstName}&passengerLastName=${lastName}`;
-  console.log(url);
 
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
   await page.goto(url, { timeout: 0 });
   await page.waitForSelector("#form-mixin--submit-button", { timeout: 0 });
-  console.log("made it to first page");
+  console.log("1. First page content loaded.");
 
   // click the first check in button
   await page.click("#form-mixin--submit-button");
-  console.log("clicked first check in button");
+  console.log("2. Loading reservation details.");
 
   // after loading next page, click the second check in button
   await page.waitForSelector("#air-reservation > div.reservation--summary", {
     timeout: 0,
   });
+  console.log("3. Data recieved");
 
   // get HTML for each flight on page
   const flightElements = await page.evaluate(() =>
@@ -63,13 +71,15 @@ app.post("/set-up", async (req, res) => {
     )
   );
 
-  console.log("data sent to user");
-
   // isolate particular details from each flight html section
   const flights = flightElements.map((flight) => {
     return {
       date: flightDate(flight),
       departureTime: flightDepartureTime(flight),
+      departureTimezone: getTimezone(flightFromCode(flight)),
+      departureTimezoneOffset: getTimezoneOffset(flightFromCode(flight)),
+      checkInTime: checkInTime(flight),
+      checkInEpoch: checkInEpoch(flight),
       number: flightNumber(flight),
       fromCity: flightFromCity(flight),
       fromCode: flightFromCode(flight),
@@ -80,8 +90,38 @@ app.post("/set-up", async (req, res) => {
 
   await browser.close();
 
+  // get unique flights
+  let uniqueFlights = [];
+  let flightStrings = [];
+  flights.forEach((flight) => {
+    //
+    if (!flightStrings.includes(JSON.stringify(flight))) {
+      uniqueFlights.push(flight);
+      flightStrings.push(JSON.stringify(flight));
+    }
+  });
+
+  // send email (abstract some of this)
+  const msg = {
+    to: "garrettroell@gmail.com", // Change to your recipient
+    from: "garrettroell@gmail.com", // Change to your verified sender
+    subject: "Southwest auto check in confirmed",
+    text: "Congrats",
+    html: "<strong>We'll email you when you are officially checked in</strong>",
+  };
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log("Email sent");
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+  console.log("4. Sent data to user");
+
   // send flight details to the front end
-  res.json(flights);
+  res.json(uniqueFlights);
 });
 
 app.get("/check-in", async (req, res) => {

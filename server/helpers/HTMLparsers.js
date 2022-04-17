@@ -1,42 +1,23 @@
+// Helpers for flight HTML -> flight details (Time, Cities, etc.)
+
+// Additional Functions that could be added:
+// Scheduled Aircraft, Nonstop, Arrival time, Travel Time
+
 const fs = require("fs");
 
-let data;
-try {
-  data = fs.readFileSync(
-    "/Users/garrettroell/node_projects/sw_check_in/server/roundTrip.txt",
-    "utf8"
-  );
-  // console.log(data);
-} catch (err) {
-  console.error(err);
-}
-
-// convert
-function HTMLtoFlightList(html) {
-  // remove the text after the flight details
-  let trimmedText = html.split(
-    '<section class="section icon-legend reservation--icon-legend"'
-  )[0];
-
-  // split into individual flights
-  let flightList = trimmedText.split("checkout-flight-detail");
-
-  // remove the text before the flight details
-  flightList.shift();
-
-  return flightList;
-}
-
+// flight html -> flight number
 function flightNumber(flight) {
   return flight
     .split('class="flight-segments--flight-number">')[1]
     .split("<")[0];
 }
 
+// flight html -> flight date  (mm/dd/yy)
 function flightDate(flight) {
   return flight.split('"flight-detail--heading-date">')[1].split(" ")[0];
 }
 
+// flight html -> departure time (hh:mm AM/PM)
 function flightDepartureTime(flight) {
   // remove all blank spaces and new lines
   flight = flight.replace(/\s+/g, "").replace(/\n+/g, "");
@@ -46,6 +27,7 @@ function flightDepartureTime(flight) {
   return depatureString.split('<spanclass="time--period">').join(" ");
 }
 
+// flight html -> departure city
 function flightFromCity(flight) {
   // make flight html all one line
   flight = flight.replace(/\n+/g, "");
@@ -59,6 +41,7 @@ function flightFromCity(flight) {
   return cityAndCode.split("-")[0].trim();
 }
 
+// flight html -> departure airport code
 function flightFromCode(flight) {
   // make flight html all one line
   flight = flight.replace(/\n+/g, "");
@@ -72,6 +55,7 @@ function flightFromCode(flight) {
   return cityAndCode.split("-")[1].trim();
 }
 
+// flight html -> arrival city
 function flightToCity(flight) {
   // make flight html all one line
   flight = flight.replace(/\n+/g, "");
@@ -85,6 +69,7 @@ function flightToCity(flight) {
   return cityAndCode.split("-")[0].trim();
 }
 
+// flight html -> Arrival city
 function flightToCode(flight) {
   // make flight html all one line
   flight = flight.replace(/\n+/g, "");
@@ -97,23 +82,6 @@ function flightToCode(flight) {
   // isolate city
   return cityAndCode.split("-")[1].trim();
 }
-
-// Additional Functions that could be added:
-// Scheduled Aircraft, Nonstop, Arrival time, Travel Time
-
-// code to include in index.js
-// const flights = HTMLtoFlightList(data);
-
-// flights.forEach((flight) => {
-//   console.log("number:", flightNumber(flight));
-//   console.log("date", flightDate(flight));
-//   console.log("time", flightDepartureTime(flight));
-//   console.log("from city:", flightFromCity(flight));
-//   console.log("from code:", flightFromCode(flight));
-//   console.log("to city:", flightToCity(flight));
-//   console.log("to code:", flightToCode(flight));
-//   console.log();
-// });
 
 module.exports = {
   flightNumber: flightNumber,
