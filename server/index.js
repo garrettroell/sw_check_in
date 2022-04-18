@@ -102,7 +102,7 @@ app.post("/set-up", async (req, res) => {
     }
   });
 
-  console.log("4. write data to supabase");
+  console.log("4. writing data to supabase");
   uniqueFlights.forEach((flight) => {
     // add flight to supabase
   });
@@ -110,9 +110,7 @@ app.post("/set-up", async (req, res) => {
   // schedule check in to occur at specified time (will need to do this for each flight)
   console.log("5. scheduling cron jobs");
   uniqueFlights.forEach((flight) => {
-    console.log("cron string", flight.checkInCronString);
-    console.log("cron timezone", flight.departureTimezone);
-    // const cronString =;
+    console.log("cron string: ", flight.checkInCronString);
     // let job = Cron(
     //   // "2022-04-17T11:52:00"
     //   "2022-04-17T12:00:00",
@@ -120,7 +118,6 @@ app.post("/set-up", async (req, res) => {
     //     timezone: "America/Chicago",
     //   },
     //   () => {
-    //     console.log("sending test email");
     //     checkIn();
     //   }
     // );
@@ -169,22 +166,3 @@ function delay(time) {
     setTimeout(resolve, time);
   });
 }
-
-// test area
-// cron.schedule("* * * * *", () => {
-//   console.log("running a task every minute");
-// });
-
-// time zone example
-// cron.schedule('0 1 * * *', () => {
-//   console.log('Running a job at 01:00 at America/Sao_Paulo timezone');
-// }, {
-//   scheduled: true,
-//   timezone: "America/Sao_Paulo"
-// });
-
-// function sendEmail() {
-//   console.log("This will run every second.");
-// }
-
-// Cron("* * * * * *", sendEmail);

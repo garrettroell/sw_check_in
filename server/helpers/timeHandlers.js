@@ -25,26 +25,31 @@ function getTimezoneOffset(airportCode) {
 
 // flight html -> check in string to print on front end (ex: "4:20 PM on March 4th (Timezone: America/Chicago)")
 function checkInTime(flight) {
+  const date = flightDate(flight);
+  const time = flightDepartureTime(flight);
   const departureTimezone = getTimezone(flightFromCode(flight));
 
   // get datetime object from string and timezone
-  const dateTimeString = `${flightDate(flight)} ${flightDepartureTime(flight)}`;
+  const dateTimeString = `${date} ${time} ${departureTimezone}`;
   const flightDateTime = DateTime.fromFormat(
     dateTimeString,
-    "M/d/yy t"
+    "M/d/yy t z"
   ).setZone(departureTimezone);
 
   let checkInDateTime = flightDateTime.minus({ days: 1 });
 
-  let time = checkInDateTime.toLocaleString(DateTime.TIME_SIMPLE);
-  let date = checkInDateTime.toLocaleString(DateTime.DATE_FULL);
+  let _time = checkInDateTime.toLocaleString(DateTime.TIME_SIMPLE);
+  let _date = checkInDateTime.toLocaleString(DateTime.DATE_FULL);
 
-  return `${time} on ${date}. (Time zone: ${departureTimezone})`;
+  console.log(
+    "checkInTime:",
+    `${time} on ${date}. (Time zone: ${departureTimezone})`
+  );
+  return `${_time} on ${_date}. (Time zone: ${departureTimezone})`;
 }
 
 function checkInCronString(flight) {
   const dateTimeString = `${flightDate(flight)} ${flightDepartureTime(flight)}`;
-  console.log("dateTimeString", dateTimeString);
 
   // function to get a date object from date string
   let checkInDateTime = new Date(dateTimeString);
@@ -66,6 +71,8 @@ function checkInCronString(flight) {
 
   // convert it to proper format and return it
   let dateString = dt.toString();
+
+  console.log("Cron string:", dateString.split(".")[0]);
 
   return dateString.split(".")[0];
 }
