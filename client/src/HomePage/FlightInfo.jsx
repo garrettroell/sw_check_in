@@ -7,7 +7,7 @@ const FlightInfo = ({ flightInfo, setDisplayMode }) => {
       <VStack maxW="800px" m="auto" spacing="16px" align="left">
         
         {/* header text */}
-        <Heading mt="80px" textAlign="center">Success!</Heading>
+        <Heading mt="80px" textAlign="center">Success</Heading>
 
         <Box h="30px" w="100px" />
 
@@ -25,7 +25,15 @@ const FlightInfo = ({ flightInfo, setDisplayMode }) => {
             <FlightDetails flightInfo={flightInfo} />
           </Box>
         </VStack>
-        <Heading mt="30px" fontSize="16px">You'll be checked in at {flightInfo.flights[0].checkInTime}</Heading>
+        {/* check in time display */}
+        { flightInfo.flights.length === 1 
+          ? <Heading mt="30px" fontSize="16px">You'll be checked in at {flightInfo.flights[0].checkInTime}</Heading>
+          : <></>
+        }
+        { flightInfo.flights.length === 2
+          ? <Heading mt="30px" fontSize="16px">You'll be checked in at {flightInfo.flights[0].checkInTime} You'll also be checked in at {flightInfo.flights[1].checkInTime}</Heading>
+          : <></>
+        }
         
         {/* back arrow */}
         <Box w="170px" maxW="800px" m="auto">
