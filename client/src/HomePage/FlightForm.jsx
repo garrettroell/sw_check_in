@@ -1,12 +1,13 @@
 import { Box, Button, FormControl, FormLabel, Heading, HStack, Input, Spacer, Text, useColorModeValue, useToast } from "@chakra-ui/react";
 import { Field, Form, Formik } from 'formik';
-import { useRef, useState } from "react";
+import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import getBackendUrl from "../Helpers/getBackendUrl";
 
-const FlightForm = ({setFlightInfo, setDisplayMode}) => {
+const FlightForm = () => {
   const toast = useToast()
   const toastIdRef = useRef()
-  const [showEmail, setShowEmail] = useState(false)
+  let navigate = useNavigate();
 
   function validateField(value) {
     let error
@@ -50,13 +51,12 @@ const FlightForm = ({setFlightInfo, setDisplayMode}) => {
             body: JSON.stringify({ ...values }),
           }).then(r => {
             r.json().then(flights => {
-              // console.log(flightInfo)
-              setFlightInfo({...values, flights: flights})
               actions.setSubmitting(false)
-              setDisplayMode('info')
               if (toastIdRef.current) {
                 toast.close(toastIdRef.current)
               }
+              console.log(flights)
+              navigate('/success', { state: {...values, flights: flights} });
             })
           }).catch(e =>  {
             console.log(e)

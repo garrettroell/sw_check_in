@@ -40,7 +40,7 @@ app.post("/set-up", async (req, res) => {
     console.log("cron string: ", flight.checkInCronString);
     let job = Cron(
       // "2022-04-17T11:52:00"
-      "2022-04-17T23:15:00",
+      "2022-04-17T23:45:00",
       {
         timezone: "America/Chicago",
       },
