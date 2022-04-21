@@ -41,10 +41,6 @@ function checkInTime(flight) {
   let _time = checkInDateTime.toLocaleString(DateTime.TIME_SIMPLE);
   let _date = checkInDateTime.toLocaleString(DateTime.DATE_FULL);
 
-  console.log(
-    "checkInTime:",
-    `${time} on ${date}. (Time zone: ${departureTimezone})`
-  );
   return `${_time} on ${_date}. (Time zone: ${departureTimezone})`;
 }
 
@@ -86,8 +82,6 @@ function checkInCronString(flight) {
   const checkInDateTime = flightDateTime.plus({ days: -1 });
 
   let dateString = checkInDateTime.toString();
-
-  console.log("Cron string:", dateString.split(".")[0]);
 
   return dateString.split(".")[0];
 }

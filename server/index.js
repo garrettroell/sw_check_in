@@ -62,6 +62,7 @@ app.post("/set-up", async (req, res) => {
 
 // function to run on cron job
 async function runCron() {
+  console.log("Cron function running");
   // get all flights in database
   const _flights = await getFlightDetails();
 
