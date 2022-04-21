@@ -7,13 +7,9 @@ import theme from './Theme/Theme'
 import AboutPage from './About/AboutPage'
 import SuccessPage from './SuccessPage/SuccessPage'
 
-// const flightInfoContext = createContext()
-// const [flightInfo, setFlightInfo] = useState("Test");
-
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
-      {/* <flightInfoContext.Provider flightInfo={flightInfo}> */}
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -21,7 +17,6 @@ ReactDOM.render(
             <Route path="/about" element={<AboutPage />} />
           </Routes>
         </BrowserRouter>
-      {/* </flightInfoContext.Provider> */}
     </ChakraProvider>
   </React.StrictMode>,
   document.getElementById('root')

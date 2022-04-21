@@ -1,7 +1,6 @@
 // add use puppeteer with stealth plugin and use defaults (all evasion techniques)
 const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
-const { getFlightDetails } = require("./databaseHelpers");
 const { sendEmail } = require("./emailHelpers");
 
 const {
@@ -84,14 +83,66 @@ async function getFlights({ firstName, lastName, confirmationNumber }) {
 }
 
 // check in function here
-async function checkIn() {
-  console.log("Scheduled check in function running");
+async function checkIn({ firstName, lastName, confirmationNumber }) {
+  console.log(`checking in ${firstName} ${lastName}`);
 
-  const flights = await getFlightDetails();
-  console.log(flights);
+  let errorOccured = false;
 
-  sendEmail({ text: "this is from a scheduled function" });
+  const url = `https://www.southwest.com/air/check-in/index.html?confirmationNumber=${confirmationNumber}&passengerFirstName=${firstName}&passengerLastName=${lastName}`;
+  const browser = await puppeteer.launch({ headless: true });
+  try {
+    const page = await browser.newPage();
+    await page.goto(url, { timeout: 0 });
+    await page.waitForSelector("#form-mixin--submit-button", { timeout: 0 });
+    console.log("made it to first page");
+
+    // click the first check in button
+    await page.click("#form-mixin--submit-button");
+    console.log("clicked first check in button");
+
+    try {
+      await page.waitForSelector(
+        "#swa-content > div > div:nth-child(2) > div > section > div > div > div.air-check-in-review-results--confirmation > button",
+        { timeout: 60000 } // 1 minute before declaring an error
+      );
+    } catch {
+      errorOccured = true;
+      await page.screenshot({
+        path: `errors/${firstName}_${lastName}_${confirmationNumber}.png`,
+        fullPage: true,
+      });
+    }
+
+    console.log("clicked second check in button");
+    await delay(5000); // arbitrary time length
+    await page.screenshot({
+      path: `receipts/${firstName}_${lastName}_${confirmationNumber}.png`,
+      fullPage: true,
+    });
+  } catch (e) {
+    errorOccured = true;
+  } finally {
+    await browser.close();
+  }
+
+  // email depends on if an error occured
+  if (errorOccured) {
+    console.log(`Error happened in SW check in for ${firstName} ${lastName}`);
+    sendEmail({
+      text: `Error happened in SW check in for ${firstName} ${lastName}`,
+    });
+  } else {
+    console.log(`Successfully checked in for ${firstName} ${lastName}`);
+    sendEmail({ text: `Successfully checked in for ${firstName} ${lastName}` });
+  }
 }
 
 exports.getFlights = getFlights;
 exports.checkIn = checkIn;
+
+// define a delay function
+function delay(time) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, time);
+  });
+}

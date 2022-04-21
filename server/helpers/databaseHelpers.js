@@ -1,17 +1,17 @@
 require("dotenv").config();
 const { createClient } = require("@supabase/supabase-js");
 
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
+);
+
 async function writeFlightsToDatabase({
   firstName,
   lastName,
   confirmationNumber,
   flights,
 }) {
-  const supabase = createClient(
-    process.env.SUPABASE_URL,
-    process.env.SUPABASE_KEY
-  );
-
   flights.forEach(async (flight) => {
     const { error } = await supabase.from("flights").insert([
       {
