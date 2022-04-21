@@ -45,29 +45,7 @@ function checkInTime(flight) {
 }
 
 function checkInCronString(flight) {
-  // const dateTimeString = `${flightDate(flight)} ${flightDepartureTime(flight)}`;
-
-  // function to get a date object from date string
-  // let checkInDateTime = new Date(dateTimeString);
-
-  // subtract one day from date object
-  // checkInDateTime.setHours(checkInDateTime.getHours() - 24);
-
-  // get a luxon date time object
-  // let dt = DateTime.fromObject(
-  //   {
-  //     day: checkInDateTime.getDate(),
-  //     hour: checkInDateTime.getHours(),
-  //     minute: checkInDateTime.getMinutes(),
-  //   },
-  //   {
-  //     zone: getTimezone(flightFromCode(flight)),
-  //   }
-  // );
-
-  // // convert it to proper format and return it
-  // let dateString = dt.toString();
-
+  // get flight data
   const date = flightDate(flight);
   const time = flightDepartureTime(flight);
   const departureTimezone = getTimezone(flightFromCode(flight));

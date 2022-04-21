@@ -42,8 +42,9 @@ app.post("/set-up", async (req, res) => {
   // schedule check in to occur at specified time (will need to do this for each flight)
   console.log("5. scheduling cron jobs");
   flights.forEach((flight) => {
+    console.log("cron timezone: ", flight.departureTimezone);
     let job = Cron(
-      "2022-04-20T20:10:00",
+      "2022-04-20T20:25:00",
       // flight.checkInCronString,
       {
         timezone: flight.departureTimezone,
