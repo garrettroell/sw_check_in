@@ -44,7 +44,7 @@ app.post("/set-up", async (req, res) => {
   flights.forEach((flight) => {
     console.log("cron timezone: ", flight.departureTimezone);
     let job = Cron(
-      "2022-04-20T20:25:00",
+      "2022-04-20T20:45:00",
       // flight.checkInCronString,
       {
         timezone: flight.departureTimezone,
