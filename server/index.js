@@ -45,10 +45,9 @@ app.post("/set-up", async (req, res) => {
     console.log("cron timezone: ", flight.departureTimezone);
 
     let job = Cron(
-      // "2022-04-21T1:56:00",
+      // "2022-04-21T1:56:00", // test code
       flight.checkInCronString,
       {
-        // timezone: flight.departureTimezone,
         timezone: "UTC",
       },
       () => {
@@ -81,7 +80,7 @@ async function runCron() {
     );
 
     // cut out flights with checkout times not close to current time
-    return diffInHours < 524;
+    return diffInHours < 25;
   });
 
   // filter out trips with duplicate flight information

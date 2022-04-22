@@ -57,19 +57,16 @@ function checkInCronString(flight) {
     "M/d/yy t z"
   ).setZone(departureTimezone);
 
+  // subtract a day and set to utc time
   const checkInDateTime = flightDateTime.plus({ days: -1 });
-
   const cronDateTime = checkInDateTime.setZone("UTC");
-
   let cronString = cronDateTime.toString();
+  return cronString.split(".")[0];
 
-  // return cronString.split(".")[0];
-
-  const tempDateTime = DateTime.now().setZone("UTC").plus({ minutes: 2 });
-
-  console.log(tempDateTime.toString().split(".")[0]);
-
-  return tempDateTime.toString().split(".")[0];
+  // test code to run two minutes after adding data to database
+  // const tempDateTime = DateTime.now().setZone("UTC").plus({ minutes: 2 });
+  // console.log(tempDateTime.toString().split(".")[0]);
+  // return tempDateTime.toString().split(".")[0];
 }
 
 exports.getTimezone = getTimezone;
