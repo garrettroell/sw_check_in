@@ -43,11 +43,13 @@ app.post("/set-up", async (req, res) => {
   console.log("5. scheduling cron jobs");
   flights.forEach((flight) => {
     console.log("cron timezone: ", flight.departureTimezone);
+
     let job = Cron(
-      "2022-04-20T20:45:00",
-      // flight.checkInCronString,
+      // "2022-04-21T1:56:00",
+      flight.checkInCronString,
       {
-        timezone: flight.departureTimezone,
+        // timezone: flight.departureTimezone,
+        timezone: "UTC",
       },
       () => {
         runCron();

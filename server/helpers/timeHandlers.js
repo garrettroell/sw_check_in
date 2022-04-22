@@ -59,9 +59,17 @@ function checkInCronString(flight) {
 
   const checkInDateTime = flightDateTime.plus({ days: -1 });
 
-  let dateString = checkInDateTime.toString();
+  const cronDateTime = checkInDateTime.setZone("UTC");
 
-  return dateString.split(".")[0];
+  let cronString = cronDateTime.toString();
+
+  // return cronString.split(".")[0];
+
+  const tempDateTime = DateTime.now().setZone("UTC").plus({ minutes: 2 });
+
+  console.log(tempDateTime.toString().split(".")[0]);
+
+  return tempDateTime.toString().split(".")[0];
 }
 
 exports.getTimezone = getTimezone;
