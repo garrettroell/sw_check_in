@@ -12,7 +12,11 @@ const NavBar = () => {
             <Image src={useColorModeValue(shoutlessBlue, shoutlessWhite)} alt='Dan Abramov' />
           </Box>
         </Link>
-        <Link to="/about"><Heading fontSize="18px" color={useColorModeValue("#304BB3", "white")}>About</Heading></Link>
+        <Link to="/about">
+          <Heading fontSize="18px" color={useColorModeValue("#304BB3", "white")} _hover={{color: '#F5C14D'}}>
+            About
+          </Heading>
+        </Link>
       </HStack>
     </Box>
    );

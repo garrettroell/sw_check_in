@@ -1,9 +1,6 @@
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { Button, Heading, HStack, useColorMode, Link } from "@chakra-ui/react";
-import { VscGithubAlt } from 'react-icons/vsc';
 import { FiGithub } from 'react-icons/fi';
-
-
 
 const Footer = () => {
   const { colorMode, toggleColorMode } = useColorMode()
@@ -17,7 +14,7 @@ const Footer = () => {
       </Heading>
       <HStack>
         <Link href='https://github.com/garrettroell/sw_check_in' isExternal>
-          <Button  onClick={toggleColorMode} variant="outline">
+          <Button variant="outline">
             <FiGithub color="white"/>
           </Button>
         </Link>
