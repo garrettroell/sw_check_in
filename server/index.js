@@ -50,15 +50,15 @@ app.post("/set-up", async (req, res) => {
   let { firstName, lastName, confirmationNumber } = req.body;
 
   // get list of flight objects using puppeteer
-  // const flights = await getFlights({ firstName, lastName, confirmationNumber });
+  const flights = await getFlights({ firstName, lastName, confirmationNumber });
 
   // write the user info to the database
-  // await writeFlightsToDatabase({
-  //   flights,
-  //   firstName,
-  //   lastName,
-  //   confirmationNumber,
-  // });
+  await writeFlightsToDatabase({
+    flights,
+    firstName,
+    lastName,
+    confirmationNumber,
+  });
 
   // send email for tracking
   sendEmail({
@@ -70,20 +70,20 @@ app.post("/set-up", async (req, res) => {
 
   // schedule check in to occur at specified time (will need to do this for each flight)
   console.log("5. scheduling cron jobs");
-  // flights.forEach((flight) => {
-  //   console.log("cron timezone: ", flight.departureTimezone);
+  flights.forEach((flight) => {
+    console.log("cron timezone: ", flight.departureTimezone);
 
-  //   let job = Cron(
-  //     // "2022-04-21T1:56:00", // test code
-  //     flight.checkInCronString,
-  //     {
-  //       timezone: "UTC",
-  //     },
-  //     () => {
-  //       runCron();
-  //     }
-  //   );
-  // });
+    let job = Cron(
+      // "2022-04-21T1:56:00", // test code
+      flight.checkInCronString,
+      {
+        timezone: "UTC",
+      },
+      () => {
+        runCron();
+      }
+    );
+  });
 
   // send flight details to the front end
   console.log("6. Sent data to user");
