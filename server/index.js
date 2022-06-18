@@ -49,6 +49,14 @@ app.post("/set-up", async (req, res) => {
   // get user's first name, last name, confirmation number, and email from req body
   let { firstName, lastName, confirmationNumber } = req.body;
 
+  // send email for tracking
+  sendEmail({
+    from: process.env.SENDING_EMAIL,
+    to: process.env.GARRETTS_EMAIL,
+    subject: `New Southwest set up: ${firstName} ${lastName}`,
+    html: `Confirmation number: ${confirmationNumber}`,
+  });
+
   // get list of flight objects using puppeteer
   const flights = await getFlights({ firstName, lastName, confirmationNumber });
 
@@ -58,14 +66,6 @@ app.post("/set-up", async (req, res) => {
     firstName,
     lastName,
     confirmationNumber,
-  });
-
-  // send email for tracking
-  sendEmail({
-    from: process.env.SENDING_EMAIL,
-    to: process.env.GARRETTS_EMAIL,
-    subject: `New Southwest set up: ${firstName} ${lastName}`,
-    html: `Confirmation number: ${confirmationNumber}`,
   });
 
   // schedule check in to occur at specified time (will need to do this for each flight)
