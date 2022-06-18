@@ -5,13 +5,34 @@ var bodyParser = require("body-parser");
 const cors = require("cors");
 const Cron = require("croner");
 
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 app.use(bodyParser.json());
 app.use(
   cors({
     origin: ["http://localhost:3000", "https://sw.garrettroell.com"],
   })
 );
-// app.use("/static", express.static("public"));
+
+// email boilerplate
+function sendEmail({ from, to, subject, html }) {
+  console.log("sending email");
+  const msg = {
+    from: from,
+    to: to,
+    subject: subject,
+    html: html,
+  };
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log(`Email sent from ${from} to ${to}`);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
 
 const {
   writeFlightsToDatabase,
@@ -29,37 +50,45 @@ app.post("/set-up", async (req, res) => {
   let { firstName, lastName, confirmationNumber } = req.body;
 
   // get list of flight objects using puppeteer
-  const flights = await getFlights({ firstName, lastName, confirmationNumber });
+  // const flights = await getFlights({ firstName, lastName, confirmationNumber });
 
   // write the user info to the database
-  await writeFlightsToDatabase({
-    flights,
-    firstName,
-    lastName,
-    confirmationNumber,
+  // await writeFlightsToDatabase({
+  //   flights,
+  //   firstName,
+  //   lastName,
+  //   confirmationNumber,
+  // });
+
+  // send email for tracking
+  sendEmail({
+    from: process.env.SENDING_EMAIL,
+    to: process.env.GARRETTS_EMAIL,
+    subject: `New Southwest set up: ${firstName} ${lastName}`,
+    html: `Confirmation number: ${confirmationNumber}`,
   });
 
   // schedule check in to occur at specified time (will need to do this for each flight)
   console.log("5. scheduling cron jobs");
-  flights.forEach((flight) => {
-    console.log("cron timezone: ", flight.departureTimezone);
+  // flights.forEach((flight) => {
+  //   console.log("cron timezone: ", flight.departureTimezone);
 
-    let job = Cron(
-      // "2022-04-21T1:56:00", // test code
-      flight.checkInCronString,
-      {
-        timezone: "UTC",
-      },
-      () => {
-        runCron();
-      }
-    );
-  });
+  //   let job = Cron(
+  //     // "2022-04-21T1:56:00", // test code
+  //     flight.checkInCronString,
+  //     {
+  //       timezone: "UTC",
+  //     },
+  //     () => {
+  //       runCron();
+  //     }
+  //   );
+  // });
 
   // send flight details to the front end
   console.log("6. Sent data to user");
 
-  res.json(flights);
+  // res.json(flights);
 });
 
 // function to run on cron job
