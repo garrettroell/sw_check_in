@@ -31,7 +31,7 @@ app.post("/set-up", async (req, res) => {
   // send email for tracking
   sendEmail({
     subject: `New Southwest set up: ${firstName} ${lastName}`,
-    html: `Confirmation number: ${confirmationNumber}`,
+    text: `Confirmation number: ${confirmationNumber}`,
   });
 
   // get list of flight objects using puppeteer
