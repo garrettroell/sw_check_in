@@ -17,6 +17,8 @@ const {
   getTimezoneOffset,
   checkInTime,
   checkInCronString,
+  flightToDateTime,
+  daysUntilFlight,
 } = require("./timeHandlers");
 
 puppeteer.use(StealthPlugin());
@@ -24,6 +26,7 @@ puppeteer.use(StealthPlugin());
 async function getFlights({ firstName, lastName, confirmationNumber }) {
   // use user details to get flight information
   const url = `https://www.southwest.com/air/manage-reservation/index.html?confirmationNumber=${confirmationNumber}&passengerFirstName=${firstName}&passengerLastName=${lastName}`;
+  console.log(url);
 
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
@@ -39,6 +42,7 @@ async function getFlights({ firstName, lastName, confirmationNumber }) {
   await page.waitForSelector("#air-reservation > div.reservation--summary", {
     timeout: 0,
   });
+
   console.log("3. Data recieved");
 
   // get HTML for each flight on page
@@ -56,6 +60,8 @@ async function getFlights({ firstName, lastName, confirmationNumber }) {
       departureTime: flightDepartureTime(flight),
       departureTimezone: getTimezone(flightFromCode(flight)),
       departureTimezoneOffset: getTimezoneOffset(flightFromCode(flight)),
+      departureDateTime: flightToDateTime(flight),
+      daysUntilFlight: daysUntilFlight(flight),
       checkInTime: checkInTime(flight),
       checkInCronString: checkInCronString(flight),
       number: flightNumber(flight),
@@ -79,6 +85,13 @@ async function getFlights({ firstName, lastName, confirmationNumber }) {
     }
   });
 
+  // If a flight is within 24 hrs of current time run check in function
+  // uniqueFlights.forEach((flight) => {
+  //   if (flight.daysUntilFlight > 0 && flight.daysUntilFlight < 1) {
+  //     checkIn({ firstName, lastName, confirmationNumber });
+  //   }
+  // });
+
   return uniqueFlights;
 }
 
@@ -89,7 +102,7 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
   let errorOccured = false;
 
   const url = `https://www.southwest.com/air/check-in/index.html?confirmationNumber=${confirmationNumber}&passengerFirstName=${firstName}&passengerLastName=${lastName}`;
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({ headless: false });
   try {
     const page = await browser.newPage();
     await page.goto(url, { timeout: 0 });
@@ -114,7 +127,7 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
     }
 
     console.log("clicked second check in button");
-    await delay(5000); // arbitrary time length
+    await delay(10000); // 10 seconds is an arbitrary time to wait before taking the confirmation screeshot
     await page.screenshot({
       path: `receipts/${firstName}_${lastName}_${confirmationNumber}.png`,
       fullPage: true,
@@ -129,11 +142,15 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
   if (errorOccured) {
     console.log(`Error happened in SW check in for ${firstName} ${lastName}`);
     sendEmail({
-      text: `Error happened in SW check in for ${firstName} ${lastName}`,
+      subject: `Error in Southwest Check In for ${firstName} ${lastName}`,
+      text: `Error happened when checking in with confirmation number ${confirmationNumber}`,
     });
   } else {
     console.log(`Successfully checked in for ${firstName} ${lastName}`);
-    sendEmail({ text: `Successfully checked in for ${firstName} ${lastName}` });
+    sendEmail({
+      subject: `Successful Southwest Check In for ${firstName} ${lastName}`,
+      text: `Confirmation number ${confirmationNumber}`,
+    });
   }
 }
 
@@ -146,3 +163,10 @@ function delay(time) {
     setTimeout(resolve, time);
   });
 }
+
+// test code here
+// checkIn({
+//   firstName: "Ryan",
+//   lastName: "Maddox",
+//   confirmationNumber: "32QQC7",
+// });

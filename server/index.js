@@ -5,8 +5,13 @@ var bodyParser = require("body-parser");
 const cors = require("cors");
 const Cron = require("croner");
 
-const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const {
+  writeFlightsToDatabase,
+  getFlightDetails,
+} = require("./helpers/databaseHelpers");
+const { getFlights, checkIn } = require("./helpers/puppeteerHelpers");
+const { DateTime } = require("luxon");
+const { sendEmail } = require("./helpers/emailHelpers");
 
 app.use(bodyParser.json());
 app.use(
@@ -14,32 +19,6 @@ app.use(
     origin: ["http://localhost:3000", "https://sw.garrettroell.com"],
   })
 );
-
-// email boilerplate
-function sendEmail({ from, to, subject, html }) {
-  console.log("sending email");
-  const msg = {
-    from: from,
-    to: to,
-    subject: subject,
-    html: html,
-  };
-  sgMail
-    .send(msg)
-    .then(() => {
-      console.log(`Email sent from ${from} to ${to}`);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-}
-
-const {
-  writeFlightsToDatabase,
-  getFlightDetails,
-} = require("./helpers/databaseHelpers");
-const { getFlights, checkIn } = require("./helpers/puppeteerHelpers");
-const { DateTime } = require("luxon");
 
 app.get("/", (_req, res) => {
   res.send("Hello world from southwest check in backend");
@@ -51,8 +30,6 @@ app.post("/set-up", async (req, res) => {
 
   // send email for tracking
   sendEmail({
-    from: process.env.SENDING_EMAIL,
-    to: process.env.GARRETTS_EMAIL,
     subject: `New Southwest set up: ${firstName} ${lastName}`,
     html: `Confirmation number: ${confirmationNumber}`,
   });
@@ -71,11 +48,9 @@ app.post("/set-up", async (req, res) => {
   // schedule check in to occur at specified time (will need to do this for each flight)
   console.log("5. scheduling cron jobs");
   flights.forEach((flight) => {
-    console.log("cron timezone: ", flight.departureTimezone);
-
     let job = Cron(
-      // "2022-04-21T1:56:00", // test code
-      flight.checkInCronString,
+      "2022-06-20T20:50:00", // test code
+      // flight.checkInCronString,
       {
         timezone: "UTC",
       },
@@ -88,7 +63,7 @@ app.post("/set-up", async (req, res) => {
   // send flight details to the front end
   console.log("6. Sent data to user");
 
-  // res.json(flights);
+  res.json(flights);
 });
 
 // function to run on cron job

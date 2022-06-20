@@ -60,10 +60,14 @@ function flightToCity(flight) {
   // make flight html all one line
   flight = flight.replace(/\n+/g, "");
 
+  let numAirports = flight.split(
+    'class="flight-segments--station-name">'
+  ).length;
+
   // isolate city and code string
   let cityAndCode = flight
-    .split('class="flight-segments--station-name">')[2]
-    .split("<")[0];
+    .split('class="flight-segments--station-name">')
+    [numAirports - 1].split("<")[0];
 
   // isolate city
   return cityAndCode.split("-")[0].trim();
@@ -74,10 +78,15 @@ function flightToCode(flight) {
   // make flight html all one line
   flight = flight.replace(/\n+/g, "");
 
-  // isolate city and code string
+  let numAirports = flight.split(
+    'class="flight-segments--station-name">'
+  ).length;
+
+  // isolate city and code string from the last airport in the section
+  // (To get final destination, not a layover stop)
   let cityAndCode = flight
-    .split('class="flight-segments--station-name">')[2]
-    .split("<")[0];
+    .split('class="flight-segments--station-name">')
+    [numAirports - 1].split("<")[0];
 
   // isolate city
   return cityAndCode.split("-")[1].trim();

@@ -44,8 +44,7 @@ function checkInTime(flight) {
   return `${_time} on ${_date}. (Time zone: ${departureTimezone})`;
 }
 
-function checkInCronString(flight) {
-  // get flight data
+function flightToDateTime(flight) {
   const date = flightDate(flight);
   const time = flightDepartureTime(flight);
   const departureTimezone = getTimezone(flightFromCode(flight));
@@ -56,6 +55,17 @@ function checkInCronString(flight) {
     dateTimeString,
     "M/d/yy t z"
   ).setZone(departureTimezone);
+
+  return flightDateTime;
+}
+
+function daysUntilFlight(flight) {
+  return flightToDateTime(flight).diffNow("days").days.toFixed(2);
+}
+
+function checkInCronString(flight) {
+  // get flight data
+  const flightDateTime = flightToDateTime(flight);
 
   // subtract a day and set to utc time
   const checkInDateTime = flightDateTime.plus({ days: -1 });
@@ -73,3 +83,5 @@ exports.getTimezone = getTimezone;
 exports.getTimezoneOffset = getTimezoneOffset;
 exports.checkInTime = checkInTime;
 exports.checkInCronString = checkInCronString;
+exports.flightToDateTime = flightToDateTime;
+exports.daysUntilFlight = daysUntilFlight;

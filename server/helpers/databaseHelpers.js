@@ -1,10 +1,4 @@
-require("dotenv").config();
-const { createClient } = require("@supabase/supabase-js");
-
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_KEY
-);
+const fs = require("fs");
 
 async function writeFlightsToDatabase({
   firstName,
@@ -12,8 +6,13 @@ async function writeFlightsToDatabase({
   confirmationNumber,
   flights,
 }) {
-  flights.forEach(async (flight) => {
-    const { error } = await supabase.from("flights").insert([
+  // read flight data file
+  let flightData = JSON.parse(fs.readFileSync("data/flights.json"));
+
+  // add each flight to the javascript object
+  flights.forEach((flight) => {
+    flightData = [
+      ...flightData,
       {
         firstName: firstName,
         lastName: lastName,
@@ -21,6 +20,7 @@ async function writeFlightsToDatabase({
         date: flight.date,
         departureTime: flight.departureTime,
         departureTimezone: flight.departureTimezone,
+        departureDateTime: flight.departureDateTime,
         checkInTime: flight.checkInTime,
         checkInCronString: flight.checkInCronString,
         number: flight.number,
@@ -29,23 +29,33 @@ async function writeFlightsToDatabase({
         toCity: flight.toCity,
         toCode: flight.toCode,
       },
-    ]);
-    if (error) {
-      console.log("Supabase error: ", error);
-    }
+    ];
   });
+
+  console.log(flightData);
+
+  // save updated flight data object
+  fs.writeFileSync("data/flights.json", JSON.stringify(flightData));
 }
 
-async function getFlightDetails() {
+function getFlightDetails() {
   console.log("getting details");
-  const { data, error } = await supabase.from("flights").select("*");
 
-  if (error) {
-    console.log(error);
-  }
+  // read flight data file
+  let flightData = JSON.parse(fs.readFileSync("data/flights.json"));
 
-  return data;
+  return flightData;
 }
 
 exports.writeFlightsToDatabase = writeFlightsToDatabase;
 exports.getFlightDetails = getFlightDetails;
+
+// test code area
+// console.log(getFlightDetails());
+
+// writeFlightsToDatabase({
+//   firstName: "Ryan",
+//   lastName: "Maddox",
+//   confirmationNumber: "32QQC7",
+//   flights: [{ flight1: "This is a test" }, { flight2: "This is another test" }],
+// });

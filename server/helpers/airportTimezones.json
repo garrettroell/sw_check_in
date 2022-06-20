@@ -1,1 +1,849 @@
-[{"code":"ALB","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Albany, NY"},{"code":"ABQ","countryCode":"US","timezone":"America/Denver","offset":{"gmt":-7,"dst":-6},"city":"Albuquerque, NM"},{"code":"AMA","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Amarillo, TX"},{"code":"AUA","countryCode":"AW","timezone":"America/Aruba","offset":{"gmt":-4,"dst":-4},"city":"Aruba, Aruba"},{"code":"ATL","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Atlanta, GA"},{"code":"AUS","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Austin, TX"},{"code":"BWI","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Baltimore/Washington, MD"},{"code":"BZE","countryCode":"BZ","timezone":"America/Belize","offset":{"gmt":-6,"dst":-6},"city":"Belize City, Belize"},{"code":"BLI","countryCode":"US","timezone":"America/Los_Angeles","offset":{"gmt":-8,"dst":-7},"city":"Bellingham (approx. 50mi from Vancouver, BC), WA"},{"code":"BHM","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Birmingham, AL"},{"code":"BOI","countryCode":"US","timezone":"America/Boise","offset":{"gmt":-7,"dst":-6},"city":"Boise, ID"},{"code":"BOS","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Boston (Logan), MA"},{"code":"BDL","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Hartford, CT"},{"code":"MHT","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Manchester, NH"},{"code":"PVD","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Providence, RI"},{"code":"BZN","countryCode":"US","timezone":"America/Denver","offset":{"gmt":-7,"dst":-6},"city":"Bozeman/Yellowstone, MT"},{"code":"BUF","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Buffalo/Niagara, NY"},{"code":"BUR","countryCode":"US","timezone":"America/Los_Angeles","offset":{"gmt":-8,"dst":-7},"city":"Burbank, CA"},{"code":"CUN","countryCode":"MX","timezone":"America/Cancun","offset":{"gmt":-5,"dst":-5},"city":"Cancun, Mexico"},{"code":"CZM","countryCode":"MX","timezone":"America/Cancun","offset":{"gmt":-5,"dst":-5},"city":"Cozumel, Quintana Roo"},{"code":"GCM","countryCode":"KY","timezone":"America/Cayman","offset":{"gmt":-5,"dst":-5},"city":"Grand Cayman, Cayman Islands"},{"code":"HAV","countryCode":"CU","timezone":"America/Havana","offset":{"gmt":-5,"dst":-4},"city":"Havana, Cuba"},{"code":"MBJ","countryCode":"JM","timezone":"America/Jamaica","offset":{"gmt":-5,"dst":-5},"city":"Montego Bay, Jamaica"},{"code":"NAS","countryCode":"BS","timezone":"America/Nassau","offset":{"gmt":-5,"dst":-4},"city":"Nassau, Bahamas"},{"code":"PLS","countryCode":"TC","timezone":"America/Grand_Turk","offset":{"gmt":-4,"dst":-4},"city":"Providenciales, Turks and Caicos"},{"code":"PUJ","countryCode":"DO","timezone":"America/Santo_Domingo","offset":{"gmt":-4,"dst":-4},"city":"Punta Cana, DO"},{"code":"SJU","countryCode":"PR","timezone":"America/Puerto_Rico","offset":{"gmt":-4,"dst":-4},"city":"San Juan, PR"},{"code":"LIR","countryCode":"CR","timezone":"America/Costa_Rica","offset":{"gmt":-6,"dst":-6},"city":"Liberia (Guanacaste), Costa Rica"},{"code":"SJO","countryCode":"CR","timezone":"America/Costa_Rica","offset":{"gmt":-6,"dst":-6},"city":"San Jose, Costa Rica"},{"code":"CHS","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Charleston, SC"},{"code":"CLT","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Charlotte, NC"},{"code":"MDW","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Chicago (Midway), IL"},{"code":"ORD","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Chicago (O’Hare-Terminal 5), IL"},{"code":"CVG","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Cincinnati, OH"},{"code":"CLE","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Cleveland, OH"},{"code":"COS","countryCode":"US","timezone":"America/Denver","offset":{"gmt":-7,"dst":-6},"city":"Colorado Springs, CO"},{"code":"CMH","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Columbus, OH"},{"code":"CRP","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Corpus Christi, TX"},{"code":"DAL","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Dallas (Love Field), TX"},{"code":"DEN","countryCode":"US","timezone":"America/Denver","offset":{"gmt":-7,"dst":-6},"city":"Denver, CO"},{"code":"DSM","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Des Moines, IA"},{"code":"VPS","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Destin/Fort Walton Beach, FL"},{"code":"DTW","countryCode":"US","timezone":"America/Detroit","offset":{"gmt":-5,"dst":-4},"city":"Detroit, MI"},{"code":"ELP","countryCode":"US","timezone":"America/Denver","offset":{"gmt":-7,"dst":-6},"city":"El Paso, TX"},{"code":"EUG","countryCode":"US","timezone":"America/Los_Angeles","offset":{"gmt":-8,"dst":-7},"city":"Eugene, OR"},{"code":"FLL","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Fort Lauderdale, FL"},{"code":"RSW","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Fort Myers, FL"},{"code":"FAT","countryCode":"US","timezone":"America/Los_Angeles","offset":{"gmt":-8,"dst":-7},"city":"Fresno, CA"},{"code":"GRR","countryCode":"US","timezone":"America/Detroit","offset":{"gmt":-5,"dst":-4},"city":"Grand Rapids, MI"},{"code":"GSP","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Greenville/Spartanburg, SC"},{"code":"HRL","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Harlingen, TX"},{"code":"ITO","countryCode":"US","timezone":"Pacific/Honolulu","offset":{"gmt":-10,"dst":-10},"city":"Hilo (Hawaii Island), HI"},{"code":"HNL","countryCode":"US","timezone":"Pacific/Honolulu","offset":{"gmt":-10,"dst":-10},"city":"Honolulu (Oahu), HI"},{"code":"OGG","countryCode":"US","timezone":"Pacific/Honolulu","offset":{"gmt":-10,"dst":-10},"city":"Kahului (Maui), HI"},{"code":"KOA","countryCode":"US","timezone":"Pacific/Honolulu","offset":{"gmt":-10,"dst":-10},"city":"Kona (Hawaii Island), HI"},{"code":"LIH","countryCode":"US","timezone":"Pacific/Honolulu","offset":{"gmt":-10,"dst":-10},"city":"Lihue (Kauai), HI"},{"code":"IAH","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Houston (Bush-Intercontl), TX"},{"code":"HOU","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Houston (Hobby), TX"},{"code":"IND","countryCode":"US","timezone":"America/Indiana/Indianapolis","offset":{"gmt":-5,"dst":-4},"city":"Indianapolis, IN"},{"code":"JAN","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Jackson, MS"},{"code":"JAX","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Jacksonville, FL"},{"code":"MCI","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Kansas City, MO"},{"code":"LAS","countryCode":"US","timezone":"America/Los_Angeles","offset":{"gmt":-8,"dst":-7},"city":"Las Vegas, NV"},{"code":"LIT","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Little Rock, AR"},{"code":"LGB","countryCode":"US","timezone":"America/Los_Angeles","offset":{"gmt":-8,"dst":-7},"city":"Long Beach, CA"},{"code":"ISP","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Long Island/Islip, NY"},{"code":"LAX","countryCode":"US","timezone":"America/Los_Angeles","offset":{"gmt":-8,"dst":-7},"city":"Los Angeles, CA"},{"code":"ONT","countryCode":"US","timezone":"America/Los_Angeles","offset":{"gmt":-8,"dst":-7},"city":"Ontario/LA, CA"},{"code":"SNA","countryCode":"US","timezone":"America/Los_Angeles","offset":{"gmt":-8,"dst":-7},"city":"Orange County/Santa Ana, CA"},{"code":"SJD","countryCode":"MX","timezone":"America/Mazatlan","offset":{"gmt":-7,"dst":-6},"city":"Los Cabos, MX"},{"code":"SDF","countryCode":"US","timezone":"America/Kentucky/Louisville","offset":{"gmt":-5,"dst":-4},"city":"Louisville, KY"},{"code":"LBB","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Lubbock, TX"},{"code":"MEM","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Memphis, TN"},{"code":"MIA","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Miami, FL"},{"code":"PBI","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"West Palm Beach, FL"},{"code":"MAF","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Midland/Odessa, TX"},{"code":"MKE","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Milwaukee, WI"},{"code":"MSP","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Minneapolis/St. Paul (Terminal 2), MN"},{"code":"MTJ","countryCode":"US","timezone":"America/Denver","offset":{"gmt":-7,"dst":-6},"city":"Montrose (Telluride/Crested Butte), CO"},{"code":"MYR","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Myrtle Beach, SC"},{"code":"BNA","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Nashville, TN"},{"code":"MSY","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"New Orleans, LA"},{"code":"LGA","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"New York (LaGuardia), NY"},{"code":"ORF","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Norfolk, VA"},{"code":"ECP","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Panama City Beach, FL"},{"code":"PNS","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Pensacola, FL"},{"code":"OAK","countryCode":"US","timezone":"America/Los_Angeles","offset":{"gmt":-8,"dst":-7},"city":"Oakland, CA"},{"code":"OKC","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Oklahoma City, OK"},{"code":"OMA","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Omaha, NE"},{"code":"MCO","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Orlando, FL"},{"code":"PSP","countryCode":"US","timezone":"America/Los_Angeles","offset":{"gmt":-8,"dst":-7},"city":"Palm Springs, CA"},{"code":"PHL","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Philadelphia, PA"},{"code":"PHX","countryCode":"US","timezone":"America/Phoenix","offset":{"gmt":-7,"dst":-7},"city":"Phoenix, AZ"},{"code":"PIT","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Pittsburgh, PA"},{"code":"PWM","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Portland, ME"},{"code":"PDX","countryCode":"US","timezone":"America/Los_Angeles","offset":{"gmt":-8,"dst":-7},"city":"Portland, OR"},{"code":"PVR","countryCode":"MX","timezone":"America/Mexico_City","offset":{"gmt":-6,"dst":-5},"city":"Puerto Vallarta, MX"},{"code":"RDU","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Raleigh/Durham, NC"},{"code":"RNO","countryCode":"US","timezone":"America/Los_Angeles","offset":{"gmt":-8,"dst":-7},"city":"Reno/Tahoe, NV"},{"code":"RIC","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Richmond, VA"},{"code":"ROC","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Rochester, NY"},{"code":"SMF","countryCode":"US","timezone":"America/Los_Angeles","offset":{"gmt":-8,"dst":-7},"city":"Sacramento, CA"},{"code":"SLC","countryCode":"US","timezone":"America/Denver","offset":{"gmt":-7,"dst":-6},"city":"Salt Lake City, UT"},{"code":"SAT","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"San Antonio, TX"},{"code":"SAN","countryCode":"US","timezone":"America/Los_Angeles","offset":{"gmt":-8,"dst":-7},"city":"San Diego, CA"},{"code":"SFO","countryCode":"US","timezone":"America/Los_Angeles","offset":{"gmt":-8,"dst":-7},"city":"San Francisco, CA"},{"code":"SJC","countryCode":"US","timezone":"America/Los_Angeles","offset":{"gmt":-8,"dst":-7},"city":"San Jose, CA"},{"code":"SBA","countryCode":"US","timezone":"America/Los_Angeles","offset":{"gmt":-8,"dst":-7},"city":"Santa Barbara, CA"},{"code":"SRQ","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Sarasota/Bradenton, FL"},{"code":"SAV","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Savannah/Hilton Head, GA"},{"code":"SEA","countryCode":"US","timezone":"America/Los_Angeles","offset":{"gmt":-8,"dst":-7},"city":"Seattle/Tacoma, WA"},{"code":"GEG","countryCode":"US","timezone":"America/Los_Angeles","offset":{"gmt":-8,"dst":-7},"city":"Spokane, WA"},{"code":"STL","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"St. Louis, MO"},{"code":"HDN","countryCode":"US","timezone":"America/Denver","offset":{"gmt":-7,"dst":-6},"city":"Steamboat Springs (Hayden), CO"},{"code":"SYR","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Syracuse, NY"},{"code":"TPA","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Tampa, FL"},{"code":"TUS","countryCode":"US","timezone":"America/Phoenix","offset":{"gmt":-7,"dst":-7},"city":"Tucson, AZ"},{"code":"TUL","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Tulsa, OK"},{"code":"IAD","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Washington (Dulles), DC"},{"code":"DCA","countryCode":"US","timezone":"America/New_York","offset":{"gmt":-5,"dst":-4},"city":"Washington (Reagan National), DC"},{"code":"ICT","countryCode":"US","timezone":"America/Chicago","offset":{"gmt":-6,"dst":-5},"city":"Wichita, KS"}]
+[
+  {
+    "code": "ALB",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Albany, NY"
+  },
+  {
+    "code": "ABQ",
+    "countryCode": "US",
+    "timezone": "America/Denver",
+    "offset": { "gmt": -7, "dst": -6 },
+    "city": "Albuquerque, NM"
+  },
+  {
+    "code": "AMA",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Amarillo, TX"
+  },
+  {
+    "code": "AUA",
+    "countryCode": "AW",
+    "timezone": "America/Aruba",
+    "offset": { "gmt": -4, "dst": -4 },
+    "city": "Aruba, Aruba"
+  },
+  {
+    "code": "ATL",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Atlanta, GA"
+  },
+  {
+    "code": "AUS",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Austin, TX"
+  },
+  {
+    "code": "BWI",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Baltimore/Washington, MD"
+  },
+  {
+    "code": "BZE",
+    "countryCode": "BZ",
+    "timezone": "America/Belize",
+    "offset": { "gmt": -6, "dst": -6 },
+    "city": "Belize City, Belize"
+  },
+  {
+    "code": "BLI",
+    "countryCode": "US",
+    "timezone": "America/Los_Angeles",
+    "offset": { "gmt": -8, "dst": -7 },
+    "city": "Bellingham (approx. 50mi from Vancouver, BC), WA"
+  },
+  {
+    "code": "BHM",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Birmingham, AL"
+  },
+  {
+    "code": "BOI",
+    "countryCode": "US",
+    "timezone": "America/Boise",
+    "offset": { "gmt": -7, "dst": -6 },
+    "city": "Boise, ID"
+  },
+  {
+    "code": "BOS",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Boston (Logan), MA"
+  },
+  {
+    "code": "BDL",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Hartford, CT"
+  },
+  {
+    "code": "MHT",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Manchester, NH"
+  },
+  {
+    "code": "PVD",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Providence, RI"
+  },
+  {
+    "code": "BZN",
+    "countryCode": "US",
+    "timezone": "America/Denver",
+    "offset": { "gmt": -7, "dst": -6 },
+    "city": "Bozeman/Yellowstone, MT"
+  },
+  {
+    "code": "BUF",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Buffalo/Niagara, NY"
+  },
+  {
+    "code": "BUR",
+    "countryCode": "US",
+    "timezone": "America/Los_Angeles",
+    "offset": { "gmt": -8, "dst": -7 },
+    "city": "Burbank, CA"
+  },
+  {
+    "code": "CUN",
+    "countryCode": "MX",
+    "timezone": "America/Cancun",
+    "offset": { "gmt": -5, "dst": -5 },
+    "city": "Cancun, Mexico"
+  },
+  {
+    "code": "CZM",
+    "countryCode": "MX",
+    "timezone": "America/Cancun",
+    "offset": { "gmt": -5, "dst": -5 },
+    "city": "Cozumel, Quintana Roo"
+  },
+  {
+    "code": "GCM",
+    "countryCode": "KY",
+    "timezone": "America/Cayman",
+    "offset": { "gmt": -5, "dst": -5 },
+    "city": "Grand Cayman, Cayman Islands"
+  },
+  {
+    "code": "HAV",
+    "countryCode": "CU",
+    "timezone": "America/Havana",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Havana, Cuba"
+  },
+  {
+    "code": "MBJ",
+    "countryCode": "JM",
+    "timezone": "America/Jamaica",
+    "offset": { "gmt": -5, "dst": -5 },
+    "city": "Montego Bay, Jamaica"
+  },
+  {
+    "code": "NAS",
+    "countryCode": "BS",
+    "timezone": "America/Nassau",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Nassau, Bahamas"
+  },
+  {
+    "code": "PLS",
+    "countryCode": "TC",
+    "timezone": "America/Grand_Turk",
+    "offset": { "gmt": -4, "dst": -4 },
+    "city": "Providenciales, Turks and Caicos"
+  },
+  {
+    "code": "PUJ",
+    "countryCode": "DO",
+    "timezone": "America/Santo_Domingo",
+    "offset": { "gmt": -4, "dst": -4 },
+    "city": "Punta Cana, DO"
+  },
+  {
+    "code": "SJU",
+    "countryCode": "PR",
+    "timezone": "America/Puerto_Rico",
+    "offset": { "gmt": -4, "dst": -4 },
+    "city": "San Juan, PR"
+  },
+  {
+    "code": "LIR",
+    "countryCode": "CR",
+    "timezone": "America/Costa_Rica",
+    "offset": { "gmt": -6, "dst": -6 },
+    "city": "Liberia (Guanacaste), Costa Rica"
+  },
+  {
+    "code": "SJO",
+    "countryCode": "CR",
+    "timezone": "America/Costa_Rica",
+    "offset": { "gmt": -6, "dst": -6 },
+    "city": "San Jose, Costa Rica"
+  },
+  {
+    "code": "CHS",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Charleston, SC"
+  },
+  {
+    "code": "CLT",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Charlotte, NC"
+  },
+  {
+    "code": "MDW",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Chicago (Midway), IL"
+  },
+  {
+    "code": "ORD",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Chicago (O’Hare-Terminal 5), IL"
+  },
+  {
+    "code": "CVG",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Cincinnati, OH"
+  },
+  {
+    "code": "CLE",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Cleveland, OH"
+  },
+  {
+    "code": "COS",
+    "countryCode": "US",
+    "timezone": "America/Denver",
+    "offset": { "gmt": -7, "dst": -6 },
+    "city": "Colorado Springs, CO"
+  },
+  {
+    "code": "CMH",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Columbus, OH"
+  },
+  {
+    "code": "CRP",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Corpus Christi, TX"
+  },
+  {
+    "code": "DAL",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Dallas (Love Field), TX"
+  },
+  {
+    "code": "DEN",
+    "countryCode": "US",
+    "timezone": "America/Denver",
+    "offset": { "gmt": -7, "dst": -6 },
+    "city": "Denver, CO"
+  },
+  {
+    "code": "DSM",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Des Moines, IA"
+  },
+  {
+    "code": "VPS",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Destin/Fort Walton Beach, FL"
+  },
+  {
+    "code": "DTW",
+    "countryCode": "US",
+    "timezone": "America/Detroit",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Detroit, MI"
+  },
+  {
+    "code": "ELP",
+    "countryCode": "US",
+    "timezone": "America/Denver",
+    "offset": { "gmt": -7, "dst": -6 },
+    "city": "El Paso, TX"
+  },
+  {
+    "code": "EUG",
+    "countryCode": "US",
+    "timezone": "America/Los_Angeles",
+    "offset": { "gmt": -8, "dst": -7 },
+    "city": "Eugene, OR"
+  },
+  {
+    "code": "FLL",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Fort Lauderdale, FL"
+  },
+  {
+    "code": "RSW",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Fort Myers, FL"
+  },
+  {
+    "code": "FAT",
+    "countryCode": "US",
+    "timezone": "America/Los_Angeles",
+    "offset": { "gmt": -8, "dst": -7 },
+    "city": "Fresno, CA"
+  },
+  {
+    "code": "GRR",
+    "countryCode": "US",
+    "timezone": "America/Detroit",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Grand Rapids, MI"
+  },
+  {
+    "code": "GSP",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Greenville/Spartanburg, SC"
+  },
+  {
+    "code": "HRL",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Harlingen, TX"
+  },
+  {
+    "code": "ITO",
+    "countryCode": "US",
+    "timezone": "Pacific/Honolulu",
+    "offset": { "gmt": -10, "dst": -10 },
+    "city": "Hilo (Hawaii Island), HI"
+  },
+  {
+    "code": "HNL",
+    "countryCode": "US",
+    "timezone": "Pacific/Honolulu",
+    "offset": { "gmt": -10, "dst": -10 },
+    "city": "Honolulu (Oahu), HI"
+  },
+  {
+    "code": "OGG",
+    "countryCode": "US",
+    "timezone": "Pacific/Honolulu",
+    "offset": { "gmt": -10, "dst": -10 },
+    "city": "Kahului (Maui), HI"
+  },
+  {
+    "code": "KOA",
+    "countryCode": "US",
+    "timezone": "Pacific/Honolulu",
+    "offset": { "gmt": -10, "dst": -10 },
+    "city": "Kona (Hawaii Island), HI"
+  },
+  {
+    "code": "LIH",
+    "countryCode": "US",
+    "timezone": "Pacific/Honolulu",
+    "offset": { "gmt": -10, "dst": -10 },
+    "city": "Lihue (Kauai), HI"
+  },
+  {
+    "code": "IAH",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Houston (Bush-Intercontl), TX"
+  },
+  {
+    "code": "HOU",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Houston (Hobby), TX"
+  },
+  {
+    "code": "IND",
+    "countryCode": "US",
+    "timezone": "America/Indiana/Indianapolis",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Indianapolis, IN"
+  },
+  {
+    "code": "JAN",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Jackson, MS"
+  },
+  {
+    "code": "JAX",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Jacksonville, FL"
+  },
+  {
+    "code": "MCI",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Kansas City, MO"
+  },
+  {
+    "code": "LAS",
+    "countryCode": "US",
+    "timezone": "America/Los_Angeles",
+    "offset": { "gmt": -8, "dst": -7 },
+    "city": "Las Vegas, NV"
+  },
+  {
+    "code": "LIT",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Little Rock, AR"
+  },
+  {
+    "code": "LGB",
+    "countryCode": "US",
+    "timezone": "America/Los_Angeles",
+    "offset": { "gmt": -8, "dst": -7 },
+    "city": "Long Beach, CA"
+  },
+  {
+    "code": "ISP",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Long Island/Islip, NY"
+  },
+  {
+    "code": "LAX",
+    "countryCode": "US",
+    "timezone": "America/Los_Angeles",
+    "offset": { "gmt": -8, "dst": -7 },
+    "city": "Los Angeles, CA"
+  },
+  {
+    "code": "ONT",
+    "countryCode": "US",
+    "timezone": "America/Los_Angeles",
+    "offset": { "gmt": -8, "dst": -7 },
+    "city": "Ontario/LA, CA"
+  },
+  {
+    "code": "SNA",
+    "countryCode": "US",
+    "timezone": "America/Los_Angeles",
+    "offset": { "gmt": -8, "dst": -7 },
+    "city": "Orange County/Santa Ana, CA"
+  },
+  {
+    "code": "SJD",
+    "countryCode": "MX",
+    "timezone": "America/Mazatlan",
+    "offset": { "gmt": -7, "dst": -6 },
+    "city": "Los Cabos, MX"
+  },
+  {
+    "code": "SDF",
+    "countryCode": "US",
+    "timezone": "America/Kentucky/Louisville",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Louisville, KY"
+  },
+  {
+    "code": "LBB",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Lubbock, TX"
+  },
+  {
+    "code": "MEM",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Memphis, TN"
+  },
+  {
+    "code": "MIA",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Miami, FL"
+  },
+  {
+    "code": "PBI",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "West Palm Beach, FL"
+  },
+  {
+    "code": "MAF",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Midland/Odessa, TX"
+  },
+  {
+    "code": "MKE",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Milwaukee, WI"
+  },
+  {
+    "code": "MSP",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Minneapolis/St. Paul (Terminal 2), MN"
+  },
+  {
+    "code": "MTJ",
+    "countryCode": "US",
+    "timezone": "America/Denver",
+    "offset": { "gmt": -7, "dst": -6 },
+    "city": "Montrose (Telluride/Crested Butte), CO"
+  },
+  {
+    "code": "MYR",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Myrtle Beach, SC"
+  },
+  {
+    "code": "BNA",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Nashville, TN"
+  },
+  {
+    "code": "MSY",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "New Orleans, LA"
+  },
+  {
+    "code": "LGA",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "New York (LaGuardia), NY"
+  },
+  {
+    "code": "ORF",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Norfolk, VA"
+  },
+  {
+    "code": "ECP",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Panama City Beach, FL"
+  },
+  {
+    "code": "PNS",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Pensacola, FL"
+  },
+  {
+    "code": "OAK",
+    "countryCode": "US",
+    "timezone": "America/Los_Angeles",
+    "offset": { "gmt": -8, "dst": -7 },
+    "city": "Oakland, CA"
+  },
+  {
+    "code": "OKC",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Oklahoma City, OK"
+  },
+  {
+    "code": "OMA",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Omaha, NE"
+  },
+  {
+    "code": "MCO",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Orlando, FL"
+  },
+  {
+    "code": "PSP",
+    "countryCode": "US",
+    "timezone": "America/Los_Angeles",
+    "offset": { "gmt": -8, "dst": -7 },
+    "city": "Palm Springs, CA"
+  },
+  {
+    "code": "PHL",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Philadelphia, PA"
+  },
+  {
+    "code": "PHX",
+    "countryCode": "US",
+    "timezone": "America/Phoenix",
+    "offset": { "gmt": -7, "dst": -7 },
+    "city": "Phoenix, AZ"
+  },
+  {
+    "code": "PIT",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Pittsburgh, PA"
+  },
+  {
+    "code": "PWM",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Portland, ME"
+  },
+  {
+    "code": "PDX",
+    "countryCode": "US",
+    "timezone": "America/Los_Angeles",
+    "offset": { "gmt": -8, "dst": -7 },
+    "city": "Portland, OR"
+  },
+  {
+    "code": "PVR",
+    "countryCode": "MX",
+    "timezone": "America/Mexico_City",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Puerto Vallarta, MX"
+  },
+  {
+    "code": "RDU",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Raleigh/Durham, NC"
+  },
+  {
+    "code": "RNO",
+    "countryCode": "US",
+    "timezone": "America/Los_Angeles",
+    "offset": { "gmt": -8, "dst": -7 },
+    "city": "Reno/Tahoe, NV"
+  },
+  {
+    "code": "RIC",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Richmond, VA"
+  },
+  {
+    "code": "ROC",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Rochester, NY"
+  },
+  {
+    "code": "SMF",
+    "countryCode": "US",
+    "timezone": "America/Los_Angeles",
+    "offset": { "gmt": -8, "dst": -7 },
+    "city": "Sacramento, CA"
+  },
+  {
+    "code": "SLC",
+    "countryCode": "US",
+    "timezone": "America/Denver",
+    "offset": { "gmt": -7, "dst": -6 },
+    "city": "Salt Lake City, UT"
+  },
+  {
+    "code": "SAT",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "San Antonio, TX"
+  },
+  {
+    "code": "SAN",
+    "countryCode": "US",
+    "timezone": "America/Los_Angeles",
+    "offset": { "gmt": -8, "dst": -7 },
+    "city": "San Diego, CA"
+  },
+  {
+    "code": "SFO",
+    "countryCode": "US",
+    "timezone": "America/Los_Angeles",
+    "offset": { "gmt": -8, "dst": -7 },
+    "city": "San Francisco, CA"
+  },
+  {
+    "code": "SJC",
+    "countryCode": "US",
+    "timezone": "America/Los_Angeles",
+    "offset": { "gmt": -8, "dst": -7 },
+    "city": "San Jose, CA"
+  },
+  {
+    "code": "SBA",
+    "countryCode": "US",
+    "timezone": "America/Los_Angeles",
+    "offset": { "gmt": -8, "dst": -7 },
+    "city": "Santa Barbara, CA"
+  },
+  {
+    "code": "SRQ",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Sarasota/Bradenton, FL"
+  },
+  {
+    "code": "SAV",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Savannah/Hilton Head, GA"
+  },
+  {
+    "code": "SEA",
+    "countryCode": "US",
+    "timezone": "America/Los_Angeles",
+    "offset": { "gmt": -8, "dst": -7 },
+    "city": "Seattle/Tacoma, WA"
+  },
+  {
+    "code": "GEG",
+    "countryCode": "US",
+    "timezone": "America/Los_Angeles",
+    "offset": { "gmt": -8, "dst": -7 },
+    "city": "Spokane, WA"
+  },
+  {
+    "code": "STL",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "St. Louis, MO"
+  },
+  {
+    "code": "HDN",
+    "countryCode": "US",
+    "timezone": "America/Denver",
+    "offset": { "gmt": -7, "dst": -6 },
+    "city": "Steamboat Springs (Hayden), CO"
+  },
+  {
+    "code": "SYR",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Syracuse, NY"
+  },
+  {
+    "code": "TPA",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Tampa, FL"
+  },
+  {
+    "code": "TUS",
+    "countryCode": "US",
+    "timezone": "America/Phoenix",
+    "offset": { "gmt": -7, "dst": -7 },
+    "city": "Tucson, AZ"
+  },
+  {
+    "code": "TUL",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Tulsa, OK"
+  },
+  {
+    "code": "IAD",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Washington (Dulles), DC"
+  },
+  {
+    "code": "DCA",
+    "countryCode": "US",
+    "timezone": "America/New_York",
+    "offset": { "gmt": -5, "dst": -4 },
+    "city": "Washington (Reagan National), DC"
+  },
+  {
+    "code": "ICT",
+    "countryCode": "US",
+    "timezone": "America/Chicago",
+    "offset": { "gmt": -6, "dst": -5 },
+    "city": "Wichita, KS"
+  }
+]

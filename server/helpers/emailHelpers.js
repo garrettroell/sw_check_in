@@ -2,11 +2,11 @@ require("dotenv").config();
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-async function sendEmail({ text }) {
+async function sendEmail({ subject, text }) {
   const msg = {
     to: "garrettroell@gmail.com", // Change to your recipient
     from: "garrettroell@gmail.com", // Change to your verified sender
-    subject: "Southwest Check In",
+    subject: subject,
     text: text,
     // html: "<strong>We'll email you when you are officially checked in</strong>",
   };
