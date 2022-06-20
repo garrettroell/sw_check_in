@@ -43,11 +43,29 @@ const FlightInfo = ({ flightInfo }) => {
 
           {/* check in time display */}
           {flightInfo.flights.map((flight) => {
-            return (
-              <Heading mt="30px" fontSize="16px" key={Math.random()}>
-                You'll be checked in at {flight.checkInTime}
-              </Heading>
-            );
+            {
+              /* handle if flight already happened or is within the next 24 hours */
+            }
+            if (parseFloat(flight.daysUntilFlight) < 0) {
+              return (
+                <Heading mt="30px" fontSize="16px" key={Math.random()}>
+                  Your flight on {flight.date} already happened.
+                </Heading>
+              );
+            } else if (parseFloat(flight.daysUntilFlight) < 1) {
+              return (
+                <Heading mt="30px" fontSize="16px" key={Math.random()}>
+                  We're checking you into your flight on {flight.date} right
+                  now.
+                </Heading>
+              );
+            } else {
+              return (
+                <Heading mt="30px" fontSize="16px" key={Math.random()}>
+                  You'll be checked in at {flight.checkInTime}
+                </Heading>
+              );
+            }
           })}
 
           {/* keep this on the bottom so elements are blocked by footer */}

@@ -86,11 +86,11 @@ async function getFlights({ firstName, lastName, confirmationNumber }) {
   });
 
   // If a flight is within 24 hrs of current time run check in function
-  // uniqueFlights.forEach((flight) => {
-  //   if (flight.daysUntilFlight > 0 && flight.daysUntilFlight < 1) {
-  //     checkIn({ firstName, lastName, confirmationNumber });
-  //   }
-  // });
+  uniqueFlights.forEach((flight) => {
+    if (flight.daysUntilFlight > 0 && flight.daysUntilFlight < 1) {
+      checkIn({ firstName, lastName, confirmationNumber });
+    }
+  });
 
   return uniqueFlights;
 }
