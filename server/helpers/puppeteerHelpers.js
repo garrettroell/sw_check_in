@@ -102,7 +102,7 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
   let errorOccured = false;
 
   const url = `https://www.southwest.com/air/check-in/index.html?confirmationNumber=${confirmationNumber}&passengerFirstName=${firstName}&passengerLastName=${lastName}`;
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: true });
   try {
     const page = await browser.newPage();
     await page.goto(url, { timeout: 0 });
