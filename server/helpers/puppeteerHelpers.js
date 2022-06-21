@@ -166,8 +166,8 @@ function delay(time) {
 }
 
 // test code here
-checkIn({
-  firstName: "Ryan",
-  lastName: "Maddox",
-  confirmationNumber: "32QQC7",
-});
+// checkIn({
+//   firstName: "Ryan",
+//   lastName: "Maddox",
+//   confirmationNumber: "32QQC7",
+// });
