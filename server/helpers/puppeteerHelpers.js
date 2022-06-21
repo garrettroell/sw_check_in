@@ -133,6 +133,7 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
       fullPage: true,
     });
   } catch (e) {
+    console.log(e);
     errorOccured = true;
   } finally {
     await browser.close();
@@ -165,8 +166,8 @@ function delay(time) {
 }
 
 // test code here
-// checkIn({
-//   firstName: "Ryan",
-//   lastName: "Maddox",
-//   confirmationNumber: "32QQC7",
-// });
+checkIn({
+  firstName: "Ryan",
+  lastName: "Maddox",
+  confirmationNumber: "32QQC7",
+});
