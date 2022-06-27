@@ -9,6 +9,14 @@ const {
   flightFromCode,
 } = require("./HTMLparsers");
 
+// nicely print current time
+function getCurrentTimeString() {
+  const dt = DateTime.now();
+  let dateString = dt.toISO();
+  dateString = dateString.replace("T", " ");
+  return dateString;
+}
+
 // airport code -> time zone (TZ Database Name)
 function getTimezone(airportCode) {
   return airportTimezone.filter(function (airport) {
@@ -63,12 +71,12 @@ function daysUntilFlight(flight) {
   return flightToDateTime(flight).diffNow("days").days.toFixed(2);
 }
 
-function checkInCronString(flight) {
+function checkInUTCString(flight) {
   // get flight data
   const flightDateTime = flightToDateTime(flight);
 
   // subtract a day and set to utc time
-  const checkInDateTime = flightDateTime.plus({ days: -1 });
+  const checkInDateTime = flightDateTime.plus({ days: -1, minutes: -1 });
   const cronDateTime = checkInDateTime.setZone("UTC");
   let cronString = cronDateTime.toString();
   return cronString.split(".")[0];
@@ -79,9 +87,10 @@ function checkInCronString(flight) {
   // return tempDateTime.toString().split(".")[0];
 }
 
+exports.getCurrentTimeString = getCurrentTimeString;
 exports.getTimezone = getTimezone;
 exports.getTimezoneOffset = getTimezoneOffset;
 exports.checkInTime = checkInTime;
-exports.checkInCronString = checkInCronString;
+exports.checkInUTCString = checkInUTCString;
 exports.flightToDateTime = flightToDateTime;
 exports.daysUntilFlight = daysUntilFlight;

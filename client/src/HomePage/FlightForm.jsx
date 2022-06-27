@@ -89,15 +89,38 @@ const FlightForm = () => {
               body: JSON.stringify({ ...values }),
             })
               .then((r) => {
+                // console.log(r);
                 r.json().then((flights) => {
-                  actions.setSubmitting(false);
-                  if (toastIdRef.current) {
-                    toast.close(toastIdRef.current);
+                  // handle case where flights are found
+                  if (Object.keys(flights).length > 0) {
+                    console.log(
+                      "flights",
+                      flights,
+                      Object.keys(flights).length
+                    );
+                    actions.setSubmitting(false);
+                    if (toastIdRef.current) {
+                      toast.close(toastIdRef.current);
+                    }
+                    console.log(flights);
+                    navigate("/success", {
+                      state: { ...values, flights: flights },
+                    });
                   }
-                  console.log(flights);
-                  navigate("/success", {
-                    state: { ...values, flights: flights },
-                  });
+                  // handle case where flights are NOT found
+                  else {
+                    console.log("flights not found");
+
+                    actions.setSubmitting(false);
+                    if (toastIdRef.current) {
+                      toast.close(toastIdRef.current);
+                    }
+                    toastIdRef.current = toast({
+                      title: "Southwest reserveration was not found.",
+                      status: "error",
+                      isClosable: true,
+                    });
+                  }
                 });
               })
               .catch((e) => {

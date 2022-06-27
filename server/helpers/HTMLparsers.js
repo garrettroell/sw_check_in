@@ -73,7 +73,7 @@ function flightToCity(flight) {
   return cityAndCode.split("-")[0].trim();
 }
 
-// flight html -> Arrival city
+// flight html -> Arrival airport code
 function flightToCode(flight) {
   // make flight html all one line
   flight = flight.replace(/\n+/g, "");
@@ -92,6 +92,15 @@ function flightToCode(flight) {
   return cityAndCode.split("-")[1].trim();
 }
 
+// successful check in page html -> boarding position
+function checkInHTMLToBoardingPosition(checkInHTML) {
+  let boardingPosition = checkInHTML
+    .split('<span class="swa-g-screen-reader-only">Boarding position')[1]
+    .split("</span>")[0];
+
+  return boardingPosition.trim();
+}
+
 module.exports = {
   flightNumber: flightNumber,
   flightDate: flightDate,
@@ -100,4 +109,5 @@ module.exports = {
   flightFromCode: flightFromCode,
   flightToCity: flightToCity,
   flightToCode: flightToCode,
+  checkInHTMLToBoardingPosition: checkInHTMLToBoardingPosition,
 };

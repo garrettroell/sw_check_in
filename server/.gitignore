@@ -2,3 +2,4 @@ sendgrid.env
 data
 
 receipts
+errors

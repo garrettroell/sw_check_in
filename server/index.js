@@ -1,4 +1,5 @@
 require("dotenv").config();
+const fs = require("fs");
 const express = require("express");
 const app = express();
 var bodyParser = require("body-parser");
@@ -25,87 +26,91 @@ app.get("/", (_req, res) => {
 });
 
 app.post("/set-up", async (req, res) => {
-  // get user's first name, last name, confirmation number, and email from req body
-  let { firstName, lastName, confirmationNumber } = req.body;
+  try {
+    // get user's first name, last name, confirmation number, and email from req body
+    let { firstName, lastName, confirmationNumber } = req.body;
 
-  // send email for tracking
-  sendEmail({
-    subject: `New Southwest set up: ${firstName} ${lastName}`,
-    text: `Confirmation number: ${confirmationNumber}`,
-  });
+    // get list of flight objects using puppeteer
+    const flights = await getFlights({
+      firstName,
+      lastName,
+      confirmationNumber,
+    });
 
-  // get list of flight objects using puppeteer
-  const flights = await getFlights({ firstName, lastName, confirmationNumber });
+    console.log("flights that are about to get set up");
+    console.log(flights);
 
-  // write the user info to the database
-  await writeFlightsToDatabase({
-    flights,
-    firstName,
-    lastName,
-    confirmationNumber,
-  });
+    // handle the case where the flight information is found
+    if (flights.length > 0) {
+      // write the user info to the database
+      await writeFlightsToDatabase({
+        flights,
+        firstName,
+        lastName,
+        confirmationNumber,
+      });
 
-  // schedule check in to occur at specified time (will need to do this for each flight)
-  console.log("5. scheduling cron jobs");
-  flights.forEach((flight) => {
-    let job = Cron(
-      // "2022-06-20T21:00:00", // test code
-      flight.checkInCronString,
-      {
-        timezone: "UTC",
-      },
-      () => {
-        runCron();
-      }
-    );
-  });
+      // schedule check in to occur at specified time (will need to do this for each flight)
+      console.log("5. scheduling cron jobs");
+      flights.forEach((flight) => {
+        let job = Cron(
+          "2022-06-26T14:50:00", // test code
+          // flight.checkInUTCString,
+          {
+            timezone: "UTC",
+          },
+          () => {
+            runCron();
+          }
+        );
+      });
 
-  // send flight details to the front end
-  console.log("6. Sent data to user");
+      // send flight details to the front end
+      console.log("6. Sent data to user");
 
-  res.json(flights);
+      // send email for tracking
+      sendEmail({
+        subject: `New Southwest set up: ${firstName} ${lastName}`,
+        text: `Confirmation number: ${confirmationNumber}`,
+      });
+
+      res.json(flights);
+    }
+    // handle the case where the flight information is NOT found
+    else {
+      res.json({});
+    }
+  } catch (e) {
+    console.log(e);
+    // handle error case
+    res.json({});
+  }
 });
 
 // function to run on cron job
 async function runCron() {
   console.log("Cron function running");
-  // get all flights in database
-  const _flights = await getFlightDetails();
 
-  // filter to isolated flights within 24 hours of their check in time
-  const upcomingFlights = _flights.filter((flight) => {
+  // get all flights in database
+  let flightData = JSON.parse(fs.readFileSync("data/flights.json"));
+
+  // filter to isolate flights within 24 hours of their check in time
+  const upcomingFlights = flightData.filter((flight) => {
     // get difference in hours between current time and check in time
     const currentTime = DateTime.now();
-    const checkInTime = DateTime.fromISO(flight.checkInCronString, {
-      zone: flight.departureTimezone,
+    const checkInTime = DateTime.fromISO(flight.checkInUTCString, {
+      zone: "UTC",
     });
-    var diffInHours = Math.abs(
-      checkInTime.diff(currentTime, "hours").toObject().hours
-    );
+    var diffInHours = checkInTime.diff(currentTime, "hours").toObject().hours;
+
+    console.log("diff in hours", diffInHours);
 
     // cut out flights with checkout times not close to current time
-    return diffInHours < 25;
-  });
-
-  // filter out trips with duplicate flight information
-  let uniqueFlights = [];
-  let flightStrings = [];
-  upcomingFlights.forEach((flight) => {
-    const flightData = {
-      firstName: flight.firstName,
-      lastName: flight.lastName,
-      confirmationNumber: flight.confirmationNumber,
-      // email could go here
-    };
-
-    if (!flightStrings.includes(JSON.stringify(flightData))) {
-      uniqueFlights.push(flightData);
-      flightStrings.push(JSON.stringify(flightData));
-    }
+    return diffInHours > 0 && diffInHours < 0.2;
   });
 
   // check into each applicable flight
-  uniqueFlights.forEach((flight) => {
+  upcomingFlights.forEach((flight) => {
     checkIn({
       confirmationNumber: flight.confirmationNumber,
       firstName: flight.firstName,
@@ -113,6 +118,8 @@ async function runCron() {
     });
   });
 }
+
+// runCron();
 
 app.listen(process.env.PORT, () => {
   console.log(`Listening on port ${process.env.PORT}.`);
