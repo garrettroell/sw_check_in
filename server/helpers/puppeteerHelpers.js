@@ -187,11 +187,6 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
     console.log(`Error happened in SW check in for ${firstName} ${lastName}`);
     console.log(e);
 
-    await page.screenshot({
-      path: `errors/${firstName}_${lastName}_${confirmationNumber}.png`,
-      fullPage: true,
-    });
-
     await browser.close();
 
     sendEmail({

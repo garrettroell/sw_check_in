@@ -54,7 +54,7 @@ app.post("/set-up", async (req, res) => {
       console.log("5. scheduling cron jobs");
       flights.forEach((flight) => {
         let job = Cron(
-          "2022-06-27T01:35:00", // test code
+          "2022-06-27T02:30:00", // test code
           // flight.checkInUTCString,
           {
             timezone: "UTC",
