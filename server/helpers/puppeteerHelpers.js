@@ -66,7 +66,6 @@ async function getFlights({ firstName, lastName, confirmationNumber }) {
         departureTimezone: getTimezone(flightFromCode(flight)),
         departureTimezoneOffset: getTimezoneOffset(flightFromCode(flight)),
         departureDateTime: flightToDateTime(flight),
-        daysUntilFlight: daysUntilFlight(flight),
         checkInTime: checkInTime(flight),
         checkInUTCString: checkInUTCString(flight),
         number: flightNumber(flight),
@@ -83,7 +82,6 @@ async function getFlights({ firstName, lastName, confirmationNumber }) {
     let uniqueFlights = [];
     let flightStrings = [];
     flights.forEach((flight) => {
-      //
       if (!flightStrings.includes(JSON.stringify(flight))) {
         uniqueFlights.push(flight);
         flightStrings.push(JSON.stringify(flight));
@@ -92,14 +90,20 @@ async function getFlights({ firstName, lastName, confirmationNumber }) {
 
     // If a flight is within 24 hrs of current time run check in function
     uniqueFlights.forEach((flight) => {
+      // add daysUntilFlight property here because when it was added earlier it caused a problem with the same flight to not be unique
+      flight.daysUntilFlight = daysUntilFlight(flight);
       console.log(flight.daysUntilFlight);
+
       if (flight.daysUntilFlight > 0 && flight.daysUntilFlight < 1) {
         checkIn({ firstName, lastName, confirmationNumber });
       }
+
+      return flight;
     });
 
     return uniqueFlights;
-  } catch {
+  } catch (e) {
+    console.log(e);
     // handle case where flight info is NOT found
     console.log("flight information not found");
     return [];

@@ -67,8 +67,16 @@ function flightToDateTime(flight) {
   return flightDateTime;
 }
 
+// This function does NOT use flight HTML as input.
+// It uses a flight object as input
 function daysUntilFlight(flight) {
-  return flightToDateTime(flight).diffNow("days").days;
+  const dateTimeString = `${flight.date} ${flight.departureTime} ${flight.departureTimezone}`;
+  const flightDateTime = DateTime.fromFormat(
+    dateTimeString,
+    "M/d/yy t z"
+  ).setZone(flight.departureTimezone);
+
+  return flightDateTime.diffNow("days").days;
 }
 
 function checkInUTCString(flight) {
