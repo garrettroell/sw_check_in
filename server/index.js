@@ -37,8 +37,8 @@ app.post("/set-up", async (req, res) => {
       confirmationNumber,
     });
 
-    console.log("flights that are about to get set up");
-    console.log(flights);
+    // console.log("flights that are about to get set up");
+    // console.log(flights);
 
     // handle the case where the flight information is found
     if (flights.length > 0) {
@@ -105,8 +105,12 @@ async function runCron() {
 
     console.log("diff in hours", diffInHours);
 
-    // cut out flights with checkout times not close to current time
-    return diffInHours > 0 && diffInHours < 0.2;
+    if (diffInHours < 0.5 && diffInHours > -0.5) {
+      console.log(`Checking into the flight in ${diffInHours}`);
+    }
+
+    // only check into flights that are between 23.5 and 24.5 hours away
+    return diffInHours < 0.5 && diffInHours > -0.5;
   });
 
   // check into each applicable flight
@@ -118,8 +122,6 @@ async function runCron() {
     });
   });
 }
-
-// runCron();
 
 app.listen(process.env.PORT, () => {
   console.log(`Listening on port ${process.env.PORT}.`);

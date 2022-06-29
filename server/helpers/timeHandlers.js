@@ -68,7 +68,7 @@ function flightToDateTime(flight) {
 }
 
 function daysUntilFlight(flight) {
-  return flightToDateTime(flight).diffNow("days").days.toFixed(2);
+  return flightToDateTime(flight).diffNow("days").days;
 }
 
 function checkInUTCString(flight) {
