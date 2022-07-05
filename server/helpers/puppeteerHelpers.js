@@ -112,15 +112,16 @@ async function getFlights({ firstName, lastName, confirmationNumber }) {
 
 // check in function here
 async function checkIn({ firstName, lastName, confirmationNumber }) {
-  console.log(
-    `checking in ${firstName} ${lastName} starting at ${getCurrentTimeString()}`
-  );
-
-  // navigate to check in form page
-  const url = `https://www.southwest.com/air/check-in/index.html?confirmationNumber=${confirmationNumber}&passengerFirstName=${firstName}&passengerLastName=${lastName}`;
-  console.log(url);
-  const browser = await puppeteer.launch({ headless: true });
   try {
+    console.log(
+      `checking in ${firstName} ${lastName} starting at ${getCurrentTimeString()}`
+    );
+
+    // navigate to check in form page
+    const url = `https://www.southwest.com/air/check-in/index.html?confirmationNumber=${confirmationNumber}&passengerFirstName=${firstName}&passengerLastName=${lastName}`;
+    console.log(url);
+    const browser = await puppeteer.launch({ headless: true });
+
     const page = await browser.newPage();
     await page.goto(url, { timeout: 10000 });
     await page.waitForSelector("#form-mixin--submit-button", {
@@ -141,7 +142,7 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
 
     // calculate the number of milliseconds until the start of the next minute
     // the lag adjustment makes the check in button click event happen as close to the beginning of the minute as possible
-    // ** maybe can even send the request early since there is some travel time to the server **
+    // ** maybe can even send the request early since there is some travel time to the southwest server **
     const latencyAdjustment = -1;
     const currentTime = DateTime.now();
     const currentSeconds = currentTime.second + currentTime.millisecond / 1000;
@@ -151,42 +152,56 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
 
     // function that runs at the start of the next minute
     setTimeout(async () => {
-      // record when the check in button was clicked
-      const checkInClickTime = getCurrentTimeString();
-      console.log(`clicked the check in button at ${checkInClickTime}`);
+      try {
+        // record when the check in button was clicked
+        const checkInClickTime = getCurrentTimeString();
+        console.log(`clicked the check in button at ${checkInClickTime}`);
 
-      // click button at the exact start of the minute
-      await page.click(
-        "#swa-content > div > div:nth-child(2) > div > section > div > div > div.air-check-in-review-results--confirmation > button"
-      );
+        // click button at the exact start of the minute
+        await page.click(
+          "#swa-content > div > div:nth-child(2) > div > section > div > div > div.air-check-in-review-results--confirmation > button"
+        );
 
-      // load the page with the boarding position
-      await page.waitForSelector(
-        ".air-check-in-passenger-item--information-boarding-position",
-        { timeout: 10000 } // 10 seconds before declaring an error
-      );
-      console.log("Browser loaded page with boarding position");
+        // load the page with the boarding position
+        await page.waitForSelector(
+          ".air-check-in-passenger-item--information-boarding-position",
+          { timeout: 10000 } // 10 seconds before declaring an error
+        );
+        console.log("Browser loaded page with boarding position");
 
-      // get the boarding position
-      const boardingPositionHTML = await page.content();
-      const boardingPosition =
-        checkInHTMLToBoardingPosition(boardingPositionHTML);
+        // get the boarding position
+        const boardingPositionHTML = await page.content();
+        const boardingPosition =
+          checkInHTMLToBoardingPosition(boardingPositionHTML);
 
-      // take a screenshot of boarding position page
-      await page.screenshot({
-        path: `receipts/${firstName}_${lastName}_${confirmationNumber}.png`,
-        fullPage: true,
-      });
+        // take a screenshot of boarding position page
+        await page.screenshot({
+          path: `receipts/${firstName}_${lastName}_${confirmationNumber}.png`,
+          fullPage: true,
+        });
 
-      await browser.close();
+        await browser.close();
 
-      console.log(
-        `Successfully checked in for ${firstName} ${lastName} at ${checkInClickTime} and got position ${boardingPosition}`
-      );
-      sendEmail({
-        subject: `Successful Southwest Check In for ${firstName} ${lastName} ${confirmationNumber}`,
-        text: `Checked in at ${checkInClickTime} and got position ${boardingPosition}`,
-      });
+        console.log(
+          `Successfully checked in for ${firstName} ${lastName} at ${checkInClickTime} and got position ${boardingPosition}`
+        );
+        sendEmail({
+          subject: `Successful Southwest Check In for ${firstName} ${lastName} ${confirmationNumber}`,
+          text: `Checked in at ${checkInClickTime} and got position ${boardingPosition}`,
+        });
+      } catch (e) {
+        console.log(
+          `Error happened in SW check in for ${firstName} ${lastName}`
+        );
+        console.log(e);
+
+        await browser.close();
+
+        sendEmail({
+          subject: `Error in Southwest Check In for ${firstName} ${lastName}`,
+          text: `Error happened when checking in with confirmation number ${confirmationNumber}. ${e}`,
+        });
+      }
     }, msUntilStartOfNextMinute);
   } catch (e) {
     console.log(`Error happened in SW check in for ${firstName} ${lastName}`);

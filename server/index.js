@@ -39,7 +39,7 @@ app.post("/set-up", async (req, res) => {
 
     // handle the case where the flight information is found
     if (flights.length > 0) {
-      // write the user info to the database
+      // write the user info to the database, and get back a boolean that indicates if the reservation is new to database
       const isNewReservation = writeFlightsToDatabase({
         flights,
         firstName,
