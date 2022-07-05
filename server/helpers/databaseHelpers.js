@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-async function writeFlightsToDatabase({
+function writeFlightsToDatabase({
   firstName,
   lastName,
   confirmationNumber,
@@ -49,6 +49,11 @@ async function writeFlightsToDatabase({
 
   // save updated flight data object
   fs.writeFileSync("data/flights.json", JSON.stringify(uniqueFlights));
+
+  // if no duplicates were removed than this reservation is new
+  const isNewReservation = uniqueFlights.length === flightData.length;
+
+  return isNewReservation;
 }
 
 function capitalizeEachWord(text) {

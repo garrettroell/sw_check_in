@@ -126,7 +126,7 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
     await page.waitForSelector("#form-mixin--submit-button", {
       timeout: 10000,
     });
-    console.log("Browser loading check in form page");
+    console.log("Browser loaded check in form page");
 
     // click the submit button on the check in form page
     await page.click("#form-mixin--submit-button");
@@ -142,10 +142,10 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
     // calculate the number of milliseconds until the start of the next minute
     // the lag adjustment makes the check in button click event happen as close to the beginning of the minute as possible
     // ** maybe can even send the request early since there is some travel time to the server **
-    const latencyAdjustment = 0;
-    let currentTime = DateTime.now();
-    let currentSeconds = currentTime.second + currentTime.millisecond / 1000;
-    let msUntilStartOfNextMinute =
+    const latencyAdjustment = -1;
+    const currentTime = DateTime.now();
+    const currentSeconds = currentTime.second + currentTime.millisecond / 1000;
+    const msUntilStartOfNextMinute =
       60000 - 1000 * currentSeconds - latencyAdjustment;
     console.log(`The current time is ${getCurrentTimeString()}`);
 
@@ -196,7 +196,7 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
 
     sendEmail({
       subject: `Error in Southwest Check In for ${firstName} ${lastName}`,
-      text: `Error happened when checking in with confirmation number ${confirmationNumber}`,
+      text: `Error happened when checking in with confirmation number ${confirmationNumber}. ${e}`,
     });
   }
 }
@@ -213,7 +213,7 @@ exports.checkIn = checkIn;
 
 // test code here
 // checkIn({
-//   firstName: "Morgan",
-//   lastName: "Hsu",
-//   confirmationNumber: "2l98cq",
+//   firstName: "Rebecca",
+//   lastName: "Wong",
+//   confirmationNumber: "4HEFRV",
 // });

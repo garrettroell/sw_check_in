@@ -40,27 +40,31 @@ app.post("/set-up", async (req, res) => {
     // handle the case where the flight information is found
     if (flights.length > 0) {
       // write the user info to the database
-      await writeFlightsToDatabase({
+      const isNewReservation = writeFlightsToDatabase({
         flights,
         firstName,
         lastName,
         confirmationNumber,
       });
 
-      // schedule check in to occur at specified time (will need to do this for each flight)
-      console.log("5. scheduling cron jobs");
-      flights.forEach((flight) => {
-        let job = Cron(
-          // "2022-06-27T02:30:00", // test code
-          flight.checkInUTCString,
-          {
-            timezone: "UTC",
-          },
-          () => {
-            runCron();
-          }
-        );
-      });
+      // only schedule a cron task for a new reservation.
+      if (isNewReservation) {
+        console.log("5. scheduling cron jobs");
+        flights.forEach((flight) => {
+          let job = Cron(
+            // "2022-06-27T02:30:00", // test code
+            flight.checkInUTCString,
+            {
+              timezone: "UTC",
+            },
+            () => {
+              runCron();
+            }
+          );
+        });
+      } else {
+        console.log("5. Cronjob is already scheduled.");
+      }
 
       // send flight details to the front end
       console.log("6. Sent data to user");
@@ -68,7 +72,11 @@ app.post("/set-up", async (req, res) => {
       // send email for tracking
       sendEmail({
         subject: `New Southwest set up: ${firstName} ${lastName}`,
-        text: `Confirmation number: ${confirmationNumber}`,
+        text: `Confirmation number: ${confirmationNumber}. ${JSON.stringify(
+          flights,
+          null,
+          2
+        )}`,
       });
 
       res.json(flights);
@@ -85,11 +93,11 @@ app.post("/set-up", async (req, res) => {
 });
 
 // function to run on cron job
-async function runCron() {
+function runCron() {
   console.log("Cron function running");
 
   // get all flights in database
-  let flightData = JSON.parse(fs.readFileSync("data/flights.json"));
+  const flightData = JSON.parse(fs.readFileSync("data/flights.json"));
 
   // filter to isolate flights within 24 hours of their check in time
   const upcomingFlights = flightData.filter((flight) => {
@@ -98,7 +106,7 @@ async function runCron() {
     const checkInTime = DateTime.fromISO(flight.checkInUTCString, {
       zone: "UTC",
     });
-    var diffInHours = checkInTime.diff(currentTime, "hours").toObject().hours;
+    const diffInHours = checkInTime.diff(currentTime, "hours").toObject().hours;
 
     if (diffInHours < 0.5 && diffInHours > -0.5) {
       console.log(
