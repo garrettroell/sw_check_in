@@ -114,7 +114,7 @@ function runCron() {
       );
     } else {
       console.log(
-        `Not checking into a flight since the check in time is in ${diffInHours}`
+        `Not checking into a flight since the check in time is in ${diffInHours} hours`
       );
     }
 
@@ -131,6 +131,48 @@ function runCron() {
     });
   });
 }
+
+// reschedule the cron jobs when the server restarts
+function setUpCronJobs() {
+  let numUpcomingFlights = 0;
+
+  // get all flights in database
+  const flightData = JSON.parse(fs.readFileSync("data/flights.json"));
+
+  flightData.forEach((flight) => {
+    const currentTime = DateTime.now();
+    const checkInTime = DateTime.fromISO(flight.checkInUTCString, {
+      zone: "UTC",
+    });
+    const hoursUntilCheckIn = checkInTime
+      .diff(currentTime, "hours")
+      .toObject().hours;
+
+    // set up cron job if the check in time is upcoming
+    if (hoursUntilCheckIn > 0) {
+      // console.log(flight);
+      // console.log(hoursUntilCheckIn);
+      numUpcomingFlights += 1;
+
+      let job = Cron(
+        // "2022-06-27T02:30:00", // test code
+        flight.checkInUTCString,
+        {
+          timezone: "UTC",
+        },
+        () => {
+          runCron();
+        }
+      );
+    }
+  });
+  console.log(
+    `Server restarted: Set up cron jobs for ${numUpcomingFlights} upcoming flight(s)`
+  );
+  // console.log(flightData);
+}
+
+setUpCronJobs();
 
 app.listen(process.env.PORT, () => {
   console.log(`Listening on port ${process.env.PORT}.`);
