@@ -42,14 +42,7 @@ app.get("/upcoming-flights", (_req, res) => {
       .toObject().hours;
 
     return hoursUntilCheckIn > 0;
-
-    // set up cron job if the check in time is upcoming
-    // if (hoursUntilCheckIn > 0) {
-
-    // }
   });
-
-  console.log(upcomingFlights);
 
   res.send(upcomingFlights);
 });
