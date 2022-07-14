@@ -25,6 +25,35 @@ app.get("/", (_req, res) => {
   res.send("Hello world from southwest check in backend");
 });
 
+// function to get upcoming flights
+app.get("/upcoming-flights", (_req, res) => {
+  console.log("sending upcoming flights");
+
+  // get all flights in database
+  const flightData = JSON.parse(fs.readFileSync("data/flights.json"));
+
+  const upcomingFlights = flightData.filter((flight) => {
+    const currentTime = DateTime.now();
+    const checkInTime = DateTime.fromISO(flight.checkInUTCString, {
+      zone: "UTC",
+    });
+    const hoursUntilCheckIn = checkInTime
+      .diff(currentTime, "hours")
+      .toObject().hours;
+
+    return hoursUntilCheckIn > 0;
+
+    // set up cron job if the check in time is upcoming
+    // if (hoursUntilCheckIn > 0) {
+
+    // }
+  });
+
+  console.log(upcomingFlights);
+
+  res.send(upcomingFlights);
+});
+
 app.post("/set-up", async (req, res) => {
   try {
     // get user's first name, last name, confirmation number, and email from req body
@@ -150,12 +179,9 @@ function setUpCronJobs() {
 
     // set up cron job if the check in time is upcoming
     if (hoursUntilCheckIn > 0) {
-      // console.log(flight);
-      // console.log(hoursUntilCheckIn);
       numUpcomingFlights += 1;
 
       let job = Cron(
-        // "2022-06-27T02:30:00", // test code
         flight.checkInUTCString,
         {
           timezone: "UTC",
@@ -169,7 +195,6 @@ function setUpCronJobs() {
   console.log(
     `Server restarted: Set up cron jobs for ${numUpcomingFlights} upcoming flight(s)`
   );
-  // console.log(flightData);
 }
 
 setUpCronJobs();
