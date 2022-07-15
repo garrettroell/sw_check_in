@@ -38,8 +38,8 @@ const FlightForm = () => {
   return (
     <>
       <Heading mt="75px" textAlign="center" fontSize="16px">
-        Add your Southwest trip details, and we'll automatically check you to
-        your flights
+        Add your Southwest trip details, and this site will check you into your
+        flight(s) 1 millisecond after the check in window opens.
       </Heading>
       {/* color bar */}
       <HStack
