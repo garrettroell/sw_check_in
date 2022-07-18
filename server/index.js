@@ -74,7 +74,7 @@ app.post("/set-up", async (req, res) => {
       console.log("5. scheduling cron jobs");
       flights.forEach((flight) => {
         let job = Cron(
-          "2022-07-18T03:20:00", // test code
+          "2022-07-18T03:35:00", // test code
           // flight.checkInUTCString,
           {
             timezone: "UTC",
@@ -133,10 +133,6 @@ function runCron() {
     if (diffInHours < 0.5 && diffInHours > -0.5) {
       console.log(
         `Checking into a flight since the check in time is in ${diffInHours} hours`
-      );
-    } else {
-      console.log(
-        `Not checking into a flight since the check in time is in ${diffInHours} hours`
       );
     }
 
