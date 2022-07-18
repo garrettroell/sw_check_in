@@ -133,11 +133,33 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
     await page.click("#form-mixin--submit-button");
     console.log("Browser clicked submit button on the check in form page");
 
+    // THIS IS WHERE ERRORS HAPPEN FOR ACTUAL CHECK IN ATTEMPTS
+
     // load the page with the check in button
-    await page.waitForSelector(
-      "#swa-content > div > div:nth-child(2) > div > section > div > div > div.air-check-in-review-results--confirmation > button",
-      { timeout: 10000 } // 10 seconds before declaring an error
+    const checkInPageHTML = await page.evaluate(
+      () => document.documentElement.outerHTML
     );
+
+    try {
+      await page.waitForSelector(
+        "#swa-content > div > div:nth-child(2) > div > section > div > div > div.air-check-in-review-results--confirmation > button",
+        // "#swa-cont",
+        { timeout: 10000 } // 10 seconds before declaring an error
+      );
+    } catch (e) {
+      console.log(
+        `Error 3 happened in SW check in for ${firstName} ${lastName}`
+      );
+      console.log(e);
+
+      await browser.close();
+
+      sendEmail({
+        subject: `Error in Southwest Check In for ${firstName} ${lastName}`,
+        text: `Error happened when checking in with confirmation number ${confirmationNumber}. ${e} ${checkInPageHTML}`,
+      });
+    }
+
     console.log("Browser loaded page with check in button");
 
     // calculate the number of milliseconds until the start of the next minute
@@ -191,7 +213,7 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
         });
       } catch (e) {
         console.log(
-          `Error happened in SW check in for ${firstName} ${lastName}`
+          `Error 1 happened in SW check in for ${firstName} ${lastName}`
         );
         console.log(e);
 
@@ -204,7 +226,7 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
       }
     }, msUntilStartOfNextMinute);
   } catch (e) {
-    console.log(`Error happened in SW check in for ${firstName} ${lastName}`);
+    console.log(`Error 2 happened in SW check in for ${firstName} ${lastName}`);
     console.log(e);
 
     await browser.close();

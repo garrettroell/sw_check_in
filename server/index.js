@@ -2,7 +2,7 @@ require("dotenv").config();
 const fs = require("fs");
 const express = require("express");
 const app = express();
-var bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 const cors = require("cors");
 const Cron = require("croner");
 
@@ -70,23 +70,23 @@ app.post("/set-up", async (req, res) => {
       });
 
       // only schedule a cron task for a new reservation.
-      // if (isNewReservation) {
-      console.log("5. scheduling cron jobs");
-      flights.forEach((flight) => {
-        let job = Cron(
-          "2022-07-18T03:50:00", // test code
-          // flight.checkInUTCString,
-          {
-            timezone: "UTC",
-          },
-          () => {
-            runCron();
-          }
-        );
-      });
-      // } else {
-      //   console.log("5. Cronjob is already scheduled.");
-      // }
+      if (isNewReservation) {
+        console.log("5. scheduling cron jobs");
+        flights.forEach((flight) => {
+          let job = Cron(
+            // "2022-07-18T03:50:00", // test code
+            flight.checkInUTCString,
+            {
+              timezone: "UTC",
+            },
+            () => {
+              runCron();
+            }
+          );
+        });
+      } else {
+        console.log("5. Cronjob is already scheduled.");
+      }
 
       // send flight details to the front end
       console.log("6. Sent data to user");
@@ -130,16 +130,16 @@ function runCron() {
     });
     const diffInHours = checkInTime.diff(currentTime, "hours").toObject().hours;
 
-    if (diffInHours < 5 && diffInHours > -5) {
-      // if (diffInHours < 0.5 && diffInHours > -0.5) {
+    // if (diffInHours < 5 && diffInHours > -5) {
+    if (diffInHours < 0.5 && diffInHours > -0.5) {
       console.log(
         `Checking into a flight since the check in time is in ${diffInHours} hours`
       );
     }
 
     // only check into flights that are between 23.5 and 24.5 hours away
-    return diffInHours < 5 && diffInHours > -5;
-    // return diffInHours < 0.5 && diffInHours > -0.5;
+    // return diffInHours < 5 && diffInHours > -5;
+    return diffInHours < 0.5 && diffInHours > -0.5;
   });
 
   // check into each applicable flight

@@ -50,7 +50,7 @@ function writeFlightsToDatabase({
   // save updated flight data object
   fs.writeFileSync("data/flights.json", JSON.stringify(uniqueFlights));
 
-  // if no duplicates were removed than this reservation is new
+  // if no duplicates were removed then this reservation is new
   const isNewReservation = uniqueFlights.length === flightData.length;
 
   return isNewReservation;
