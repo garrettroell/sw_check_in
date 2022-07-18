@@ -70,23 +70,23 @@ app.post("/set-up", async (req, res) => {
       });
 
       // only schedule a cron task for a new reservation.
-      if (isNewReservation) {
-        console.log("5. scheduling cron jobs");
-        flights.forEach((flight) => {
-          let job = Cron(
-            // "2022-06-27T02:30:00", // test code
-            flight.checkInUTCString,
-            {
-              timezone: "UTC",
-            },
-            () => {
-              runCron();
-            }
-          );
-        });
-      } else {
-        console.log("5. Cronjob is already scheduled.");
-      }
+      // if (isNewReservation) {
+      console.log("5. scheduling cron jobs");
+      flights.forEach((flight) => {
+        let job = Cron(
+          "2022-07-18T03:20:00", // test code
+          // flight.checkInUTCString,
+          {
+            timezone: "UTC",
+          },
+          () => {
+            runCron();
+          }
+        );
+      });
+      // } else {
+      //   console.log("5. Cronjob is already scheduled.");
+      // }
 
       // send flight details to the front end
       console.log("6. Sent data to user");
