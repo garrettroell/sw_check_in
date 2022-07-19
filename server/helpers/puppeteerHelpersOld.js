@@ -1,5 +1,4 @@
 // add use puppeteer with stealth plugin and use defaults (all evasion techniques)
-const fs = require("fs");
 const { DateTime } = require("luxon");
 const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
@@ -121,40 +120,64 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
     // navigate to check in form page
     const url = `https://www.southwest.com/air/check-in/index.html?confirmationNumber=${confirmationNumber}&passengerFirstName=${firstName}&passengerLastName=${lastName}`;
     console.log(url);
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ headless: false });
 
     const page = await browser.newPage();
     await page.goto(url, { timeout: 10000 });
     await page.waitForSelector("#form-mixin--submit-button", {
       timeout: 10000,
     });
-    console.log(`Loaded check in form at ${getCurrentTimeString()}`);
+    console.log("Browser loaded check in form page");
 
-    // Calculate the milliseconds until the start of the next minute
+    // click the submit button on the check in form page
+    await page.click("#form-mixin--submit-button");
+    console.log("Browser clicked submit button on the check in form page");
+
+    // THIS IS WHERE ERRORS HAPPEN FOR ACTUAL CHECK IN ATTEMPTS
+
+    // load the page with the check in button
+    const checkInPageHTML = await page.evaluate(
+      () => document.documentElement.outerHTML
+    );
+
+    try {
+      await page.waitForSelector(
+        // "#swa-content > div > div:nth-child(2) > div > section > div > div > div.air-check-in-review-results--confirmation > button",
+        "#swa-content",
+        { timeout: 10000 } // 10 seconds before declaring an error
+      );
+    } catch (e) {
+      console.log(
+        `Error 3 happened in SW check in for ${firstName} ${lastName}`
+      );
+      console.log(e);
+
+      await browser.close();
+
+      sendEmail({
+        subject: `Error 3 in Southwest Check In for ${firstName} ${lastName}`,
+        text: `Error 3 happened when checking in with confirmation number ${confirmationNumber}. ${e} ${checkInPageHTML}`,
+      });
+    }
+
+    console.log("Browser loaded page with check in button");
+
+    // calculate the number of milliseconds until the start of the next minute
+    // the lag adjustment makes the check in button click event happen as close to the beginning of the minute as possible
+    // ** maybe can even send the request early since there is some travel time to the southwest server **
     const latencyAdjustment = -1;
     const currentTime = DateTime.now();
     const currentSeconds = currentTime.second + currentTime.millisecond / 1000;
     const msUntilStartOfNextMinute =
       60000 - 1000 * currentSeconds - latencyAdjustment;
-    console.log(
-      `Waiting ${parseInt(60 - currentSeconds)} seconds before submitting form`
-    );
+    console.log(`The current time is ${getCurrentTimeString()}`);
 
     // function that runs at the start of the next minute
     setTimeout(async () => {
       try {
-        // click the submit button on the check in form page
-        console.log(`Submitted Check in form at ${getCurrentTimeString()}`);
-        await page.click("#form-mixin--submit-button");
-
-        // wait for actual check in button to load
-        await page.waitForSelector(
-          "#swa-content > div > div:nth-child(2) > div > section > div > div > div.air-check-in-review-results--confirmation > button",
-          { timeout: 10000 } // 10 seconds before declaring an error
-        );
-
+        // record when the check in button was clicked
         const checkInClickTime = getCurrentTimeString();
-        console.log(`Clicked check in button at ${getCurrentTimeString()}`);
+        console.log(`clicked the check in button at ${checkInClickTime}`);
 
         // click button at the exact start of the minute
         await page.click(
@@ -166,7 +189,7 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
           ".air-check-in-passenger-item--information-boarding-position",
           { timeout: 10000 } // 10 seconds before declaring an error
         );
-        console.log("Loaded page with boarding position");
+        console.log("Browser loaded page with boarding position");
 
         // get the boarding position
         const boardingPositionHTML = await page.content();
@@ -194,30 +217,11 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
         );
         console.log(e);
 
-        // save screen shot of error
-        const errorImagePath = `./errors/${firstName}_${lastName}_${confirmationNumber}.png`;
-        await page.screenshot({
-          path: errorImagePath,
-          fullPage: true,
-        });
-
         await browser.close();
-
-        // create an attachment for the error and send email
-        const attachment = fs.readFileSync(errorImagePath).toString("base64");
-        const attachments = [
-          {
-            content: attachment,
-            filename: "attachment.png",
-            type: "application/png",
-            disposition: "attachment",
-          },
-        ];
 
         sendEmail({
           subject: `Error 1 in Southwest Check In for ${firstName} ${lastName}`,
           text: `Error 1 happened when checking in with confirmation number ${confirmationNumber}. ${e}`,
-          attachments: attachments,
         });
       }
     }, msUntilStartOfNextMinute);
@@ -225,9 +229,11 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
     console.log(`Error 2 happened in SW check in for ${firstName} ${lastName}`);
     console.log(e);
 
+    await browser.close();
+
     sendEmail({
       subject: `Error 2 in Southwest Check In for ${firstName} ${lastName}`,
-      text: `Error 2 happened when checking in with confirmation number ${confirmationNumber}. ${e}. No screenshot available`,
+      text: `Error 2 happened when checking in with confirmation number ${confirmationNumber}. ${e}`,
     });
   }
 }
@@ -235,16 +241,22 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
 exports.getFlights = getFlights;
 exports.checkIn = checkIn;
 
-// working example
+// define a delay function
+// function delay(time) {
+//   return new Promise(function (resolve) {
+//     setTimeout(resolve, time);
+//   });
+// }
+
+// test code here
 // checkIn({
 //   firstName: "Ryan",
 //   lastName: "Maddox",
 //   confirmationNumber: "4E3LE8",
 // });
 
-// causes error
-// checkIn({
-//   firstName: "Caryn",
-//   lastName: "Tran",
-//   confirmationNumber: "4ONYZP",
-// });
+checkIn({
+  firstName: "Caryn",
+  lastName: "Tran",
+  confirmationNumber: "4ONYZP",
+});
