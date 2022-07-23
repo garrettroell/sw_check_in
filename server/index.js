@@ -121,6 +121,8 @@ function runCron() {
   // get all flights in database
   const flightData = JSON.parse(fs.readFileSync("data/flights.json"));
 
+  let confirmationNumbers = [];
+
   // filter to isolate flights within 24 hours of their check in time
   const upcomingFlights = flightData.filter((flight) => {
     // get difference in hours between current time and check in time
@@ -130,16 +132,24 @@ function runCron() {
     });
     const diffInHours = checkInTime.diff(currentTime, "hours").toObject().hours;
 
-    // if (diffInHours < 5 && diffInHours > -5) {
-    if (diffInHours < 0.5 && diffInHours > -0.5) {
+    if (
+      diffInHours < 0.5 &&
+      diffInHours > -0.5 &&
+      !confirmationNumbers.includes(flight.confirmationNumber)
+    ) {
       console.log(
         `Checking into a flight since the check in time is in ${diffInHours} hours`
       );
+      confirmationNumbers = [...confirmationNumbers, flight.confirmationNumber];
     }
 
-    // only check into flights that are between 23.5 and 24.5 hours away
-    // return diffInHours < 5 && diffInHours > -5;
-    return diffInHours < 0.5 && diffInHours > -0.5;
+    // only check into flights that are between 23.5 and 24.5 hours away,
+    // and that have a unique confirmation number
+    return (
+      diffInHours < 0.5 &&
+      diffInHours > -0.5 &&
+      !confirmationNumbers.includes(flight.confirmationNumber)
+    );
   });
 
   // check into each applicable flight
@@ -155,6 +165,7 @@ function runCron() {
 // reschedule the cron jobs when the server restarts
 function setUpCronJobs() {
   let numUpcomingFlights = 0;
+  let confirmationNumbers = [];
 
   // get all flights in database
   const flightData = JSON.parse(fs.readFileSync("data/flights.json"));
@@ -168,9 +179,13 @@ function setUpCronJobs() {
       .diff(currentTime, "hours")
       .toObject().hours;
 
-    // set up cron job if the check in time is upcoming
-    if (hoursUntilCheckIn > 0) {
+    // set up cron job if the check in time is upcoming, and a cronjob has not been set up for that confirmation number
+    if (
+      hoursUntilCheckIn > 0 &&
+      !confirmationNumbers.includes(flight.confirmationNumber)
+    ) {
       numUpcomingFlights += 1;
+      confirmationNumbers = [...confirmationNumbers, flight.confirmationNumber];
 
       let job = Cron(
         flight.checkInUTCString,

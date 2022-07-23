@@ -32,7 +32,7 @@ const UpcomingFlightsPage = () => {
     <>
       <Box w="100vw" h="100vh" positon="relative">
         <NavBar />
-        <Heading textAlign="center">Upcoming Check Ins</Heading>
+        <Heading textAlign="center">Upcoming Flights</Heading>
         <VStack h="60px" maxW="500px" m="auto" px="10px" mt="30px">
           {flights.map((flight, index) => {
             obscureName(flight.firstName);

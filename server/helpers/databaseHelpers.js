@@ -9,6 +9,11 @@ function writeFlightsToDatabase({
   // read flight data file
   let flightData = JSON.parse(fs.readFileSync("data/flights.json"));
 
+  let confirmationNumbers = flightData.map(
+    (flight) => flight.confirmationNumber
+  );
+  console.log(confirmationNumbers);
+
   // add each new flight to the javascript array. Capitalization is important to prevent duplicate information.
   flights.forEach((flight) => {
     flightData = [
@@ -51,7 +56,8 @@ function writeFlightsToDatabase({
   fs.writeFileSync("data/flights.json", JSON.stringify(uniqueFlights));
 
   // if no duplicates were removed then this reservation is new
-  const isNewReservation = uniqueFlights.length === flightData.length;
+  // const isNewReservation = uniqueFlights.length === flightData.length;
+  const isNewReservation = !confirmationNumber.includes(confirmationNumber);
 
   return isNewReservation;
 }

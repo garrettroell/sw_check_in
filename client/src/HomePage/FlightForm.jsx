@@ -11,7 +11,6 @@ import {
   HStack,
   Input,
   Spacer,
-  Text,
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
@@ -38,8 +37,8 @@ const FlightForm = () => {
   return (
     <>
       <Heading mt="75px" textAlign="center" fontSize="16px">
-        Add your Southwest trip details, and this site will check you into your
-        flight(s) seconds after the check in window opens.
+        Add your Southwest trip details, and this site will check you in seconds
+        after the check in window opens.
       </Heading>
       {/* color bar */}
       <HStack
