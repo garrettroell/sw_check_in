@@ -123,8 +123,11 @@ function runCron() {
 
   let confirmationNumbers = [];
 
+  // this logic is a little too complex for a filter function
+  let upcomingFlights = [];
+
   // filter to isolate flights within 24 hours of their check in time
-  const upcomingFlights = flightData.filter((flight) => {
+  flightData.forEach((flight) => {
     // get difference in hours between current time and check in time
     const currentTime = DateTime.now();
     const checkInTime = DateTime.fromISO(flight.checkInUTCString, {
@@ -133,23 +136,16 @@ function runCron() {
     const diffInHours = checkInTime.diff(currentTime, "hours").toObject().hours;
 
     if (
-      diffInHours < 0.5 &&
-      diffInHours > -0.5 &&
+      diffInHours < 1 &&
+      diffInHours > -1 &&
       !confirmationNumbers.includes(flight.confirmationNumber)
     ) {
       console.log(
-        `Checking into a flight since the check in time is in ${diffInHours} hours`
+        `In runCron: Checking in ${flight.firstName} ${flight.lastName} ${flight.confirmationNumber}`
       );
+      upcomingFlights = [...upcomingFlights, flight];
       confirmationNumbers = [...confirmationNumbers, flight.confirmationNumber];
     }
-
-    // only check into flights that are between 23.5 and 24.5 hours away,
-    // and that have a unique confirmation number
-    return (
-      diffInHours < 0.5 &&
-      diffInHours > -0.5 &&
-      !confirmationNumbers.includes(flight.confirmationNumber)
-    );
   });
 
   // check into each applicable flight
