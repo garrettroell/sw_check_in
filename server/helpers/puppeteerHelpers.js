@@ -131,11 +131,10 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
     console.log(`Loaded check in form at ${getCurrentTimeString()}`);
 
     // Calculate the milliseconds until the start of the next minute
-    const latencyAdjustment = -1;
+    const adjustment = 2000; // an immediate check in gave errors. Trying a two second buffer
     const currentTime = DateTime.now();
     const currentSeconds = currentTime.second + currentTime.millisecond / 1000;
-    const msUntilStartOfNextMinute =
-      60000 - 1000 * currentSeconds - latencyAdjustment;
+    const msUntilStartOfNextMinute = 60000 - 1000 * currentSeconds + adjustment;
     console.log(
       `Waiting ${parseInt(60 - currentSeconds)} seconds before submitting form`
     );
