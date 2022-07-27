@@ -47,6 +47,15 @@ app.get("/upcoming-flights", (_req, res) => {
   res.send(upcomingFlights);
 });
 
+app.post("/feedback", async (req, res) => {
+  let { feedback, firstName, lastName } = req.body;
+  sendEmail({
+    subject: `Southwest Feedback from ${firstName} ${lastName}`,
+    text: `Feedback:\n${feedback}`,
+  });
+  res.sendStatus(200);
+});
+
 app.post("/set-up", async (req, res) => {
   try {
     // get user's first name, last name, confirmation number, and email from req body

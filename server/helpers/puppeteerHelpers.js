@@ -136,7 +136,9 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
     const currentSeconds = currentTime.second + currentTime.millisecond / 1000;
     const msUntilStartOfNextMinute = 60000 - 1000 * currentSeconds + adjustment;
     console.log(
-      `Waiting ${parseInt(60 - currentSeconds)} seconds before submitting form`
+      `Waiting ${parseInt(
+        Math.floor(msUntilStartOfNextMinute / 1000)
+      )} seconds before submitting form`
     );
 
     // function that runs at the start of the next minute

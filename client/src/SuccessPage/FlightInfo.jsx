@@ -67,9 +67,6 @@ const FlightInfo = ({ flightInfo }) => {
               );
             }
           })}
-
-          {/* keep this on the bottom so elements are blocked by footer */}
-          <Box h="100px"></Box>
         </VStack>
       </>
     );
