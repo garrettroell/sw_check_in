@@ -131,7 +131,7 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
     console.log(`Loaded check in form at ${getCurrentTimeString()}`);
 
     // Calculate the milliseconds until the start of the next minute
-    const adjustment = 2000; // an immediate check in gave errors. Trying a two second buffer
+    const adjustment = 10000; // A two second buffer gave errors. Trying a ten second buffer
     const currentTime = DateTime.now();
     const currentSeconds = currentTime.second + currentTime.millisecond / 1000;
     const msUntilStartOfNextMinute = 60000 - 1000 * currentSeconds + adjustment;
