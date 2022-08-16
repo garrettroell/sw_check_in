@@ -124,7 +124,7 @@ app.post("/set-up", async (req, res) => {
 });
 
 // function to run on cron job
-function runCron() {
+async function runCron() {
   console.log("Cron function running");
 
   // get all flights in database
@@ -157,14 +157,14 @@ function runCron() {
     }
   });
 
-  // check into each applicable flight
-  upcomingFlights.forEach((flight) => {
-    checkIn({
+  // check into each applicable flight one at a time to not overwhelm server resources
+  for (const flight of upcomingFlights) {
+    await checkIn({
       confirmationNumber: flight.confirmationNumber,
       firstName: flight.firstName,
       lastName: flight.lastName,
     });
-  });
+  }
 }
 
 // reschedule the cron jobs when the server restarts
