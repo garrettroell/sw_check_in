@@ -46,7 +46,7 @@ async function getFlights({ firstName, lastName, confirmationNumber }) {
   try {
     // after loading next page, click the second check in button
     await page.waitForSelector("#air-reservation > div.reservation--summary", {
-      timeout: 10000,
+      timeout: 15000,
     });
 
     console.log("3. Data recieved");
@@ -126,12 +126,12 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
     const page = await browser.newPage();
     await page.goto(url, { timeout: 10000 });
     await page.waitForSelector("#form-mixin--submit-button", {
-      timeout: 10000,
+      timeout: 11000,
     });
     console.log(`Loaded check in form at ${getCurrentTimeString()}`);
 
     // Calculate the milliseconds until the start of the next minute
-    const adjustment = 10000; // A two second buffer gave errors. Trying a ten second buffer
+    const adjustment = 12000; // A two second buffer gave errors. Trying a ten second buffer
     const currentTime = DateTime.now();
     const currentSeconds = currentTime.second + currentTime.millisecond / 1000;
     const msUntilStartOfNextMinute = 60000 - 1000 * currentSeconds + adjustment;
@@ -151,7 +151,7 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
         // wait for actual check in button to load
         await page.waitForSelector(
           "#swa-content > div > div:nth-child(2) > div > section > div > div > div.air-check-in-review-results--confirmation > button",
-          { timeout: 10000 } // 10 seconds before declaring an error
+          { timeout: 13000 } // 10 seconds before declaring an error
         );
 
         const checkInClickTime = getCurrentTimeString();
@@ -165,7 +165,7 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
         // load the page with the boarding position
         await page.waitForSelector(
           ".air-check-in-passenger-item--information-boarding-position",
-          { timeout: 10000 } // 10 seconds before declaring an error
+          { timeout: 14000 } // 10 seconds before declaring an error
         );
         console.log("Loaded page with boarding position");
 
@@ -217,7 +217,7 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
 
         sendEmail({
           subject: `Error 1 in Southwest Check In for ${firstName} ${lastName}`,
-          text: `Error 1 happened when checking in with confirmation number ${confirmationNumber}. ${e}`,
+          text: `Error 1 happened at ${getCurrentTimeString()} when checking in with confirmation number ${confirmationNumber}. ${e}`,
           attachments: attachments,
         });
       }
@@ -228,7 +228,7 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
 
     sendEmail({
       subject: `Error 2 in Southwest Check In for ${firstName} ${lastName}`,
-      text: `Error 2 happened when checking in with confirmation number ${confirmationNumber}. ${e}. No screenshot available`,
+      text: `Error 2 happened at ${getCurrentTimeString()} when checking in with confirmation number ${confirmationNumber}. ${e}. No screenshot available`,
     });
   }
 }
@@ -244,8 +244,8 @@ exports.checkIn = checkIn;
 // });
 
 // causes error
-// checkIn({
-//   firstName: "Caryn",
-//   lastName: "Tran",
-//   confirmationNumber: "4ONYZP",
-// });
+checkIn({
+  firstName: "Caryn",
+  lastName: "Tran",
+  confirmationNumber: "4ONYZP",
+});
