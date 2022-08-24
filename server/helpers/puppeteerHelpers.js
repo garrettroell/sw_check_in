@@ -244,8 +244,8 @@ exports.checkIn = checkIn;
 // });
 
 // causes error
-checkIn({
-  firstName: "Caryn",
-  lastName: "Tran",
-  confirmationNumber: "4ONYZP",
-});
+// checkIn({
+//   firstName: "Caryn",
+//   lastName: "Tran",
+//   confirmationNumber: "4ONYZP",
+// });
