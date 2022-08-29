@@ -3,7 +3,7 @@ const fs = require("fs");
 const { DateTime } = require("luxon");
 const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
-const { sendEmail } = require("./emailHelpers");
+const { sendMonitoringEmail } = require("./emailHelpers");
 
 const {
   flightDate,
@@ -185,10 +185,19 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
         console.log(
           `Successfully checked in for ${firstName} ${lastName} at ${checkInClickTime} and got position ${boardingPosition}`
         );
-        sendEmail({
+        sendMonitoringEmail({
           subject: `Successful Southwest Check In for ${firstName} ${lastName} ${confirmationNumber}`,
           text: `Checked in at ${checkInClickTime} and got position ${boardingPosition}`,
         });
+
+        // // send the user the successful check in message
+        // if(email) {
+        //   sendMonitoringEmail({
+        //     userEmail: email,
+        //     subject: `Successful Southwest Check In for ${firstName} ${lastName} ${confirmationNumber}`,
+        //     text: `Checked in at ${checkInClickTime} and got position ${boardingPosition}`,
+        //   });
+        // }
       } catch (e) {
         console.log(
           `Error 1 happened in SW check in for ${firstName} ${lastName}`
@@ -215,7 +224,7 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
           },
         ];
 
-        sendEmail({
+        sendMonitoringEmail({
           subject: `Error 1 in Southwest Check In for ${firstName} ${lastName}`,
           text: `Error 1 happened at ${getCurrentTimeString()} when checking in with confirmation number ${confirmationNumber}. ${e}`,
           attachments: attachments,
@@ -226,7 +235,7 @@ async function checkIn({ firstName, lastName, confirmationNumber }) {
     console.log(`Error 2 happened in SW check in for ${firstName} ${lastName}`);
     console.log(e);
 
-    sendEmail({
+    sendMonitoringEmail({
       subject: `Error 2 in Southwest Check In for ${firstName} ${lastName}`,
       text: `Error 2 happened at ${getCurrentTimeString()} when checking in with confirmation number ${confirmationNumber}. ${e}. No screenshot available`,
     });

@@ -12,7 +12,10 @@ const {
 } = require("./helpers/databaseHelpers");
 const { getFlights, checkIn } = require("./helpers/puppeteerHelpers");
 const { DateTime } = require("luxon");
-const { sendEmail } = require("./helpers/emailHelpers");
+const {
+  sendMonitoringEmail,
+  sendUserEmail,
+} = require("./helpers/emailHelpers");
 
 app.use(bodyParser.json());
 app.use(
@@ -49,7 +52,7 @@ app.get("/upcoming-flights", (_req, res) => {
 
 app.post("/feedback", async (req, res) => {
   let { feedback, firstName, lastName } = req.body;
-  sendEmail({
+  sendMonitoringEmail({
     subject: `Southwest Feedback from ${firstName} ${lastName}`,
     text: `Feedback:\n${feedback}`,
   });
@@ -59,7 +62,7 @@ app.post("/feedback", async (req, res) => {
 app.post("/set-up", async (req, res) => {
   try {
     // get user's first name, last name, confirmation number, and email from req body
-    let { firstName, lastName, confirmationNumber } = req.body;
+    let { firstName, lastName, confirmationNumber, email } = req.body;
 
     // get list of flight objects using puppeteer
     const flights = await getFlights({
@@ -100,8 +103,8 @@ app.post("/set-up", async (req, res) => {
       // send flight details to the front end
       console.log("6. Sent data to user");
 
-      // send email for tracking
-      sendEmail({
+      // send email to me for tracking
+      sendMonitoringEmail({
         subject: `New Southwest set up: ${firstName} ${lastName}`,
         text: `Confirmation number: ${confirmationNumber}. ${JSON.stringify(
           flights,
@@ -109,6 +112,49 @@ app.post("/set-up", async (req, res) => {
           2
         )}`,
       });
+
+      if (email) {
+        // send email to me for tracking
+        sendUserEmail({
+          userEmail: email,
+          subject: `Your southwest check in is set up!`,
+          // clean up this message into a more user read able version.
+          // Something like what is on the confimation page.
+
+          // {flightInfo.flights.map((flight) => {
+          //   {
+          //     /* handle if flight already happened or is within the next 24 hours */
+          //   }
+          //   if (parseFloat(flight.daysUntilFlight) < 0) {
+          //     return (
+          //       <Heading mt="30px" fontSize="16px" key={Math.random()}>
+          //         Your flight on {flight.date} already happened.
+          //       </Heading>
+          //     );
+          //   } else if (parseFloat(flight.daysUntilFlight) < 1) {
+          //     return (
+          //       <Heading mt="30px" fontSize="16px" key={Math.random()}>
+          //         We're checking you into your flight on {flight.date} right
+          //         now.
+          //       </Heading>
+          //     );
+          //   } else {
+          //     return (
+          //       <Heading mt="30px" fontSize="16px" key={Math.random()}>
+          //         You'll be checked in at {flight.checkInTime}
+          //       </Heading>
+          //     );
+          //   }
+          // })}
+
+          // You will be check in
+          text: `Confirmation number: ${confirmationNumber}. ${JSON.stringify(
+            flights,
+            null,
+            2
+          )}`,
+        });
+      }
 
       res.json(flights);
     }

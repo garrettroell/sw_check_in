@@ -22,9 +22,11 @@ import getBackendUrl from "../Helpers/getBackendUrl";
 const FlightForm = () => {
   const toast = useToast();
   const toastIdRef = useRef();
+  const emailRef = useRef(null);
   let navigate = useNavigate();
 
   const [submitted, setSubmitted] = useState(false);
+  const [showEmail, setShowEmail] = useState(false);
 
   function validateField(value) {
     let error;
@@ -65,10 +67,10 @@ const FlightForm = () => {
         <Formik
           // may need to separate shipping and billing addresses
           initialValues={{
-            // email: '',
             firstName: "",
             lastName: "",
             confirmationNumber: "",
+            email: "",
           }}
           onSubmit={(values, actions) => {
             setSubmitted(true);
@@ -88,7 +90,6 @@ const FlightForm = () => {
               body: JSON.stringify({ ...values }),
             })
               .then((r) => {
-                // console.log(r);
                 r.json().then((flights) => {
                   // handle case where flights are found
                   if (Object.keys(flights).length > 0) {
@@ -101,15 +102,12 @@ const FlightForm = () => {
                     if (toastIdRef.current) {
                       toast.close(toastIdRef.current);
                     }
-                    console.log(flights);
                     navigate("/success", {
                       state: { ...values, flights: flights },
                     });
                   }
                   // handle case where flights are NOT found
                   else {
-                    console.log("flights not found");
-
                     actions.setSubmitting(false);
                     if (toastIdRef.current) {
                       toast.close(toastIdRef.current);
@@ -232,6 +230,56 @@ const FlightForm = () => {
                   </FormControl>
                 )}
               </Field>
+              <Spacer h="15px" />
+              <FormLabel fontSize="sm" mb="0px">
+                Email (optional)
+              </FormLabel>
+
+              <Field name="email">
+                {({ field, form }) => (
+                  <FormControl
+                    isInvalid={form.errors.email && form.touched.email}
+                  >
+                    <Box h={showEmail ? "35px" : "0px"}>
+                      <Input
+                        {...field}
+                        id="email"
+                        ref={emailRef}
+                        placeholder=""
+                        px={showEmail ? "10px" : "0px"}
+                        h={showEmail ? "35px" : "0px"}
+                        borderWidth={showEmail ? "1px" : "0px"}
+                        minW="100%"
+                        fontSize="14px"
+                        _autofill={{
+                          textFillColor: useColorModeValue(
+                            "rgb(26, 32, 44)",
+                            "white"
+                          ),
+                          boxShadow: "0 0 0px 1000px #00000000 inset",
+                          transition: "background-color 5000s ease-in-out 0s",
+                        }}
+                      />
+                    </Box>
+                  </FormControl>
+                )}
+              </Field>
+              <Button
+                display={showEmail ? "none" : ""}
+                variant="ghost"
+                m="0px"
+                h="35px"
+                w="100%"
+                borderWidth="1px"
+                fontSize="14px"
+                onClick={() => {
+                  setShowEmail(true);
+                  emailRef.current.focus();
+                }}
+              >
+                Add your email for updates
+              </Button>
+
               <Spacer h="30px" />
               <Button
                 type="submit"
