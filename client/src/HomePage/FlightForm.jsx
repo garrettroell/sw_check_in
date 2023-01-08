@@ -239,6 +239,12 @@ const FlightForm = () => {
                 {({ field, form }) => (
                   <FormControl
                     isInvalid={form.errors.email && form.touched.email}
+                    // if email field is blank when blurred, show button
+                    onBlur={() => {
+                      if (form.values.email === "") {
+                        setShowEmail(false);
+                      }
+                    }}
                   >
                     <Box h={showEmail ? "35px" : "0px"}>
                       <Input
@@ -246,8 +252,7 @@ const FlightForm = () => {
                         id="email"
                         ref={emailRef}
                         placeholder=""
-                        px={showEmail ? "10px" : "0px"}
-                        h={showEmail ? "35px" : "0px"}
+                        px="10px"
                         borderWidth={showEmail ? "1px" : "0px"}
                         minW="100%"
                         fontSize="14px"

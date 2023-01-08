@@ -50,6 +50,16 @@ app.get("/upcoming-flights", (_req, res) => {
   res.send(upcomingFlights);
 });
 
+// an end point so that the front end can
+app.get("/check-in-results", async (req, res) => {
+  const checkInResults = fs.readFileSync(
+    "./data/check_in_results.json",
+    "utf-8"
+  );
+
+  res.send(JSON.parse(checkInResults));
+});
+
 app.post("/feedback", async (req, res) => {
   let { feedback, firstName, lastName } = req.body;
   sendMonitoringEmail({
