@@ -33,7 +33,7 @@ function writeFlightsToDatabase({
         fromCode: flight.fromCode,
         toCity: flight.toCity,
         toCode: flight.toCode,
-        email: email ?? "",
+        email: email ? email : "",
       },
     ];
   });
