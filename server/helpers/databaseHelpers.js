@@ -5,6 +5,7 @@ function writeFlightsToDatabase({
   lastName,
   confirmationNumber,
   flights,
+  email,
 }) {
   // read flight data file
   let flightData = JSON.parse(fs.readFileSync("data/flights.json"));
@@ -32,6 +33,7 @@ function writeFlightsToDatabase({
         fromCode: flight.fromCode,
         toCity: flight.toCity,
         toCode: flight.toCode,
+        email: email ?? "",
       },
     ];
   });
@@ -69,21 +71,83 @@ function capitalizeEachWord(text) {
     .join(" ");
 }
 
-//
-// function getFlightDetails() {
-//   console.log("getting details");
+function writeToCheckInResults({
+  confirmationNumber,
+  boardingPosition,
+  checkInClickTime,
+  flights,
+}) {
+  let closestFlight = flights[0];
+  let shortestDelay = getCheckInDelay(successData.checkInTime, closestFlight);
 
-//   // read flight data file
-//   let flightData = JSON.parse(fs.readFileSync("data/flights.json"));
+  flights.forEach((flight) => {
+    const delayInSeconds = getCheckInDelay(successData.checkInTime, flight);
 
-//   return flightData;
-// }
+    if (delayInSeconds > 0 && delayInSeconds < shortestDelay) {
+      closestFlight = flight;
+      shortestDelay = delayInSeconds;
+    }
+  });
+
+  // read flight data file
+  let checkInResults = JSON.parse(
+    fs.readFileSync("data/check_in_results.json")
+  );
+
+  checkInResults = [
+    ...checkInResults,
+    {
+      delayInSeconds: shortestDelay,
+      checkInUTCString: closestFlight.checkInUTCString,
+      localTime: closestFlight.departureTime,
+      departureTimezone: closestFlight.departureTimezone,
+      confirmationNumber: confirmationNumber,
+      positionName: boardingPosition,
+      checkInTime: checkInClickTime,
+      positionNumber: positionNameToNumber(boardingPosition),
+    },
+  ];
+
+  fs.writeFileSync(
+    "data/check_in_results.json",
+    JSON.stringify(checkInResults)
+  );
+
+  console.log("Added result to check_in_results.json file");
+}
+
+function getCheckInDelay(checkInTime, possibleFlight) {
+  // slightly modify possible flight string so that javascript Date object understands it
+  const possibleFlightTime = possibleFlight.checkInUTCString + ".000+00:00";
+
+  // get the time in milliseconds of the check in time and the possible flight check in time
+  const checkInMS = Date.parse(checkInTime);
+  const possibleFlightMS = Date.parse(possibleFlightTime);
+
+  const delayInSeconds = (checkInMS - possibleFlightMS) / 1000 - 60;
+
+  return delayInSeconds;
+}
+
+// convert the position name to a number
+function positionNameToNumber(positionName) {
+  let positionNumber = parseInt(positionName.substring(1));
+
+  const positionLetter = positionName[0];
+  if (positionLetter === "B") {
+    positionNumber += 60;
+  }
+  if (positionLetter === "C") {
+    positionNumber += 120;
+  }
+
+  return positionNumber;
+}
 
 exports.writeFlightsToDatabase = writeFlightsToDatabase;
-// exports.getFlightDetails = getFlightDetails;
+exports.writeToCheckInResults = writeToCheckInResults;
 
-// test code area
-// console.log(getFlightDetails());
+writeToCheckInResults();
 
 // writeFlightsToDatabase({
 //   firstName: "Ryan",

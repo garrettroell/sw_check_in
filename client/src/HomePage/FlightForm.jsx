@@ -11,6 +11,7 @@ import {
   HStack,
   Input,
   Spacer,
+  Text,
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
@@ -32,6 +33,16 @@ const FlightForm = () => {
     let error;
     if (!value) {
       error = `This field is required`;
+    }
+    return error;
+  }
+
+  function validateEmail(value) {
+    let error;
+    if (!value) {
+      error = null;
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+      error = "Invalid email address";
     }
     return error;
   }
@@ -135,7 +146,17 @@ const FlightForm = () => {
           }}
         >
           {(props) => (
-            <Form>
+            <Form
+              onChange={(inputElement) => {
+                // if the email changes and the field is not blank, then show email field
+                if (inputElement.target.id === "email") {
+                  const emailText = inputElement.target.value;
+                  if (emailText !== "") {
+                    setShowEmail(true);
+                  }
+                }
+              }}
+            >
               <Spacer h="15px" />
               <Field name="firstName" validate={validateField}>
                 {({ field, form }) => (
@@ -230,12 +251,9 @@ const FlightForm = () => {
                   </FormControl>
                 )}
               </Field>
-              <Spacer h="15px" />
-              <FormLabel fontSize="sm" mb="0px">
-                Email (optional)
-              </FormLabel>
+              <Spacer h="25px" />
 
-              <Field name="email">
+              <Field name="email" validate={validateEmail}>
                 {({ field, form }) => (
                   <FormControl
                     isInvalid={form.errors.email && form.touched.email}
@@ -255,6 +273,7 @@ const FlightForm = () => {
                         px="10px"
                         borderWidth={showEmail ? "1px" : "0px"}
                         minW="100%"
+                        maxH="35px"
                         fontSize="14px"
                         _autofill={{
                           textFillColor: useColorModeValue(
@@ -282,8 +301,16 @@ const FlightForm = () => {
                   emailRef.current.focus();
                 }}
               >
-                Add your email for updates
+                Optionally, add your email address
               </Button>
+              <Heading
+                fontSize="11px"
+                opacity="0.8"
+                mt="6px"
+                textAlign="center"
+              >
+                We'll only use this to deliver your boarding pass
+              </Heading>
 
               <Spacer h="30px" />
               <Button
@@ -294,7 +321,7 @@ const FlightForm = () => {
                 m="auto"
                 w="100%"
               >
-                Auto Check In
+                Set up automatic check in
               </Button>
             </Form>
           )}

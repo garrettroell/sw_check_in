@@ -2,7 +2,6 @@ import { Box, Heading, HStack, VStack } from "@chakra-ui/react";
 import FlightDetails from "./FlightDetails";
 
 const FlightInfo = ({ flightInfo }) => {
-  console.log(flightInfo);
   if (flightInfo) {
     return (
       <>

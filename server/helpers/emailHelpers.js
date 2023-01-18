@@ -6,16 +6,16 @@ async function sendMonitoringEmail({ subject, text, attachments }) {
   let msg;
   if (attachments) {
     msg = {
-      to: "garrettroell@gmail.com", // Change to your recipient
-      from: "garrettroell@gmail.com", // Change to your verified sender
+      to: process.env.GARRETTS_EMAIL,
+      from: process.env.SENDING_EMAIL,
       subject: subject,
       text: text,
       attachments: attachments,
     };
   } else {
     msg = {
-      to: "garrettroell@gmail.com", // Change to your recipient
-      from: "garrettroell@gmail.com", // Change to your verified sender
+      to: process.env.GARRETTS_EMAIL,
+      from: process.env.SENDING_EMAIL,
       subject: subject,
       text: text,
     };
@@ -31,20 +31,22 @@ async function sendMonitoringEmail({ subject, text, attachments }) {
     });
 }
 
-async function sendUserEmail({ userEmail, subject, text, attachments }) {
+async function sendUserEmail({ userEmail, subject, html, attachments }) {
   let msg;
   if (attachments) {
     msg = {
       to: userEmail, // Change to your recipient
-      from: "garrettroell@gmail.com", // Change to your verified sender
+      from: process.env.SENDING_EMAIL,
       subject: subject,
-      text: text,
+      html: html,
+      // text: text,
+
       attachments: attachments,
     };
   } else {
     msg = {
       to: userEmail, // Change to your recipient
-      from: "garrettroell@gmail.com", // Change to your verified sender
+      from: process.env.SENDING_EMAIL,
       subject: subject,
       text: text,
     };
@@ -53,7 +55,7 @@ async function sendUserEmail({ userEmail, subject, text, attachments }) {
   sgMail
     .send(msg)
     .then(() => {
-      //
+      console.log(`User email sent to ${userEmail}`);
     })
     .catch((error) => {
       console.error(error);
