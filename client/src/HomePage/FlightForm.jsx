@@ -90,6 +90,7 @@ const FlightForm = () => {
               title: "Getting data from Southwest",
               status: "info",
               isClosable: true,
+              duration: 20000, // 20 seconds
             });
 
             // send data to server

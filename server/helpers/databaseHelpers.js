@@ -38,8 +38,6 @@ function writeFlightsToDatabase({
     ];
   });
 
-  console.log(`The database has ${flightData.length} flights`);
-
   // remove duplicate flights from database
   const uniqueFlights = flightData.filter((value, index) => {
     const _value = JSON.stringify(value);
@@ -50,8 +48,6 @@ function writeFlightsToDatabase({
       })
     );
   });
-
-  console.log(`The database has ${uniqueFlights.length} flights`);
 
   // save updated flight data object
   fs.writeFileSync("data/flights.json", JSON.stringify(uniqueFlights));
@@ -78,10 +74,10 @@ function writeToCheckInResults({
   flights,
 }) {
   let closestFlight = flights[0];
-  let shortestDelay = getCheckInDelay(successData.checkInTime, closestFlight);
+  let shortestDelay = getCheckInDelay(checkInClickTime, closestFlight);
 
   flights.forEach((flight) => {
-    const delayInSeconds = getCheckInDelay(successData.checkInTime, flight);
+    const delayInSeconds = getCheckInDelay(checkInClickTime, flight);
 
     if (delayInSeconds > 0 && delayInSeconds < shortestDelay) {
       closestFlight = flight;

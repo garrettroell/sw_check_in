@@ -72,8 +72,6 @@ app.post("/set-up", async (req, res) => {
     // get user's first name, last name, confirmation number, and email from req body
     let { firstName, lastName, confirmationNumber, email } = req.body;
 
-    console.log(firstName, lastName, confirmationNumber, email);
-
     // get list of flight objects using puppeteer
     const flights = await getFlights({
       firstName,
@@ -117,11 +115,10 @@ app.post("/set-up", async (req, res) => {
       // send email to me for tracking
       sendMonitoringEmail({
         subject: `New Southwest set up: ${firstName} ${lastName}`,
-        text: `Confirmation number: ${confirmationNumber}. ${JSON.stringify(
-          flights,
-          null,
-          2
-        )}`,
+        text: `Email: ${
+          email ? email : ""
+        }\nConfirmation number: ${confirmationNumber}.\n
+         ${JSON.stringify(flights, null, 2)}`,
       });
 
       // send email to the user if email address was provided
@@ -202,6 +199,7 @@ async function runCron() {
       confirmationNumber: flight.confirmationNumber,
       firstName: flight.firstName,
       lastName: flight.lastName,
+      email: flight.email ? flight.email : "",
     });
   }
 }
