@@ -72,6 +72,8 @@ app.post("/set-up", async (req, res) => {
     // get user's first name, last name, confirmation number, and email from req body
     let { firstName, lastName, confirmationNumber, email } = req.body;
 
+    console.log(firstName, lastName, confirmationNumber, email);
+
     // get list of flight objects using puppeteer
     const flights = await getFlights({
       firstName,

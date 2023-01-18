@@ -147,7 +147,7 @@ function positionNameToNumber(positionName) {
 exports.writeFlightsToDatabase = writeFlightsToDatabase;
 exports.writeToCheckInResults = writeToCheckInResults;
 
-writeToCheckInResults();
+// writeToCheckInResults();
 
 // writeFlightsToDatabase({
 //   firstName: "Ryan",
