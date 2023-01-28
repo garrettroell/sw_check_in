@@ -11,7 +11,6 @@ import {
   HStack,
   Input,
   Spacer,
-  Text,
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
@@ -71,7 +70,6 @@ const FlightForm = () => {
         m="auto"
         mt="20px"
         p="20px"
-        mb="50px"
         borderWidth="1px"
         borderRadius="15px"
       >
@@ -340,8 +338,6 @@ const FlightForm = () => {
       ) : (
         <></>
       )}
-
-      <Box h="25px"></Box>
     </>
   );
 };
