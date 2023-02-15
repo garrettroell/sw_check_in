@@ -13,3 +13,5 @@ If you encounter any bugs or have suggestions for improvements, please use GitHu
 
 ## Disclaimer
 While the site has been stable for about 3 months, this site relies on parsing the HTML sent from Southwest's website. If they change their website, this site may break.
+
+<img width="820" alt="image" src="https://user-images.githubusercontent.com/64222809/218894646-24c1df3a-954a-4999-a384-25be1c7d3cf1.png">
