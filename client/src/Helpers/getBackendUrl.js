@@ -1,8 +1,8 @@
 function getBackendUrl() {
   if (import.meta.env.DEV) {
-    return "http://localhost:1984";
+    return import.meta.env.VITE_LOCAL_ENDPOINT;
   } else {
-    return "https://sw-server.garrettroell.com";
+    return import.meta.env.VITE_PROD_ENDPOINT;
   }
 }
 export default getBackendUrl;

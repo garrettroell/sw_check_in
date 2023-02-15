@@ -1,41 +1,16 @@
 import { Box, Button, Heading } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import getBackendUrl from "../Helpers/getBackendUrl";
+import flightTimeString from "../Helpers/flightTimeString";
 import PastResultsGraph from "./PastResultsGraphs";
 
-function ordinal(n) {
-  const s = ["th", "st", "nd", "rd"];
-  const v = n % 100;
-  return n + (s[(v - 20) % 10] || s[v] || s[0]);
-}
-
 function checkInTimeString(result) {
-  const months = [
-    "",
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
   if (Object.keys(result).length === 0) {
     return "";
   } else {
-    // check in UTC string has format: 2023-01-05T14:04:00
-    const year = result.checkInUTCString.split("-")[0];
-    const month = months[parseInt(result.checkInUTCString.split("-")[1])];
-    const day = ordinal(
-      parseInt(result.checkInUTCString.split("-")[2].split("T")[0])
-    );
-    return `Most recent check in: ${result.positionName} at ${result.localTime} on ${month} ${day}, ${year} (${result.departureTimezone})`;
+    return `Most recent check in: ${result.positionName} at ${flightTimeString(
+      result
+    )})`;
   }
 }
 
@@ -76,7 +51,7 @@ const PastResults = () => {
             size="sm"
             onClick={() => setShowGraphs(false)}
           >
-            Hide past results
+            Hide past results ({checkInResults.length})
           </Button>
           {checkInResults && (
             <PastResultsGraph checkInResults={checkInResults} />
@@ -92,7 +67,7 @@ const PastResults = () => {
             {mostRecentResult && checkInTimeString(mostRecentResult)}
           </Heading>
           <Button fontSize="14px" size="sm" onClick={() => setShowGraphs(true)}>
-            See past results
+            See past results ({checkInResults.length})
           </Button>
         </Box>
       </>

@@ -14,6 +14,7 @@ const {
   sendUserEmail,
 } = require("./helpers/emailHelpers");
 const createNewSubmissionEmail = require("./helpers/createNewSubmissionEmail");
+const { stringToAsterisks } = require("./helpers/stringToAsterisks");
 
 app.use(bodyParser.json());
 app.use(
@@ -33,7 +34,29 @@ app.get("/upcoming-flights", (_req, res) => {
   // get all flights in database
   const flightData = JSON.parse(fs.readFileSync("data/flights.json"));
 
-  const upcomingFlights = flightData.filter((flight) => {
+  // only send the information needed for the front end
+  const processedFlightData = flightData.map((flight) => {
+    // hide sensitive info
+    const hiddenFirstName = stringToAsterisks(flight.firstName);
+    const hiddenLastName = stringToAsterisks(flight.lastName);
+    const hiddenConfirmationNumber =
+      flight.confirmationNumber[0] +
+      stringToAsterisks(flight.confirmationNumber.slice(1, 5)) +
+      flight.confirmationNumber[5];
+
+    return {
+      firstName: hiddenFirstName,
+      lastName: hiddenLastName,
+      confirmationNumber: hiddenConfirmationNumber,
+      checkInUTCString: flight.checkInUTCString,
+      departureTimezone: flight.departureTimezone,
+      date: flight.date,
+      departureTime: flight.departureTime,
+    };
+  });
+
+  // only send flights that have check in times in the future
+  let upcomingFlights = processedFlightData.filter((flight) => {
     const currentTime = DateTime.now();
     const checkInTime = DateTime.fromISO(flight.checkInUTCString, {
       zone: "UTC",
@@ -43,6 +66,13 @@ app.get("/upcoming-flights", (_req, res) => {
       .toObject().hours;
 
     return hoursUntilCheckIn > 0;
+  });
+
+  // sort the flights so the soonest flight is listed first
+  upcomingFlights.sort(function (a, b) {
+    const dateA = new Date(a.checkInUTCString).getTime();
+    const dateB = new Date(b.checkInUTCString).getTime();
+    return dateA - dateB;
   });
 
   res.send(upcomingFlights);
