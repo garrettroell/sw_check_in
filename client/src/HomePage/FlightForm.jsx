@@ -103,11 +103,11 @@ const FlightForm = () => {
                 r.json().then((flights) => {
                   // handle case where flights are found
                   if (Object.keys(flights).length > 0) {
-                    console.log(
-                      "flights",
-                      flights,
-                      Object.keys(flights).length
-                    );
+                    // console.log(
+                    //   "flights",
+                    //   flights,
+                    //   Object.keys(flights).length
+                    // );
                     actions.setSubmitting(false);
                     if (toastIdRef.current) {
                       toast.close(toastIdRef.current);
@@ -131,7 +131,7 @@ const FlightForm = () => {
                 });
               })
               .catch((e) => {
-                console.log(e);
+                // console.log(e);
                 actions.setSubmitting(false);
                 if (toastIdRef.current) {
                   toast.close(toastIdRef.current);

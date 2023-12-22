@@ -71,7 +71,7 @@ const FeedbackForm = ({ flightInfo }) => {
                 });
               })
               .catch((e) => {
-                console.log(e);
+                // console.log(e);
                 actions.setSubmitting(false);
 
                 toast({

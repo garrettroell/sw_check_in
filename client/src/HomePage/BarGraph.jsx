@@ -50,7 +50,7 @@ const BarGraph = ({ checkInResults }) => {
   const maxFraction = maxValue / checkInResults.length;
   const maxFractionRounded = Math.ceil(10 * maxFraction) / 10;
 
-  console.log(maxValue, maxFraction, maxFractionRounded);
+  // console.log(maxValue, maxFraction, maxFractionRounded);
 
   // update the
   Object.keys(histogramData).forEach((group) => {
@@ -58,7 +58,7 @@ const BarGraph = ({ checkInResults }) => {
       histogramData[group] / (maxFractionRounded * checkInResults.length);
   });
 
-  console.log(histogramData);
+  // console.log(histogramData);
 
   // chart parameters
   const chartHeight = 200;

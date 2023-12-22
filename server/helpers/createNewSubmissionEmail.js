@@ -4,7 +4,7 @@ function createNewSubmissionEmail({
   confirmationNumber,
   flights,
 }) {
-  console.log(flights);
+  // console.log(flights);
 
   function flightsToHTML(flights) {
     const flightHTMLSections = flights.map((flight) => {

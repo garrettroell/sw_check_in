@@ -279,16 +279,9 @@ async function checkIn({ firstName, lastName, confirmationNumber, email }) {
 exports.getFlights = getFlights;
 exports.checkIn = checkIn;
 
-// working example
+// test
 // checkIn({
-//   firstName: "Ryan",
-//   lastName: "Maddox",
-//   confirmationNumber: "4E3LE8",
-// });
-
-// causes error
-// checkIn({
-//   firstName: "Caryn",
-//   lastName: "Tran",
-//   confirmationNumber: "4ONYZP",
+//   firstName: "Jonathan",
+//   lastName: "Schmidt",
+//   confirmationNumber: "3CGB2H",
 // });

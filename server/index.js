@@ -259,6 +259,11 @@ function setUpCronJobs() {
       numUpcomingFlights += 1;
       confirmationNumbers = [...confirmationNumbers, flight.confirmationNumber];
 
+      console.log(
+        "Setting up a check in for a flight with UTC time: ",
+        flight.checkInUTCString
+      );
+
       let job = Cron(
         flight.checkInUTCString,
         {
@@ -270,6 +275,7 @@ function setUpCronJobs() {
       );
     }
   });
+
   console.log(
     `Server restarted: Set up cron jobs for ${numUpcomingFlights} upcoming flight(s)`
   );
