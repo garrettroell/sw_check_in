@@ -49,7 +49,7 @@ async function getFlights({ firstName, lastName, confirmationNumber }) {
   try {
     // after loading next page, click the second check in button
     await page.waitForSelector("#air-reservation > div.reservation--summary", {
-      timeout: 15000,
+      timeout: 30000,
     });
 
     console.log("3. Data recieved");
@@ -127,9 +127,9 @@ async function checkIn({ firstName, lastName, confirmationNumber, email }) {
     const browser = await puppeteer.launch({ headless: true });
 
     const page = await browser.newPage();
-    await page.goto(url, { timeout: 10000 });
+    await page.goto(url, { timeout: 30001 });
     await page.waitForSelector("#form-mixin--submit-button", {
-      timeout: 11000,
+      timeout: 30002,
     });
     console.log(`Loaded check in form at ${getCurrentTimeString()}`);
 
@@ -154,7 +154,7 @@ async function checkIn({ firstName, lastName, confirmationNumber, email }) {
         // wait for actual check in button to load
         await page.waitForSelector(
           "#swa-content > div > div:nth-child(2) > div > section > div > div > div.air-check-in-review-results--confirmation > button",
-          { timeout: 13000 } // 10 seconds before declaring an error
+          { timeout: 30003 } // 10 seconds before declaring an error
         );
 
         const checkInClickTime = getCurrentTimeString();
@@ -168,7 +168,7 @@ async function checkIn({ firstName, lastName, confirmationNumber, email }) {
         // load the page with the boarding position
         await page.waitForSelector(
           ".air-check-in-passenger-item--information-boarding-position",
-          { timeout: 14000 } // 10 seconds before declaring an error
+          { timeout: 30004 } // 10 seconds before declaring an error
         );
         console.log("Loaded page with boarding position");
 
