@@ -1,7 +1,7 @@
 // Functions for handling the time/timezones
 
 const { DateTime } = require("luxon");
-const airportTimezone = require("../../data/airportTimezones.json");
+const airportTimezones = require("../../airportTimezones/airportTimezones.json");
 const {
   flightDate,
   flightDepartureTime,
@@ -18,14 +18,14 @@ function getCurrentTimeString() {
 
 // airport code -> time zone (TZ Database Name)
 function getTimezone(airportCode) {
-  return airportTimezone.filter(function (airport) {
+  return airportTimezones.filter(function (airport) {
     return airportCode === airport.code;
   })[0].timezone;
 }
 
 // airport code -> time zone offset object (ex: {gmt: xx, dst: yy })
 function getTimezoneOffset(airportCode) {
-  return airportTimezone.filter(function (airport) {
+  return airportTimezones.filter(function (airport) {
     return airportCode === airport.code;
   })[0].offset;
 }
