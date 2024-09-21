@@ -4,126 +4,32 @@ const fs = require("fs");
 const { DateTime } = require("luxon");
 const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
-const createNewSuccessEmail = require("./createNewSuccessEmail");
-const { writeToCheckInResults } = require("./databaseHelpers");
-const { sendMonitoringEmail, sendUserEmail } = require("./emailHelpers");
+const writeSuccessEmailHTML = require("../emailHTMLwriters/writeSuccessEmailHTML");
+const { writeToCheckInResults } = require("../database/writeToCheckInResults");
+const { sendEmail } = require("../emailSender/sendEmail");
 
-const {
-  flightDate,
-  flightDepartureTime,
-  flightNumber,
-  flightFromCity,
-  flightFromCode,
-  flightToCity,
-  flightToCode,
-  checkInHTMLToBoardingPosition,
-} = require("./HTMLparsers");
-const {
-  getTimezone,
-  getTimezoneOffset,
-  checkInTime,
-  checkInUTCString,
-  flightToDateTime,
-  daysUntilFlight,
-  getCurrentTimeString,
-} = require("./timeHandlers");
+const { checkInHTMLToBoardingPosition } = require("../HTMLparsers/HTMLparsers");
+const { getCurrentTimeString } = require("../timeHandlers/timeHandlers");
 
 puppeteer.use(StealthPlugin());
 
-async function getFlights({ firstName, lastName, confirmationNumber }) {
-  // use user details to get flight information
-  const url = `https://www.southwest.com/air/manage-reservation/index.html?confirmationNumber=${confirmationNumber}&passengerFirstName=${firstName}&passengerLastName=${lastName}`;
-  console.log(url);
-
-  const browser = await puppeteer.launch({ headless: true });
-  const page = await browser.newPage();
-  await page.goto(url, { timeout: 0 });
-  await page.waitForSelector("#form-mixin--submit-button", { timeout: 0 });
-  console.log("1. First page content loaded.");
-
-  // click the first check in button
-  await page.click("#form-mixin--submit-button");
-  console.log("2. Loading reservation details.");
-
-  // handle the case where flight information is found
-  try {
-    // after loading next page, click the second check in button
-    await page.waitForSelector("#air-reservation > div.reservation--summary", {
-      timeout: 30000,
-    });
-
-    console.log("3. Data recieved");
-
-    // get HTML for each flight on page
-    const flightElements = await page.evaluate(() =>
-      Array.from(
-        document.querySelectorAll(".checkout-flight-detail"),
-        (element) => element.outerHTML
-      )
-    );
-
-    // isolate particular details from each flight html section
-    const flights = flightElements.map((flight) => {
-      return {
-        date: flightDate(flight),
-        departureTime: flightDepartureTime(flight),
-        departureTimezone: getTimezone(flightFromCode(flight)),
-        departureTimezoneOffset: getTimezoneOffset(flightFromCode(flight)),
-        departureDateTime: flightToDateTime(flight),
-        checkInTime: checkInTime(flight),
-        checkInUTCString: checkInUTCString(flight),
-        number: flightNumber(flight),
-        fromCity: flightFromCity(flight),
-        fromCode: flightFromCode(flight),
-        toCity: flightToCity(flight),
-        toCode: flightToCode(flight),
-      };
-    });
-
-    await browser.close();
-
-    // get unique flights
-    let uniqueFlights = [];
-    let flightStrings = [];
-    flights.forEach((flight) => {
-      if (!flightStrings.includes(JSON.stringify(flight))) {
-        uniqueFlights.push(flight);
-        flightStrings.push(JSON.stringify(flight));
-      }
-    });
-
-    // If a flight is within 24 hrs of current time run check in function
-    uniqueFlights.forEach((flight) => {
-      // add daysUntilFlight property here because when it was added earlier it caused a problem with the same flight to not be unique
-      flight.daysUntilFlight = daysUntilFlight(flight);
-      console.log(flight.daysUntilFlight);
-
-      if (flight.daysUntilFlight > 0 && flight.daysUntilFlight < 1) {
-        checkIn({ firstName, lastName, confirmationNumber });
-      }
-
-      return flight;
-    });
-
-    return uniqueFlights;
-  } catch (e) {
-    console.log(e);
-    // handle case where flight info is NOT found
-    console.log("flight information not found");
-    return [];
-  }
-}
-
 // check in function here
-async function checkIn({ firstName, lastName, confirmationNumber, email }) {
+async function checkInToSWController({
+  firstName,
+  lastName,
+  confirmationNumber,
+  email,
+}) {
   try {
-    console.log(
-      `checking in ${firstName} ${lastName} starting at ${getCurrentTimeString()}`
-    );
-
     // navigate to check in form page
     const url = `https://www.southwest.com/air/check-in/index.html?confirmationNumber=${confirmationNumber}&passengerFirstName=${firstName}&passengerLastName=${lastName}`;
-    console.log(url);
+
+    console.log(`Using URL: ${url}`);
+
+    console.log(
+      `Checking in ${firstName} ${lastName} starting at ${getCurrentTimeString()}`
+    );
+
     const browser = await puppeteer.launch({ headless: true });
 
     const page = await browser.newPage();
@@ -188,7 +94,8 @@ async function checkIn({ firstName, lastName, confirmationNumber, email }) {
         console.log(
           `Successfully checked in for ${firstName} ${lastName} at ${checkInClickTime} and got position ${boardingPosition}`
         );
-        sendMonitoringEmail({
+        sendEmail({
+          isMonitoring: true,
           subject: `Successful Southwest Check In for ${firstName} ${lastName} ${confirmationNumber}`,
           text: `Checked in at ${checkInClickTime} and got position ${boardingPosition}`,
         });
@@ -200,7 +107,7 @@ async function checkIn({ firstName, lastName, confirmationNumber, email }) {
         );
 
         // send the user the successful check in message
-        const newSuccessEmail = createNewSuccessEmail({
+        const successEmailHTML = writeSuccessEmailHTML({
           firstName,
           lastName,
           confirmationNumber,
@@ -209,19 +116,19 @@ async function checkIn({ firstName, lastName, confirmationNumber, email }) {
         });
 
         if (email) {
-          sendUserEmail({
-            userEmail: email,
+          sendEmail({
+            to: email,
             subject: `Successful Southwest automatic check in: ${boardingPosition} (${confirmationNumber})`,
-            html: newSuccessEmail,
+            html: successEmailHTML,
             attachments: [],
           });
         }
 
         // send email to garrett for quality control
-        sendUserEmail({
-          userEmail: process.env.GARRETTS_EMAIL,
+        sendEmail({
+          isMonitoring: true,
           subject: `Successful Southwest automatic check in: ${boardingPosition} (${confirmationNumber})`,
-          html: newSuccessEmail,
+          html: successEmailHTML,
           attachments: [],
         });
 
@@ -258,7 +165,8 @@ async function checkIn({ firstName, lastName, confirmationNumber, email }) {
           },
         ];
 
-        sendMonitoringEmail({
+        sendEmail({
+          isMonitoring: true,
           subject: `Error 1 in Southwest Check In for ${firstName} ${lastName}`,
           text: `Error 1 happened at ${getCurrentTimeString()} when checking in with confirmation number ${confirmationNumber}. ${e}`,
           attachments: attachments,
@@ -269,19 +177,12 @@ async function checkIn({ firstName, lastName, confirmationNumber, email }) {
     console.log(`Error 2 happened in SW check in for ${firstName} ${lastName}`);
     console.log(e);
 
-    sendMonitoringEmail({
+    sendEmail({
+      isMonitoring: true,
       subject: `Error 2 in Southwest Check In for ${firstName} ${lastName}`,
       text: `Error 2 happened at ${getCurrentTimeString()} when checking in with confirmation number ${confirmationNumber}. ${e}. No screenshot available`,
     });
   }
 }
 
-exports.getFlights = getFlights;
-exports.checkIn = checkIn;
-
-// test
-// checkIn({
-//   firstName: "Jonathan",
-//   lastName: "Schmidt",
-//   confirmationNumber: "3CGB2H",
-// });
+exports.checkInToSWController = checkInToSWController;

@@ -1,4 +1,4 @@
-function createNewSuccessEmail({
+function writeSuccessEmailHTML({
   firstName,
   lastName,
   confirmationNumber,
@@ -245,4 +245,4 @@ function createNewSuccessEmail({
   `;
 }
 
-module.exports = createNewSuccessEmail;
+module.exports = writeSuccessEmailHTML;

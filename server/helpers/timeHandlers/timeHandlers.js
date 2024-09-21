@@ -1,13 +1,12 @@
 // Functions for handling the time/timezones
 
 const { DateTime } = require("luxon");
-var airportTimezone = require("./airportTimezones.json");
-
+const airportTimezone = require("../../data/airportTimezones.json");
 const {
   flightDate,
   flightDepartureTime,
   flightFromCode,
-} = require("./HTMLparsers");
+} = require("../HTMLparsers/HTMLparsers");
 
 // nicely print current time
 function getCurrentTimeString() {

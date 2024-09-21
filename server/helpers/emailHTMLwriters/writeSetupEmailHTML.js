@@ -1,4 +1,4 @@
-function createNewSubmissionEmail({
+function writeSetupEmailHTML({
   firstName,
   lastName,
   confirmationNumber,
@@ -239,4 +239,4 @@ function createNewSubmissionEmail({
   `;
 }
 
-module.exports = createNewSubmissionEmail;
+module.exports = writeSetupEmailHTML;
