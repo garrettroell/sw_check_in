@@ -36,7 +36,7 @@ async function getFlightsFromSWController({
   console.log(`Using URL: ${url}`);
   console.log("1. Opening browser to the 'Manage Reservation' form page.");
 
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
   await page.goto(url, { timeout: 0 });
   await page.waitForSelector("#form-mixin--submit-button", { timeout: 0 });
@@ -83,7 +83,7 @@ async function getFlightsFromSWController({
 
     // close the browser
     await browser.close();
-    console.log("5. Closed browser.");
+    console.log("5. Closed browser after set up.");
 
     // get unique flights
     let uniqueFlights = [];

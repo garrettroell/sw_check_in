@@ -44,6 +44,7 @@ async function checkInToSWController({
     const currentTime = DateTime.now();
     const currentSeconds = currentTime.second + currentTime.millisecond / 1000;
     const msUntilStartOfNextMinute = 60000 - 1000 * currentSeconds + adjustment;
+
     console.log(
       `Waiting ${parseInt(
         Math.floor(msUntilStartOfNextMinute / 1000)
@@ -90,15 +91,11 @@ async function checkInToSWController({
         });
 
         await browser.close();
+        console.log("Browser closed after check in");
 
         console.log(
           `Successfully checked in for ${firstName} ${lastName} at ${checkInClickTime} and got position ${boardingPosition}`
         );
-        sendEmail({
-          isMonitoring: true,
-          subject: `Successful Southwest Check In for ${firstName} ${lastName} ${confirmationNumber}`,
-          text: `Checked in at ${checkInClickTime} and got position ${boardingPosition}`,
-        });
 
         // get the possible flights and filter by confirmation number
         const allFlights = JSON.parse(fs.readFileSync("data/flights.json"));
@@ -115,6 +112,7 @@ async function checkInToSWController({
           flights,
         });
 
+        // send email to user
         if (email) {
           sendEmail({
             to: email,
@@ -141,7 +139,7 @@ async function checkInToSWController({
         });
       } catch (e) {
         console.log(
-          `Error 1 happened in SW check in for ${firstName} ${lastName}`
+          `Error occured when checking ${firstName} ${lastName} in. It happened AFTER waiting to press the check in button. (${confirmationNumber}). ${e}`
         );
         console.log(e);
 
@@ -153,6 +151,7 @@ async function checkInToSWController({
         });
 
         await browser.close();
+        console.log("Browser closed after error occured");
 
         // create an attachment for the error and send email
         const attachment = fs.readFileSync(errorImagePath).toString("base64");
@@ -165,22 +164,45 @@ async function checkInToSWController({
           },
         ];
 
+        // alert the user of the error
+        if (email) {
+          sendEmail({
+            to: email,
+            subject: `Error in Southwest Check In`,
+            text: `An error occured for  ${firstName} ${lastName} (${confirmationNumber})`,
+            attachments: attachments,
+          });
+        }
+
+        // send email to developer for quality control
         sendEmail({
           isMonitoring: true,
-          subject: `Error 1 in Southwest Check In for ${firstName} ${lastName}`,
+          subject: `Error in Southwest Check In for ${firstName} ${lastName}`,
           text: `Error 1 happened at ${getCurrentTimeString()} when checking in with confirmation number ${confirmationNumber}. ${e}`,
           attachments: attachments,
         });
       }
     }, msUntilStartOfNextMinute);
   } catch (e) {
-    console.log(`Error 2 happened in SW check in for ${firstName} ${lastName}`);
+    console.log(
+      `Error occured when checking ${firstName} ${lastName} in. It happened BEFORE waiting to press the check in button. (${confirmationNumber})`
+    );
     console.log(e);
+
+    // alert the user of the error
+    if (email) {
+      sendEmail({
+        to: email,
+        subject: `Error in Southwest Check In`,
+        text: `An error occured for  ${firstName} ${lastName} (${confirmationNumber})`,
+        attachments: attachments,
+      });
+    }
 
     sendEmail({
       isMonitoring: true,
-      subject: `Error 2 in Southwest Check In for ${firstName} ${lastName}`,
-      text: `Error 2 happened at ${getCurrentTimeString()} when checking in with confirmation number ${confirmationNumber}. ${e}. No screenshot available`,
+      subject: `Error in Southwest Check In for ${firstName} ${lastName}`,
+      text: `Error occured when checking ${firstName} ${lastName} in. It happened BEFORE waiting to press the check in button. (${confirmationNumber}).\n\n ${e}. No screenshot available`,
     });
   }
 }

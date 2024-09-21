@@ -2,7 +2,6 @@ import {
   Alert,
   AlertDescription,
   AlertIcon,
-  AlertTitle,
   Box,
   Button,
   FormControl,
@@ -18,14 +17,15 @@ import { Field, Form, Formik } from "formik";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import getBackendUrl from "../Helpers/getBackendUrl";
+import { useSearchParams } from "react-router-dom";
 
 const FlightForm = () => {
   const toast = useToast();
   const toastIdRef = useRef();
   const emailRef = useRef(null);
   let navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
-  const [submitted, setSubmitted] = useState(false);
   const [showEmail, setShowEmail] = useState(false);
 
   function validateField(value) {
@@ -46,12 +46,25 @@ const FlightForm = () => {
     return error;
   }
 
+  // Extract the confirmationNumber from the URL query params
+  const firstNameSP = searchParams.get("firstName");
+  const lastNameSP = searchParams.get("lastName");
+  const confNumberSP = searchParams.get("confirmationNumber");
+
   return (
     <>
       <Heading mt="75px" textAlign="center" fontSize="16px">
         Add your Southwest trip details, and this site will check you in seconds
         after the check in window opens.
       </Heading>
+
+      <Alert status="warning" maxW="430px" margin="auto" px="10px" mt="40px">
+        <AlertIcon />
+        <AlertDescription>
+          This site is still experimental, so there may be errors
+        </AlertDescription>
+      </Alert>
+
       {/* color bar */}
       <HStack
         maxW="350px"
@@ -76,14 +89,12 @@ const FlightForm = () => {
         <Formik
           // may need to separate shipping and billing addresses
           initialValues={{
-            firstName: "",
-            lastName: "",
-            confirmationNumber: "",
+            firstName: firstNameSP ? firstNameSP : "",
+            lastName: lastNameSP ? lastNameSP : "",
+            confirmationNumber: confNumberSP ? confNumberSP : "",
             email: "",
           }}
           onSubmit={(values, actions) => {
-            setSubmitted(true);
-
             toastIdRef.current = toast({
               title: "Getting data from Southwest",
               status: "info",
@@ -326,18 +337,6 @@ const FlightForm = () => {
           )}
         </Formik>
       </Box>
-
-      {submitted ? (
-        <Alert status="warning" maxW="520px" margin="auto" px="10px">
-          <AlertIcon />
-          <AlertTitle>Heads up!</AlertTitle>
-          <AlertDescription>
-            This site is still experimental, so there may be errors
-          </AlertDescription>
-        </Alert>
-      ) : (
-        <></>
-      )}
     </>
   );
 };
