@@ -6,7 +6,7 @@ const {
   flightDate,
   flightDepartureTime,
   flightFromCode,
-} = require("../HTMLparsers/HTMLparsers");
+} = require("../HTMLParsers/HTMLParsers");
 
 // nicely print current time
 function getCurrentTimeString() {

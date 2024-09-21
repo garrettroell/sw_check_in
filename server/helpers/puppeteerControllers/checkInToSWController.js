@@ -8,7 +8,7 @@ const writeSuccessEmailHTML = require("../emailHTMLwriters/writeSuccessEmailHTML
 const { writeToCheckInResults } = require("../database/writeToCheckInResults");
 const { sendEmail } = require("../emailSender/sendEmail");
 
-const { checkInHTMLToBoardingPosition } = require("../HTMLparsers/HTMLparsers");
+const { checkInHTMLToBoardingPosition } = require("../HTMLParsers/HTMLParsers");
 const { getCurrentTimeString } = require("../timeHandlers/timeHandlers");
 
 puppeteer.use(StealthPlugin());

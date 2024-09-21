@@ -11,7 +11,7 @@ const {
   flightFromCode,
   flightToCity,
   flightToCode,
-} = require("../HTMLparsers/HTMLparsers");
+} = require("../HTMLParsers/HTMLParsers");
 const {
   getTimezone,
   getTimezoneOffset,
