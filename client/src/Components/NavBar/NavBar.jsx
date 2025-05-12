@@ -6,8 +6,8 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import shoutlessBlue from "../Assets/shoutless.png";
-import shoutlessWhite from "../Assets/shoutless_white.png";
+import shoutlessBlue from "../../Assets/shoutless.png";
+import shoutlessWhite from "../../Assets/shoutless_white.png";
 
 const NavBar = () => {
   return (

@@ -2,11 +2,11 @@ import React, { createContext } from "react";
 import ReactDOM from "react-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import HomePage from "./HomePage/HomePage";
-import theme from "./Theme/Theme";
-import AboutPage from "./About/AboutPage";
-import SuccessPage from "./SuccessPage/SuccessPage";
-import UpcomingFlightsPage from "./UpcomingFlightsPage/UpcomingFlightsPage";
+import theme from "./theme.js";
+import HomePage from "./Pages/HomePage";
+import AboutPage from "./Pages/AboutPage";
+import SuccessPage from "./Pages/SuccessPage";
+import UpcomingFlightsPage from "./Pages/UpcomingFlightsPage";
 
 ReactDOM.render(
   <React.StrictMode>

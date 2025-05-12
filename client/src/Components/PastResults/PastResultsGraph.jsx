@@ -7,7 +7,7 @@ import {
 } from "@chakra-ui/react";
 import { useRef } from "react";
 
-const BarGraph = ({ checkInResults }) => {
+const PastResultsGraph = ({ checkInResults }) => {
   const { colorMode } = useColorMode();
   const chartRef = useRef();
   const dimensions = useDimensions(chartRef, true);
@@ -50,15 +50,11 @@ const BarGraph = ({ checkInResults }) => {
   const maxFraction = maxValue / checkInResults.length;
   const maxFractionRounded = Math.ceil(10 * maxFraction) / 10;
 
-  // console.log(maxValue, maxFraction, maxFractionRounded);
-
   // update the
   Object.keys(histogramData).forEach((group) => {
     histogramData[group] =
       histogramData[group] / (maxFractionRounded * checkInResults.length);
   });
-
-  // console.log(histogramData);
 
   // chart parameters
   const chartHeight = 200;
@@ -149,4 +145,4 @@ const BarGraph = ({ checkInResults }) => {
   );
 };
 
-export default BarGraph;
+export default PastResultsGraph;

@@ -16,10 +16,10 @@ import {
 import { Field, Form, Formik } from "formik";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import getBackendUrl from "../Helpers/getBackendUrl";
+import getBackendUrl from "../../Helpers/getBackendUrl";
 import { useSearchParams } from "react-router-dom";
 
-const FlightForm = () => {
+const SetUpForm = () => {
   const toast = useToast();
   const toastIdRef = useRef();
   const emailRef = useRef(null);
@@ -114,11 +114,6 @@ const FlightForm = () => {
                 r.json().then((flights) => {
                   // handle case where flights are found
                   if (Object.keys(flights).length > 0) {
-                    // console.log(
-                    //   "flights",
-                    //   flights,
-                    //   Object.keys(flights).length
-                    // );
                     actions.setSubmitting(false);
                     if (toastIdRef.current) {
                       toast.close(toastIdRef.current);
@@ -341,4 +336,4 @@ const FlightForm = () => {
   );
 };
 
-export default FlightForm;
+export default SetUpForm;

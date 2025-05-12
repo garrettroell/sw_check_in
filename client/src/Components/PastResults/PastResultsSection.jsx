@@ -1,8 +1,8 @@
 import { Box, Button, Heading } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import getBackendUrl from "../Helpers/getBackendUrl";
-import flightTimeString from "../Helpers/flightTimeString";
-import PastResultsGraph from "./PastResultsGraphs";
+import getBackendUrl from "../../Helpers/getBackendUrl";
+import flightTimeString from "../../Helpers/flightTimeString";
+import PastResultsGraph from "./PastResultsGraph";
 
 function checkInTimeString(result) {
   if (Object.keys(result).length === 0) {
@@ -20,7 +20,7 @@ async function getCheckInResults() {
   return response.json();
 }
 
-const PastResults = () => {
+const PastResultsSection = () => {
   const [showGraphs, setShowGraphs] = useState(false);
   const [checkInResults, setCheckInResults] = useState([]);
   const [mostRecentResult, setMostRecentResult] = useState({});
@@ -75,4 +75,4 @@ const PastResults = () => {
   }
 };
 
-export default PastResults;
+export default PastResultsSection;

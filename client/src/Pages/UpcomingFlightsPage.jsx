@@ -1,6 +1,6 @@
-import { Box, Heading, HStack, VStack } from "@chakra-ui/react";
-import Footer from "../Footer/Footer";
-import NavBar from "../NavBar/NavBar";
+import { Box, Heading, VStack } from "@chakra-ui/react";
+import Footer from "../Components/Footer/Footer";
+import NavBar from "../Components/NavBar/NavBar";
 import getBackendUrl from "../Helpers/getBackendUrl";
 import flightTimeString from "../Helpers/flightTimeString";
 import { useEffect, useState } from "react";

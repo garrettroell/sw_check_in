@@ -6,8 +6,8 @@ import {
   useMediaQuery,
   VStack,
 } from "@chakra-ui/react";
-import PlaneIcon from "../Assets/PlaneIcon";
-import { formatDate } from "../Helpers/formatDate";
+import PlaneIcon from "../../Assets/PlaneIcon";
+import { formatDate } from "../../Helpers/formatDate";
 
 const FlightDetails = ({ flightInfo }) => {
   // console.log(flightInfo)

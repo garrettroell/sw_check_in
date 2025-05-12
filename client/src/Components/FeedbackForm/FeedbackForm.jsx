@@ -10,7 +10,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
-import getBackendUrl from "../Helpers/getBackendUrl";
+import getBackendUrl from "../../Helpers/getBackendUrl";
 
 function validateField(value) {
   let error;
@@ -60,7 +60,6 @@ const FeedbackForm = ({ flightInfo }) => {
               }),
             })
               .then((r) => {
-                // console.log(r);
                 actions.setSubmitting(false);
                 actions.resetForm();
 

@@ -1,9 +1,8 @@
 import { Box, Spacer } from "@chakra-ui/react";
-import NavBar from "../NavBar/NavBar";
-import Footer from "../Footer/Footer";
+import NavBar from "../Components/NavBar/NavBar";
 import { useLocation } from "react-router-dom";
-import FlightInfo from "./FlightInfo";
-import FeedbackForm from "./FeedbackForm";
+import FlightInfo from "../Components/FlightInfo/FlightInfo";
+import FeedbackForm from "../Components/FeedbackForm/FeedbackForm";
 
 const SuccessPage = () => {
   const { state } = useLocation();
