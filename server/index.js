@@ -4,12 +4,8 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const { DateTime } = require("luxon");
 const { sendEmail } = require("./helpers/emailSender/sendEmail");
 
-const {
-  checkInToSWController,
-} = require("./helpers/puppeteerControllers/checkInToSWController");
 const {
   upcomingFlightsHandler,
 } = require("./helpers/routeHandlers/upcomingFlightsHandler");
