@@ -30,12 +30,9 @@ async function checkInToSWController({
       `Checking in ${firstName} ${lastName} starting at ${getCurrentTimeString()}`
     );
 
-    // const PUPPETEER_EXECUTABLE_PATH = "/usr/local/bin/chromium";
-
     const browser = await puppeteer.launch({
       headless: true,
       executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
-      // PUPPETEER_EXECUTABLE_PATH,
     });
 
     const page = await browser.newPage();

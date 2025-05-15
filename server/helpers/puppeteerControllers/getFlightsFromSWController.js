@@ -3,26 +3,15 @@ require("dotenv").config();
 const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 
+const { parseFlight } = require("../HTMLParsers/HTMLParsers");
 const {
-  flightDate,
-  flightDepartureTime,
-  flightNumber,
-  flightFromCity,
-  flightFromCode,
-  flightToCity,
-  flightToCode,
-  parseFlight,
-} = require("../HTMLParsers/HTMLParsers");
-const {
-  getTimezone,
-  getTimezoneOffset,
   checkInTime,
   checkInUTCString,
   flightToDateTime,
   daysUntilFlight,
 } = require("../timeHandlers/timeHandlers");
 const { checkInToSWController } = require("./checkInToSWController");
-const { formatTimeToFlight } = require("../timeHandlers/formatTimeToFlight ");
+const { formatTimeToFlight } = require("../timeHandlers/formatTimeToFlight");
 
 puppeteer.use(StealthPlugin());
 
@@ -38,7 +27,7 @@ async function getFlightsFromSWController({
   console.log("1. Opening browser to the 'Manage Reservation' form page.");
 
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
   });
   const page = await browser.newPage();
@@ -79,27 +68,16 @@ async function getFlightsFromSWController({
       )
     );
 
-    console.log(`Found ${flightElements.length} flight elements on the page.`);
-    console.log(flightElements[0]);
-
     // isolate particular details from each flight html section
-    const flights = flightElements.map(parseFlight);
-    // const flights = flightElements.map((flight) => {
-    //   return {
-    //     date: flightDate(flight),
-    //     departureTime: flightDepartureTime(flight),
-    //     departureTimezone: getTimezone(flightFromCode(flight)),
-    //     departureTimezoneOffset: getTimezoneOffset(flightFromCode(flight)),
-    //     departureDateTime: flightToDateTime(flight),
-    //     checkInTime: checkInTime(flight),
-    //     checkInUTCString: checkInUTCString(flight),
-    //     number: flightNumber(flight),
-    //     fromCity: flightFromCity(flight),
-    //     fromCode: flightFromCode(flight),
-    //     toCity: flightToCity(flight),
-    //     toCode: flightToCode(flight),
-    //   };
-    // });
+    let flights = flightElements.map(parseFlight);
+
+    // add timezone and offset to each flight object
+    flights = flights.map((flight) => {
+      flight.checkInTime = checkInTime(flight);
+      flight.checkInUTCString = checkInUTCString(flight);
+      flight.daysUntilFlight = daysUntilFlight(flight);
+      return flight;
+    });
 
     // close the browser
     await browser.close();
@@ -118,8 +96,6 @@ async function getFlightsFromSWController({
     // If a flight is within 24 hrs of current time run check in function
     uniqueFlights.forEach((flight) => {
       // add daysUntilFlight property here because when it was added earlier it caused a problem with the same flight to not be unique
-      flight.daysUntilFlight = daysUntilFlight(flight);
-
       if (flight.daysUntilFlight > 0 && flight.daysUntilFlight < 1) {
         // check in to flight (add space in the logging to separate setup and check in logs)
         console.log("\n");
@@ -136,12 +112,16 @@ async function getFlightsFromSWController({
 
     console.log(`6. Found ${uniqueFlights.length} unique flights.`);
 
-    return uniqueFlights;
+    return {
+      flights: uniqueFlights,
+      error: "",
+    };
   } catch (e) {
     console.log(e);
-    // handle case where flight info is NOT found
-    console.log("flight information not found");
-    return [];
+    return {
+      flights: [],
+      error: e,
+    };
   }
 }
 

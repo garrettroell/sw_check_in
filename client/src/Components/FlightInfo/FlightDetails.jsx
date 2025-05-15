@@ -10,7 +10,6 @@ import PlaneIcon from "../../Assets/PlaneIcon";
 import { formatDate } from "../../Helpers/formatDate";
 
 const FlightDetails = ({ flightInfo }) => {
-  // console.log(flightInfo)
   const [isLargerThan600] = useMediaQuery("(min-width: 600px)");
   return (
     <VStack gap={isLargerThan600 ? "8px" : "20px"}>

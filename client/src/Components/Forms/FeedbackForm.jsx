@@ -44,7 +44,6 @@ const FeedbackForm = ({ flightInfo }) => {
             feedback: "",
           }}
           onSubmit={(values, actions) => {
-            console.log(values.feedback);
             actions.setSubmitting(false);
 
             // send data to server

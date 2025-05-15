@@ -34,12 +34,13 @@ app.get("/", (_req, res) => {
 // an end point to set up a check in
 app.post("/set-up", async (req, res) => {
   try {
-    const flights = await setupHandler(req);
+    const { flights, error } = await setupHandler(req);
 
-    res.json(flights);
+    res.json({ flights, error });
   } catch (e) {
     // console.log(e);
     res.json({
+      flights: [],
       error: "Server error. Please try again.",
     });
   }

@@ -12,13 +12,22 @@ async function setupHandler(req) {
   let { firstName, lastName, confirmationNumber, email } = req.body;
 
   // get list of flight objects using puppeteer
-  const flights = await getFlightsFromSWController({
+  const { flights, error } = await getFlightsFromSWController({
     firstName,
     lastName,
     confirmationNumber,
   });
 
-  // handle the case where the flight information is found
+  // handle the case where the flight information is NOT found
+  if (error) {
+    console.log("Error getting flights:", error);
+    return {
+      flights: [],
+      error: error,
+    };
+  }
+
+  // handle the case where the flight information IS found
   if (flights.length > 0) {
     // check if the reservation is new
     const isNew = isNewReservation(confirmationNumber);
@@ -87,11 +96,17 @@ async function setupHandler(req) {
       console.log("7. No email address provided (skipping email to user)");
     }
 
-    return flights;
+    return {
+      flights: flights,
+      error: "",
+    };
   }
   // handle the case where the flight information is NOT found
   else {
-    return {};
+    return {
+      flights: [],
+      error: "Flight information not found",
+    };
   }
 }
 

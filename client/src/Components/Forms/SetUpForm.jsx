@@ -36,27 +36,45 @@ const SetUpForm = () => {
         });
 
         try {
-          const flights = await fetchFlightData(backendUrl, values);
-          console.log("Flights data:", flights);
+          // fetch flight data from the backend
+          const { flights, error } = await fetchFlightData(backendUrl, values);
+
+          // end the loading state
           closeToast(toast, toastIdRef);
           actions.setSubmitting(false);
 
+          // log the data to the console
           console.log("Flights data:", flights);
+          console.log("Error:", error);
 
-          if (Object.keys(flights).length > 0) {
+          // check if there was an error
+          if (error) {
+            showToast(toast, toastIdRef, {
+              title: error,
+              status: "error",
+              isClosable: true,
+            });
+            return;
+          }
+
+          // check if there are flights
+          if (flights.length > 0) {
             navigate("/success", { state: { ...values, flights } });
           } else {
             showToast(toast, toastIdRef, {
-              title: "Southwest reservation not found.",
+              title: "No error, but no flights found",
               status: "error",
               isClosable: true,
             });
           }
         } catch {
+          // end the loading state
           closeToast(toast, toastIdRef);
           actions.setSubmitting(false);
+
+          // show an error message
           showToast(toast, toastIdRef, {
-            title: "Server not connected",
+            title: "Unknown error from the server",
             status: "error",
             isClosable: true,
           });

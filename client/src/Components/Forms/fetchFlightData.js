@@ -5,24 +5,25 @@ export const fetchFlightData = async (backendUrl, values) => {
     body: JSON.stringify(values),
   });
 
-  console.log("Response from server:", response);
-
   if (!response.ok) {
-    throw new Error(`Server responded with status ${response.status}`);
-  }
-
-  const text = await response.text();
-  console.log("Response text:", text);
-
-  if (text.includes("error")) {
-    const error = JSON.parse(text).error;
-    console.log("Error from server:", error);
-    throw new Error(error);
+    return {
+      flights: [],
+      error: `Server responded with status ${response.status}`,
+    };
   }
 
   try {
-    return JSON.parse(text);
+    const text = await response.text();
+    const { flights, error } = JSON.parse(text);
+
+    return {
+      flights,
+      error,
+    };
   } catch {
-    throw new Error("Server returned invalid JSON.");
+    return {
+      flights: [],
+      error: `Server responded with status ${response.status}`,
+    };
   }
 };

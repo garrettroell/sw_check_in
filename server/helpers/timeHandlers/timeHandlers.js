@@ -1,12 +1,6 @@
 // Functions for handling the time/timezones
 
 const { DateTime } = require("luxon");
-const airportTimezones = require("../../airportTimezones/airportTimezones.json");
-const {
-  flightDate,
-  flightDepartureTime,
-  flightFromCode,
-} = require("../HTMLParsers/HTMLParsers");
 
 // nicely print current time
 function getCurrentTimeString() {
@@ -16,66 +10,43 @@ function getCurrentTimeString() {
   return dateString;
 }
 
-// airport code -> time zone (TZ Database Name)
-function getTimezone(airportCode) {
-  return airportTimezones.filter(function (airport) {
-    return airportCode === airport.code;
-  })[0].timezone;
-}
-
-// airport code -> time zone offset object (ex: {gmt: xx, dst: yy })
-function getTimezoneOffset(airportCode) {
-  return airportTimezones.filter(function (airport) {
-    return airportCode === airport.code;
-  })[0].offset;
-}
-
 // flight html -> check in string to print on front end (ex: "4:20 PM on March 4th (Timezone: America/Chicago)")
-function checkInTime(flight) {
-  const date = flightDate(flight);
-  const time = flightDepartureTime(flight);
-  const departureTimezone = getTimezone(flightFromCode(flight));
 
-  // get datetime object from string and timezone
-  const dateTimeString = `${date} ${time} ${departureTimezone}`;
+function checkInTime(flight) {
+  const dateTimeString = `${flight.date} ${flight.departureTime} ${flight.departureTimezone}`;
+
   const flightDateTime = DateTime.fromFormat(
     dateTimeString,
-    "M/d/yy t z"
-  ).setZone(departureTimezone);
+    "ccc, LLL dd, yyyy h:mm a z"
+  );
 
-  let checkInDateTime = flightDateTime.minus({ days: 1 });
+  if (!flightDateTime.isValid) {
+    console.error("Invalid DateTime:", flightDateTime.invalidExplanation);
+    return "Invalid DateTime";
+  }
 
-  let _time = checkInDateTime.toLocaleString(DateTime.TIME_SIMPLE);
-  let _date = checkInDateTime.toLocaleString(DateTime.DATE_FULL);
+  const checkInDateTime = flightDateTime.minus({ days: 1 });
 
-  return `${_time} on ${_date}. (Time zone: ${departureTimezone})`;
+  const _time = checkInDateTime.toLocaleString(DateTime.TIME_SIMPLE);
+  const _date = checkInDateTime.toLocaleString(DateTime.DATE_FULL);
+
+  return `${_time} on ${_date}. (Time zone: ${flight.departureTimezone})`;
 }
 
 function flightToDateTime(flight) {
-  const date = flightDate(flight);
-  const time = flightDepartureTime(flight);
-  const departureTimezone = getTimezone(flightFromCode(flight));
+  const dateTimeString = `${flight.date} ${flight.departureTime} ${flight.departureTimezone}`;
 
-  // get datetime object from string and timezone
-  const dateTimeString = `${date} ${time} ${departureTimezone}`;
   const flightDateTime = DateTime.fromFormat(
     dateTimeString,
-    "M/d/yy t z"
-  ).setZone(departureTimezone);
+    "ccc, LLL dd, yyyy h:mm a z"
+  );
+
+  if (!flightDateTime.isValid) {
+    console.error("Invalid DateTime:", flightDateTime.invalidExplanation);
+    return null;
+  }
 
   return flightDateTime;
-}
-
-// This function does NOT use flight HTML as input.
-// It uses a flight object as input
-function daysUntilFlight(flight) {
-  const dateTimeString = `${flight.date} ${flight.departureTime} ${flight.departureTimezone}`;
-  const flightDateTime = DateTime.fromFormat(
-    dateTimeString,
-    "M/d/yy t z"
-  ).setZone(flight.departureTimezone);
-
-  return flightDateTime.diffNow("days").days;
 }
 
 function checkInUTCString(flight) {
@@ -87,17 +58,29 @@ function checkInUTCString(flight) {
   const cronDateTime = checkInDateTime.setZone("UTC");
   let cronString = cronDateTime.toString();
   return cronString.split(".")[0];
-
-  // test code to run two minutes after adding data to database
-  // const tempDateTime = DateTime.now().setZone("UTC").plus({ minutes: 2 });
-  // console.log(tempDateTime.toString().split(".")[0]);
-  // return tempDateTime.toString().split(".")[0];
 }
 
-exports.getCurrentTimeString = getCurrentTimeString;
-exports.getTimezone = getTimezone;
-exports.getTimezoneOffset = getTimezoneOffset;
-exports.checkInTime = checkInTime;
-exports.checkInUTCString = checkInUTCString;
-exports.flightToDateTime = flightToDateTime;
-exports.daysUntilFlight = daysUntilFlight;
+// This function does NOT use flight HTML as input.
+// It uses a flight object as input
+function daysUntilFlight(flight) {
+  const dateTimeString = `${flight.date} ${flight.departureTime} ${flight.departureTimezone}`;
+  const flightDateTime = DateTime.fromFormat(
+    dateTimeString,
+    "ccc, LLL dd, yyyy h:mm a z"
+  );
+
+  if (!flightDateTime.isValid) {
+    console.error("Invalid DateTime:", flightDateTime.invalidExplanation);
+    return NaN;
+  }
+
+  return flightDateTime.diffNow("days").days;
+}
+
+module.exports = {
+  getCurrentTimeString,
+  checkInTime,
+  checkInUTCString,
+  flightToDateTime,
+  daysUntilFlight,
+};
