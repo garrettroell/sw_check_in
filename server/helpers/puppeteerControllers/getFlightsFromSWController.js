@@ -32,9 +32,16 @@ async function getFlightsFromSWController({
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
   const page = await browser.newPage();
-  await page.goto(url, { timeout: 0 });
-  await page.waitForSelector("#lookupReservation", { timeout: 0 });
-  console.log("2. 'Manage Reservation' form page loaded.");
+
+  try {
+    await page.goto(url, { timeout: 30000 });
+    await page.waitForSelector("#lookupReservation", { timeout: 30000 });
+    console.log("2. 'Manage Reservation' form page loaded.");
+  } catch (error) {
+    console.error("🛑 Puppeteer navigation error:", error.message);
+    await browser.close();
+    throw error; // optional: rethrow or return a safe response
+  }
 
   // type the confirmation number into the input field
   await page.focus('input[name="reservationForm.record_locator"]');
