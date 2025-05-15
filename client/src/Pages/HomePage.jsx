@@ -7,7 +7,7 @@ import {
 } from "@chakra-ui/react";
 import NavBar from "../Components/NavBar/NavBar";
 import Footer from "../Components/Footer/Footer";
-import SetUpFormBox from "../Components/SetUpForm/SetUpFormBox";
+import SetUpFormBox from "../Components/Forms/SetUpFormBox";
 import PastResultsSection from "../Components/PastResults/PastResultsSection";
 
 const HomePage = () => {

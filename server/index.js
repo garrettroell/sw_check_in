@@ -38,8 +38,10 @@ app.post("/set-up", async (req, res) => {
 
     res.json(flights);
   } catch (e) {
-    console.log(e);
-    res.json({});
+    // console.log(e);
+    res.json({
+      error: "Server error. Please try again.",
+    });
   }
 });
 
