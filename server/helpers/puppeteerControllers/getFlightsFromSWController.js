@@ -40,13 +40,22 @@ async function getFlightsFromSWController({
   const page = await browser.newPage();
 
   try {
-    await page.goto(url, { timeout: 30000 });
-    await page.waitForSelector("#lookupReservation", { timeout: 30000 });
+    await page.goto(url, {
+      timeout: 30000,
+      waitUntil: "networkidle2",
+    });
+
+    await page.screenshot({ path: "sw-screenshot.png", fullPage: true });
+    console.log("📸 Screenshot taken: sw-screenshot.png");
+
+    await page.waitForSelector("#lookupReservation", { timeout: 15000 });
     console.log("2. 'Manage Reservation' form page loaded.");
-  } catch (error) {
-    console.error("🛑 Puppeteer navigation error:", error.message);
+  } catch (err) {
+    console.error("❌ Page load error:", err.message);
+    await page.screenshot({ path: "sw-screenshot-error.png", fullPage: true });
+    console.log("📸 Error screenshot saved as: sw-screenshot-error.png");
     await browser.close();
-    throw error; // optional: rethrow or return a safe response
+    throw err;
   }
 
   // type the confirmation number into the input field
