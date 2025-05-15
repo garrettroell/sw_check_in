@@ -26,6 +26,11 @@ async function getFlightsFromSWController({
   console.log(`Using URL: ${url}`);
   console.log("1. Opening browser to the 'Manage Reservation' form page.");
 
+  console.log(
+    "Launching Puppeteer with path:",
+    process.env.PUPPETEER_EXECUTABLE_PATH
+  );
+
   const browser = await puppeteer.launch({
     headless: true,
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
