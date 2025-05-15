@@ -52,13 +52,11 @@ const SetUpForm = () => {
               isClosable: true,
             });
           }
-        } catch (err) {
-          console.log(err);
-          console.log("from form", JSON.stringify(err));
+        } catch {
           closeToast(toast, toastIdRef);
           actions.setSubmitting(false);
           showToast(toast, toastIdRef, {
-            title: err.message || "An unexpected error occurred",
+            title: "Server not connected",
             status: "error",
             isClosable: true,
           });

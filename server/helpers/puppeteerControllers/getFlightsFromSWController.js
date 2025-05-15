@@ -11,6 +11,7 @@ const {
   flightFromCode,
   flightToCity,
   flightToCode,
+  parseFlight,
 } = require("../HTMLParsers/HTMLParsers");
 const {
   getTimezone,
@@ -36,20 +37,35 @@ async function getFlightsFromSWController({
   console.log(`Using URL: ${url}`);
   console.log("1. Opening browser to the 'Manage Reservation' form page.");
 
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: false,
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+  });
   const page = await browser.newPage();
   await page.goto(url, { timeout: 0 });
-  await page.waitForSelector("#form-mixin--submit-button", { timeout: 0 });
+  await page.waitForSelector("#lookupReservation", { timeout: 0 });
   console.log("2. 'Manage Reservation' form page loaded.");
 
+  // type the confirmation number into the input field
+  await page.focus('input[name="reservationForm.record_locator"]');
+  await page.keyboard.type(confirmationNumber);
+
+  // type the first name into the input field
+  await page.focus('input[name="reservationForm.first_name"]');
+  await page.keyboard.type(firstName);
+
+  // type the last name into the input field
+  await page.focus('input[name="reservationForm.last_name"]');
+  await page.keyboard.type(lastName);
+
   // click the first check in button
-  await page.click("#form-mixin--submit-button");
+  await page.click("#lookupReservation");
   console.log("3. Clicked button to start search for reservation.");
 
   // handle the case where flight information is found
   try {
     // after loading next page, click the second check in button
-    await page.waitForSelector("#air-reservation > div.reservation--summary", {
+    await page.waitForSelector('div[class^="tripSummary__"]', {
       timeout: 30000,
     });
 
@@ -58,28 +74,32 @@ async function getFlightsFromSWController({
     // get HTML for each flight on page
     const flightElements = await page.evaluate(() =>
       Array.from(
-        document.querySelectorAll(".checkout-flight-detail"),
+        document.querySelectorAll('div[class*="flightSummaryContainer"]'),
         (element) => element.outerHTML
       )
     );
 
+    console.log(`Found ${flightElements.length} flight elements on the page.`);
+    console.log(flightElements[0]);
+
     // isolate particular details from each flight html section
-    const flights = flightElements.map((flight) => {
-      return {
-        date: flightDate(flight),
-        departureTime: flightDepartureTime(flight),
-        departureTimezone: getTimezone(flightFromCode(flight)),
-        departureTimezoneOffset: getTimezoneOffset(flightFromCode(flight)),
-        departureDateTime: flightToDateTime(flight),
-        checkInTime: checkInTime(flight),
-        checkInUTCString: checkInUTCString(flight),
-        number: flightNumber(flight),
-        fromCity: flightFromCity(flight),
-        fromCode: flightFromCode(flight),
-        toCity: flightToCity(flight),
-        toCode: flightToCode(flight),
-      };
-    });
+    const flights = flightElements.map(parseFlight);
+    // const flights = flightElements.map((flight) => {
+    //   return {
+    //     date: flightDate(flight),
+    //     departureTime: flightDepartureTime(flight),
+    //     departureTimezone: getTimezone(flightFromCode(flight)),
+    //     departureTimezoneOffset: getTimezoneOffset(flightFromCode(flight)),
+    //     departureDateTime: flightToDateTime(flight),
+    //     checkInTime: checkInTime(flight),
+    //     checkInUTCString: checkInUTCString(flight),
+    //     number: flightNumber(flight),
+    //     fromCity: flightFromCity(flight),
+    //     fromCode: flightFromCode(flight),
+    //     toCity: flightToCity(flight),
+    //     toCode: flightToCode(flight),
+    //   };
+    // });
 
     // close the browser
     await browser.close();
